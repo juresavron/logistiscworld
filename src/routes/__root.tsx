@@ -21,7 +21,7 @@ export const Route = createRootRoute({
           "Discover logistics providers in Slovenia and neighbouring markets. Compare services, coverage, and company details.",
       },
       { name: "robots", content: "noindex, nofollow" },
-      { name: "theme-color", content: "#12243b" },
+      { name: "theme-color", content: "#eeece5" },
     ],
     links: [{ rel: "stylesheet", href: stylesheet }, { rel: "stylesheet", href: countryStylesheet }],
   }),

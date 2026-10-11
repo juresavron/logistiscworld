@@ -29,3 +29,24 @@ backgrounds. A compact country masthead, task-focused search, service shortcuts,
 company rows, comparison guidance, and local buyer content replace the decorative
 globe and broad regional landing page. See `country-sites.md` for the domain
 architecture and `seo-strategy.md` for search intent. Admin styling remains separate.
+
+## Editorial freight index — current direction
+
+The user rejected the blue directory as still looking like a generic AI-built
+site. The current version replaces that public stylesheet, rather than adding
+another layer of colour overrides. The art direction is a freight trade
+publication: paper background, dark ink, restrained oxide-red actions, serif
+country/editorial headings, mono index labels, and a licensed real photograph
+of the Port of Koper. Attribution is in `src/assets/README.md` and on the page.
+
+The main functional change is an in-place, URL-driven homepage index. Search,
+service tabs, city shortcuts, company type, ordering, and pagination update
+company results on the homepage. Company entries form a compact ledger with
+location, services, coverage, comparison, and profile actions. Service tiles,
+benefit checkmarks, slogan sections, promotional cards, and the large listing
+CTA are removed. The buyer guidance is reduced to three expandable questions.
+
+Responsive layouts are implemented in `src/country-site.css`. Type checking,
+server rendering, filtering, and the exact static-asset deployment handler are
+checked. A full browser visual/interaction review is still unavailable in this
+managed environment and must not be represented as completed.

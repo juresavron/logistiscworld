@@ -3,6 +3,9 @@ import server from '../dist/server/server.js';
 
 const cases = [
   ['/', 200, 'Best logistics companies'],
+  ['/?q=zzzznonexistent', 200, 'No companies match'],
+  ['/?q=Koper', 200, 'Adriatic Connect'],
+  ['/?services=customs', 200, 'Customs clearance'],
   ['/companies', 200, 'Adriatic Connect'],
   ['/companies?q=zzzznonexistent', 200, 'No companies'],
   ['/companies/adriatic-connect', 200, 'Adriatic Connect'],

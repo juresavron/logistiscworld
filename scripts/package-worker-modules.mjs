@@ -18,14 +18,17 @@ const imports = ['import handler from "./index.js";'];
 const entries = [];
 for (const [index, file] of walk('dist/client/assets').entries()) {
   const extension = path.extname(file);
-  if (!['.js', '.css'].includes(extension)) throw new Error(`Review unsupported asset: ${file}`);
-  const body = fs.readFileSync(file, 'utf8');
-  const type = extension === '.js' ? 'application/javascript' : 'text/css';
-  const etag = '"' + createHash('sha256').update(body).digest('hex') + '"';
+  const types = {'.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp'};
+  const type = types[extension];
+  if (!type) throw new Error(`Review unsupported asset: ${file}`);
+  const binary = !['.js', '.css'].includes(extension);
+  const bytes = fs.readFileSync(file);
+  const body = bytes.toString(binary ? 'base64' : 'utf8');
+  const etag = '"' + createHash('sha256').update(bytes).digest('hex') + '"';
   const name = `public-asset-${index}.txt`;
   modules.push({ name, type: 'text/plain', content: body });
   imports.push(`import asset${index} from "./${name}";`);
-  entries.push(`[${JSON.stringify('/'+path.relative('dist/client',file))},{body:asset${index},type:${JSON.stringify(type)},etag:${JSON.stringify(etag)}}]`);
+  entries.push(`[${JSON.stringify('/'+path.relative('dist/client',file))},{body:${binary ? `Uint8Array.from(atob(asset${index}),c=>c.charCodeAt(0))` : `asset${index}`},type:${JSON.stringify(type + (binary ? '' : '; charset=utf-8'))},etag:${JSON.stringify(etag)}}]`);
 }
 const entry = `${imports.join('\n')}
 const assets = new Map([${entries.join(',')}]);
@@ -35,7 +38,7 @@ export default {
     const asset = assets.get(pathname);
     if (asset) {
       if (request.method !== 'GET' && request.method !== 'HEAD') return new Response('Method not allowed', {status:405,headers:{Allow:'GET, HEAD'}});
-      const headers = {'Content-Type':asset.type+'; charset=utf-8','Cache-Control':'public, max-age=31536000, immutable','ETag':asset.etag,'X-Content-Type-Options':'nosniff'};
+      const headers = {'Content-Type':asset.type,'Cache-Control':'public, max-age=31536000, immutable','ETag':asset.etag,'X-Content-Type-Options':'nosniff'};
       if (request.headers.get('If-None-Match') === asset.etag) return new Response(null,{status:304,headers});
       return new Response(request.method === 'HEAD' ? null : asset.body,{headers});
     }

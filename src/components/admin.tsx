@@ -1,3 +1,4 @@
+import { emptySearch } from "../domain/search";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
@@ -41,7 +42,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <br />
             No production database.
           </p>
-          <Link to="/">
+          <Link to="/" search={emptySearch}>
             View directory <ArrowUpRight size={15} />
           </Link>
         </div>
@@ -52,7 +53,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <Building2 size={16} />
             LogisticsWorld / Company management
           </span>
-          <Link to="/">
+          <Link to="/" search={emptySearch}>
             Open directory <ArrowUpRight size={14} />
           </Link>
         </div>

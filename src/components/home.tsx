@@ -1,73 +1,75 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowRight, ArrowUpRight, Check, Search, SlidersHorizontal, Building2 } from "lucide-react";
-import { countries, services } from "../domain/company";
-import { normalizeSearch } from "../domain/search";
+import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Search, X } from "lucide-react";
+import { countries, services, type ServiceId } from "../domain/company";
+import { type DirectorySearch, searchCompanies } from "../domain/search";
 import { companies } from "../data/companies";
 import { CompanyCard } from "./company-card";
-import { ServiceIcon } from "./ui";
 import { BuyerGuide } from "./buyer-guide";
+import harbourImage from "../assets/koper-harbour.jpg";
 
-const localCompanies = companies.filter((c) => c.offices.some((o) => o.country === "SI"));
-const localSearch = normalizeSearch({ office: "SI" });
+const localCompanies = companies.filter(c => c.offices.some(o => o.country === "SI"));
+const photoSource = "https://commons.wikimedia.org/wiki/File:MSC_HARMONY_III_(container_ship,_2006)_in_Port_Koper_(SIKOP,_2024).jpg";
 
-export function Home() {
-  const [service, setService] = useState("");
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
+export function Home({ search, onChange }: {
+  search: DirectorySearch;
+  onChange: (patch: Partial<DirectorySearch>) => void;
+}) {
+  const [query, setQuery] = useState(search.q);
+  useEffect(() => setQuery(search.q), [search.q]);
+  const result = searchCompanies(companies, { ...search, office: "SI" });
+  const selectedService = search.services[0] ?? "";
+  const setService = (service: ServiceId | "") => onChange({ services: service ? [service] : [], page: 1 });
   return <>
-    <section className="finder-hero">
-      <div className="wrap">
-        <div className="edition-label"><span className="slovenia-mark" aria-hidden="true" /> SLOVENIA DIRECTORY <span className="edition-divider" /> LOCAL EXPERTISE. GLOBAL REACH.</div>
-        <div className="finder-heading">
+    <section className="freight-intro wrap">
+      <div className="freight-kicker"><span>THE SLOVENIA EDITION</span><span>FOR SHIPPERS & FORWARDERS</span></div>
+      <div className="freight-cover">
+        <div className="freight-cover-copy">
           <h1>Best logistics companies <em>in Slovenia.</em></h1>
-          <p>Find a freight forwarder that fits your business.<br className="desktop-break" /> Compare services, explore local expertise, and connect directly.</p>
+          <p>From a container in Koper to a delivery across Europe. Find the people who can handle your shipment.</p>
+          <a className="cover-jump" href="#company-index">Explore the directory <ArrowDown size={16} /></a>
         </div>
-        <form className="finder-search" onSubmit={(event) => {
-          event.preventDefault();
-          void navigate({ to: "/companies", search: normalizeSearch({ office: "SI", services: service ? [service] : [], q: query }) });
-        }}>
-          <label className="finder-service"><span>What do you need?</span><div><SlidersHorizontal size={19} /><select aria-label="Service" value={service} onChange={(e) => setService(e.target.value)}><option value="">All logistics services</option>{services.map((s) => <option value={s.id} key={s.id}>{s.name}</option>)}</select></div></label>
-          <label className="finder-query"><span>Company or city</span><div><Search size={20} /><input aria-label="Company or city" placeholder="Try Koper, Ljubljana, or a company" value={query} maxLength={100} onChange={(e) => setQuery(e.target.value)} /></div></label>
-          <button type="submit" className="button finder-submit">Find companies <ArrowRight size={18} /></button>
-        </form>
-        <div className="finder-popular"><span>Popular searches</span>{["Koper", "Ljubljana", "Maribor"].map((city) => <Link key={city} to="/companies" search={normalizeSearch({ office: "SI", q: city })}>{city}<ArrowUpRight size={13} /></Link>)}<Link to="/companies" search={normalizeSearch({ office: "SI", services: ["forwarding"] })}>Freight forwarders<ArrowUpRight size={13} /></Link></div>
-        <div className="finder-benefits"><span><Check size={16} /> Compare up to 3 companies</span><span><Check size={16} /> Services and coverage in one place</span><span><Check size={16} /> Direct company contact</span></div>
+        <figure className="freight-cover-photo">
+          <img src={harbourImage} alt="Container ship MSC Harmony III alongside the cranes at the Port of Koper" width="1280" height="841" fetchPriority="high" />
+          <figcaption><span><b>01 / KOPER</b> Slovenia’s maritime gateway</span><a href={photoSource} target="_blank" rel="noreferrer">Photograph: Petar Milošević ↗</a></figcaption>
+        </figure>
       </div>
     </section>
 
-    <section className="wrap finder-services" aria-labelledby="services-heading">
-      <div className="finder-section-label"><h2 id="services-heading">What are you shipping?</h2><Link to="/services">Explore services <ArrowRight size={15} /></Link></div>
-      <div className="finder-service-grid">{services.map((s) => <Link key={s.id} to="/companies" search={normalizeSearch({ office: "SI", services: [s.id] })}><span className="service-square"><ServiceIcon service={s.id} size={24} /></span><span>{s.name}</span><ArrowUpRight size={15} /></Link>)}</div>
-    </section>
-
-    <section className="finder-directory">
-      <div className="wrap">
-        <div className="finder-section-heading"><div><span className="eyebrow">YOUR NEXT LOGISTICS PARTNER</span><h2>Local companies.<br />The right capabilities.</h2></div><Link className="button outline" to="/locations/$country" params={{ country: "slovenia" }}>View Slovenia directory <ArrowRight size={17} /></Link></div>
-        <div className="finder-list-layout">
-          <div>
-            <div className="finder-list-caption"><span><Building2 size={16} /> {localCompanies.length} sample companies with Slovenian offices</span><span>Preview listings</span></div>
-            {localCompanies.slice(0, 3).map((company) => <CompanyCard key={company.id} company={company} />)}
-            <Link className="finder-all" to="/companies" search={localSearch}>Explore all Slovenian companies <ArrowRight size={17} /></Link>
-          </div>
-          <aside className="finder-help">
-            <span className="finder-help-icon"><SlidersHorizontal size={24} /></span>
-            <h3>A better shortlist<br />starts here.</h3>
-            <p>Choose by what matters to your shipment.</p>
-            <ol><li><span>01</span><div><strong>Start with your service</strong><p>Transport, forwarding, customs, or storage.</p></div></li><li><span>02</span><div><strong>Compare the details</strong><p>Local offices, routes, and cargo capabilities.</p></div></li><li><span>03</span><div><strong>Speak to the company</strong><p>Discuss your shipment directly with the provider.</p></div></li></ol>
-            <Link to="/methodology">How we compare companies <ArrowUpRight size={16} /></Link>
-            <div className="finder-preview-note">This is a design preview. Company profiles are fictional, with no live contacts or quality rankings.</div>
-          </aside>
+    <section id="company-index" className="freight-index wrap" aria-labelledby="index-title">
+      <div className="index-heading"><h2 id="index-title">The company index<span> / SI</span></h2><p>Compare capabilities. Contact companies directly.</p></div>
+      <form className="index-search" onSubmit={event => { event.preventDefault(); onChange({ q: query, page: 1 }); }}>
+        <Search size={20} strokeWidth={1.5} />
+        <label className="sr-only" htmlFor="index-query">Company, service, or city in Slovenia</label>
+        <input id="index-query" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search by company, service, or city" maxLength={100} />
+        <span className="index-country">Slovenia <span>SI</span></span>
+        <button type="submit">Search directory <ArrowRight size={18} /></button>
+      </form>
+      <div className="index-tabs" role="group" aria-label="Filter by logistics service">
+        <button aria-pressed={!selectedService} onClick={() => setService("")}>All companies <sup>{localCompanies.length.toString().padStart(2, "0")}</sup></button>
+        {services.map(service => <button key={service.id} aria-pressed={selectedService === service.id} onClick={() => setService(service.id)}>{service.name}<sup>{localCompanies.filter(c => c.services.includes(service.id)).length.toString().padStart(2, "0")}</sup></button>)}
+      </div>
+      <div className="index-body">
+        <aside className="index-sidebar">
+          <div className="index-sidebar-label">NARROW YOUR SEARCH</div>
+          <label>Office city<select aria-label="Filter office city" value={["Koper","Ljubljana","Maribor"].includes(search.q) ? search.q : ""} onChange={e => onChange({q:e.target.value,page:1})}><option value="">All cities</option><option>Koper</option><option>Ljubljana</option><option>Maribor</option></select></label>
+          <label>Company type<select value={search.type} onChange={e => onChange({type:e.target.value,page:1})}><option value="">All company types</option><option>Freight forwarder</option><option>Carrier</option><option>Customs broker</option><option>Warehouse operator</option></select></label>
+          <div className="index-sidebar-note"><span className="index-note-rule" /><h3>Who’s the best fit?</h3><p>Start with your route and cargo. A local office doesn’t always mean a company serves your destination.</p><Link to="/methodology">How to compare <ArrowUpRight size={14} /></Link></div>
+          <p className="index-disclosure">Preview edition.<br />All listings are fictional examples. No rankings or live contacts.</p>
+        </aside>
+        <div className="index-results">
+          <div className="index-results-toolbar"><span role="status"><b>{result.total}</b> sample {result.total === 1 ? "company" : "companies"}</span><label>Order by <select aria-label="Sort company index" value={search.sort} onChange={e => onChange({sort:e.target.value as DirectorySearch["sort"],page:1})}><option value="relevance">Relevance</option><option value="name">Name A–Z</option></select></label></div>
+          {(search.q || selectedService || search.type) && <div className="index-active"><span>{[search.q, services.find(s => s.id === selectedService)?.name, search.type].filter(Boolean).join(" / ")}</span><button onClick={() => onChange({q:"",services:[],type:"",page:1})}>Clear filters <X size={13} /></button></div>}
+          {result.companies.map(c => <CompanyCard key={c.id} company={c} />)}
+          {!result.total && <div className="index-empty"><h3>No companies match this search.</h3><p>Try another city or service.</p><button className="button outline" onClick={() => onChange({q:"",services:[],type:"",page:1})}>Clear filters</button></div>}
+          {result.pages > 1 && <div className="index-pagination"><button disabled={result.page === 1} onClick={() => onChange({page:result.page - 1})}>Previous</button><span>{result.page} / {result.pages}</span><button disabled={result.page === result.pages} onClick={() => onChange({page:result.page + 1})}>Next <ArrowRight size={14} /></button></div>}
+          <div className="index-endnote"><span>Office locations and service coverage shown separately.</span><Link to="/companies" search={search}>Open full directory <ArrowUpRight size={14} /></Link></div>
         </div>
       </div>
-    </section>
-
-    <section className="wrap finder-regions">
-      <div><span className="eyebrow">BEYOND THE BORDER</span><h2>Find expertise<br />across the region.</h2><p>Explore offices in neighbouring markets for the next leg of your supply chain.</p></div>
-      <div className="finder-country-grid">{countries.filter((c) => c.code !== "SI").map((country) => <Link key={country.code} to="/locations/$country" params={{ country: country.slug }}><span className="country-code">{country.code}</span><div><strong>{country.name}</strong><span>{country.city}</span></div><ArrowUpRight size={20} /></Link>)}</div>
     </section>
 
     <BuyerGuide />
-    <section className="wrap finder-listing-cta"><div><span className="eyebrow">FOR LOGISTICS PROVIDERS</span><h2>Your next customer<br />could start here.</h2><p>Help businesses understand your services and where you operate.</p></div><Link className="button dark" to="/submit-company">List your company <ArrowRight size={18} /></Link></section>
+    <section className="freight-markets wrap"><div><span className="index-sidebar-label">NEIGHBOURING MARKETS</span><h2>Across the border.</h2></div><div>{countries.filter(c=>c.code!=="SI").map(c=><Link key={c.code} to="/locations/$country" params={{country:c.slug}}><span>{c.code}</span>{c.name}<ArrowUpRight size={20}/></Link>)}</div></section>
+    <div className="freight-colophon wrap"><p>Port of Koper photograph, January 2024. <a href={photoSource}>Petar Milošević</a> / <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Display cropped to fit.</p><span>LOGISTICSWORLD / SLOVENIA</span></div>
   </>;
 }
