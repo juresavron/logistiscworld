@@ -1,31 +1,52 @@
 # LogisticsWorld
 
-A regional directory for finding, comparing, and directly contacting logistics companies.
+A regional directory for finding, comparing, and directly contacting logistics companies. Built with React, TypeScript, TanStack Start, and Tailwind, using OnlyWorld as the architecture reference.
 
-## Status
+## Current milestone
 
-Planning baseline established on 11 October 2026. This repository currently contains product and architecture specifications, not a running application. No database or production deployment has been created.
+A working, fictional-data application with a revised visual design is implemented. This is a development preview, not a live company directory. No production deployment, database, or administrator authentication has been connected.
 
-## Agreed scope
+- Homepage with service and country discovery.
+- Searchable directory with URL-based filters, sorting, and pagination.
+- Company profiles with service-specific coverage and sample contact dialogs.
+- Comparison of up to three companies, with shareable comparison URLs.
+- Service and country landing pages for Slovenia, Italy, Austria, Croatia, and Hungary.
+- Browser-only admin catalog and company editor with draft validation, revision checks, and independent approved snapshots.
+- Sample company submission form saved locally in the browser; no messages are sent.
 
-- Start with Slovenia and neighbouring markets.
-- Visitors contact companies directly through their published contact channels.
-- Use the existing OnlyWorld architecture as the starting reference.
-- Build the project in `juresavron/logistiscworld`.
+All 12 companies are fictional and clearly labelled. Approval in the demo editor does not change the public sample catalog. Browser storage is neither shared nor permanent, and the admin route is deliberately unauthenticated for this sample milestone. No ratings, traffic, or verification claims are invented.
 
-## Working defaults
+## Run locally
 
-These are proposed implementation defaults, not additional user decisions: Slovenia, Italy, Austria, Croatia, and Hungary; English first; a single domain; administrator-managed listings; no visitor login; no public review system at launch. Brand name, domain, visual identity, and commercial pricing remain open.
+Requires Node.js 22.12+.
 
-## Blueprint
+```sh
+npm ci
+npm run dev
+```
 
+Open `http://localhost:4173`. The development server binds to all interfaces; use a trusted development environment.
+
+```sh
+npm run check
+npm run smoke
+```
+
+`check` runs TypeScript, behavior tests, and the client/server production build. `smoke` then checks rendered routes directly through the built server handler without opening a listening server. Browser layout and interaction QA remains outstanding.
+
+## Design and architecture
+
+The updated design uses warm ivory, forest green, orange accents, structured company information, prominent search, and a consistent comparison workflow. Research references include Clutch, Freightnet, Freightos, and Cargo Directory World.
+
+- [Design research and decisions](docs/design-research.md)
 - [Product and page layouts](docs/product-and-layouts.md)
 - [Data model and application architecture](docs/architecture.md)
 - [Build milestones and acceptance criteria](docs/build-plan.md)
-- [Responsive layout prototype](docs/wireframes.html) — download and open locally; fictional examples, no live company information.
 
-Proposed stack: React, TypeScript, TanStack Start, Tailwind, Supabase, and Cloudflare Workers. Reuse suitable application patterns and components; create a fresh logistics schema and independent infrastructure.
+The original `docs/wireframes.html` is a superseded planning artifact. The application in `src/` is the current implementation.
 
-## First implementation milestone
+## Next milestone
 
-Scaffold the application and implement a fictional-data company profile, searchable directory, comparison view, and admin company editor. Then connect the database after access rules and publication behavior have been verified.
+Connect an independent Supabase project with migrations, administrator authentication and access rules, then replace fixture lookup with database queries. Add source-backed real listings and direct contact links, complete browser QA, and configure the production Cloudflare deployment. The demo stays `noindex` until real content and publication controls are ready.
+
+English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Brand/domain and commercial pricing remain open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.
