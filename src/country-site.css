@@ -144,6 +144,48 @@
 .country-site .freight-record.compact .record-bottom > a { margin-left: auto; }
 .country-site .freight-record.compact .record-data { grid-template-columns: 1fr; gap: 16px; }
 .country-site .freight-record.compact h3 { font-size: 23px; }
+/* Directory results are complete, readable cards rather than stretched rows. */
+.directory-results { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+.country-site .directory-results .company-card.freight-record { display: flex; flex-direction: column; gap: 0; margin: 0; padding: 30px 32px 22px; border: 1px solid #d6dfe3; border-radius: 8px; box-shadow: none; }
+.directory-results .record-main { flex: 1; }
+.directory-results .record-identity { gap: 18px; align-items: center; }
+.directory-results .record-monogram { width: 64px; height: 68px; font-size: 25px; }
+.directory-results .record-type { font-size: 14px; margin-bottom: 6px; }
+.country-site .directory-results .freight-record h3 { font-size: 28px; letter-spacing: -.8px; margin-bottom: 8px; line-height: 1.2; }
+.directory-results .record-location { font-size: 15px; }
+.directory-results .record-location svg { width: 16px; height: 16px; flex-shrink: 0; }
+.directory-results .record-summary { font-size: 17px; line-height: 1.65; margin: 22px 0; max-width: 65ch; color: #4b5b63; }
+.directory-results .record-data { gap: 18px; }
+.directory-results .record-data > div > span { font-size: 14px; letter-spacing: 0; text-transform: none; font-weight: 550; margin-bottom: 10px; color: #3f5059; }
+.directory-results .record-services { gap: 8px; }
+.directory-results .record-services li { font-size: 15px; line-height: 1.4; padding: 6px 10px; border: 0; background: #f0f3f4; color: #344750; }
+.directory-results .record-coverage { gap: 6px 12px; }
+.directory-results .record-data > .record-coverage > span { margin: 0; font-size: 14px; font-weight: 400; color: #65727a; }
+.directory-results .record-coverage p { font-size: 15px; line-height: 1.6; }
+.directory-results .record-bottom { display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 20px; border-left: 0; border-top: 1px solid #e2e7e9; padding: 18px 0 0; margin-top: 26px; }
+.country-site .directory-results .compare-button { font-size: 14px; padding: 10px 0; min-height: 46px; }
+.directory-results .record-bottom > a { margin-left: auto; font-size: 15px; min-height: 46px; padding: 12px 18px; gap: 18px; }
+.country-site .results-heading { padding-block: 20px 24px; font-size: 18px; }
+.country-site .results-heading > div > span { font-size: 13px; }
+.country-site .directory-tools .service-shortcuts > button { font-size: 15px; }
+.country-site .directory-tools .filter-toggle { font-size: 14px; }
+@media (max-width:1099px) {
+  .directory-results { grid-template-columns: 1fr; gap: 18px; }
+}
+@media (max-width:600px) {
+  .country-site .directory-results .company-card.freight-record { padding: 22px 20px 18px; }
+  .country-site .directory-results .freight-record h3 { font-size: 23px; }
+  .directory-results .record-monogram { width: 52px; height: 58px; font-size: 22px; }
+  .directory-results .record-monogram > span { left: 17px; }
+  .directory-results .record-identity { gap: 14px; }
+  .directory-results .record-type { font-size: 13px; }
+  .directory-results .record-location { font-size: 14px; }
+  .directory-results .record-summary { font-size: 16px; margin-block: 20px; }
+  .directory-results .record-services li { font-size: 14px; }
+  .directory-results .record-bottom { gap: 12px; margin-top: 22px; }
+  .directory-results .record-bottom > a { font-size: 14px; padding-inline: 14px; gap: 10px; }
+  .country-site .directory-tools .service-shortcuts > button { font-size: 14px; }
+}
 .directory-footer { padding: 40px 0 25px; background: #252c2f; color: #fff; }
 .directory-footer-top { display: flex; align-items: center; justify-content: space-between; gap: 45px; padding-bottom: 32px; border-bottom: 1px solid #47545b; }
 .directory-footer-top p { font-size: 14px; line-height: 1.6; color: #bdcbd2; margin: 0 auto 0 20px; }
@@ -225,16 +267,8 @@
 .country-site:has(.compare-tray) { padding-bottom: 110px; }
 .country-site .pagination { gap: 12px; }
 .country-site .icon-button { min-width: 44px; min-height: 44px; }
-/* Wide screens use a structured row: identity, services, then actions. */
+/* Wide-screen controls and buyer guidance. */
 @media (min-width:1200px) {
-  .country-site .freight-record:not(.compact) { grid-template-columns: minmax(0,1fr) 190px; padding: 28px; gap: 32px; }
-  .country-site .freight-record:not(.compact) .record-main { display: grid; grid-template-columns: minmax(280px,.9fr) minmax(340px,1.1fr); grid-template-rows: auto 1fr; gap: 12px clamp(28px,3vw,60px); }
-  .country-site .freight-record:not(.compact) .record-identity { grid-column: 1; grid-row: 1; align-self: start; }
-  .country-site .freight-record:not(.compact) .record-summary { grid-column: 1; grid-row: 2; margin: 0; max-width: 62ch; font-size: 15px; }
-  .country-site .freight-record:not(.compact) .record-data { grid-column: 2; grid-row: 1 / span 2; align-content: center; gap: 20px; padding-block: 2px; }
-  .country-site .freight-record:not(.compact) .record-bottom { padding-left: 28px; }
-  .country-site .freight-record:not(.compact) .record-services li { font-size: 13px; padding: 7px 10px; }
-  .country-site .freight-record:not(.compact) .record-data p { font-size: 14px; }
   .service-shortcuts { gap: 18px; }
   .service-shortcuts > button { font-size: 14px; }
   .extra-filters { display: grid; grid-template-columns: minmax(360px,1fr) minmax(360px,1fr) auto; align-items: start; gap: 32px; }

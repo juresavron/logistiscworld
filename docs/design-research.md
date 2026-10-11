@@ -148,3 +148,12 @@ The profile now presents a short summary below the company name, service/coverag
 Removed repeated explanatory copy and section navigation; listing provenance remains in a native accessible details disclosure. Fictional status and unavailable contacts remain explicit. No fabricated contact actions or verification badges were added.
 
 Verification: type checking, existing server-rendering smoke suite, production build, and packaged Worker asset checks. The supplied screenshot was inspected; the revised render has not been browser-tested because the required browser capability is unavailable.
+
+
+## Directory card composition — 11 October 2026
+
+The user's 18:21 screenshot is the directory, not the profile. Full-width horizontal rows made company names, service information and actions appear disconnected. Increasing the page width without changing the result format introduced large empty gaps and made the existing text appear undersized.
+
+Changed the result container to a two-column desktop grid, with one column below 1100px. Each card now contains its company identity, summary, services and coverage in one reading flow; comparison and profile actions share a bottom row. Names are 28px on desktop, summaries 17px, and service tags 15px. Small screens retain 16px summaries and 23px names. Removed the conflicting desktop row rules.
+
+The full page width is retained. Search, filters, ordering and comparison behavior are unchanged. Existing functional checks and a production build validate the change; current browser rendering remains unverified.

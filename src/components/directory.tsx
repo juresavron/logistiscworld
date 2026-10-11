@@ -66,7 +66,7 @@ export function Directory({ result, onChange, title, subtitle = "Compare service
           {s.capabilities.map(v => <button key={v} onClick={() => onChange({capabilities:s.capabilities.filter(c => c !== v),page:1})}>{v}<X size={13}/></button>)}
           <button className="clear-all" onClick={reset}>Clear filters</button>
         </div>}
-        {result.companies.length ? result.companies.map(c => <CompanyCard company={c} key={c.id} officeCountry={s.office || undefined}/>) : <EmptyState title="No companies match this search."><p>Try another service or city, or clear your filters.</p><button className="button dark" onClick={reset}>Clear filters</button></EmptyState>}
+        {result.companies.length ? <div className="directory-results">{result.companies.map(c => <CompanyCard company={c} key={c.id} officeCountry={s.office || undefined}/>)}</div> : <EmptyState title="No companies match this search."><p>Try another service or city, or clear your filters.</p><button className="button dark" onClick={reset}>Clear filters</button></EmptyState>}
         {result.pages > 1 && <nav className="pagination" aria-label="Results pages"><button className="button outline small" disabled={result.page === 1} onClick={() => onChange({page:result.page-1})}><ArrowLeft size={15}/>Previous</button><span>Page {result.page} of {result.pages}</span><button className="button outline small" disabled={result.page === result.pages} onClick={() => onChange({page:result.page+1})}>Next<ArrowRight size={15}/></button></nav>}
       </div>
     </section>
