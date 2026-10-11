@@ -10,13 +10,14 @@
   --orange: #f5ce46;
   --orange-light: #fff6d6;
   --accent: #f5ce46;
+  --page-gutter: clamp(24px, 3vw, 64px);
   background: var(--cream);
   color: var(--ink);
   font-family: "Inter", "Aptos", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 16px;
   min-height: 100vh;
 }
-.country-site .wrap, .country-site .nav-inner { width: min(1200px, calc(100% - 96px)); }
+.country-site .wrap, .country-site .nav-inner { width: calc(100% - 2 * var(--page-gutter)); }
 .country-site h1, .country-site h2, .country-site h3 { font-family: inherit; font-weight: 650; }
 .country-site h2 { letter-spacing: -1px; }
 .country-site .eyebrow, .index-sidebar-label { color: #536268; font-size: 12px; font-weight: 650; letter-spacing: 1.3px; line-height: 1.5; }
@@ -27,7 +28,7 @@
 .country-site .button.outline { border-color: #b8c2c6; }
 .country-site .text-link { color: var(--ink); }
 .country-site a:focus-visible, .country-site button:focus-visible, .country-site input:focus-visible, .country-site select:focus-visible, .country-site summary:focus-visible { outline: 3px solid #a46b00; outline-offset: 3px; }
-.edition-utility { display: flex; justify-content: space-between; gap: 20px; padding: 10px max(48px, calc((100% - 1200px)/2)); background: #252c2f; color: #e5e9ea; font-size: 11px; letter-spacing: .7px; line-height: 1.5; }
+.edition-utility { display: flex; justify-content: space-between; gap: 20px; padding: 10px var(--page-gutter); background: #252c2f; color: #e5e9ea; font-size: 11px; letter-spacing: .7px; line-height: 1.5; }
 .utility-slash { color: var(--accent); margin-inline: 12px; }
 .edition-utility > span:last-child { color: #c1cacc; letter-spacing: 0; }
 .country-site .site-header { background: #fff; border-bottom: 1px solid var(--line); }
@@ -48,16 +49,17 @@
 .listing-link { display: inline-flex; align-items: center; gap: 22px; padding: 12px 17px; border: 1px solid #bdc6c9; border-radius: 5px; font-size: 14px; font-weight: 600; }
 .listing-link:hover { background: #f5f6f6; }
 /* One search interface on home, country, service, and directory pages. */
-.country-site .directory-intro { background: white; }
-.directory-intro-copy { padding-block: 42px 24px; }
+.country-site .directory-intro { background: white; border-bottom: 1px solid var(--line); }
+.directory-intro-copy { display: grid; grid-template-columns: minmax(0,1fr) minmax(360px,.72fr); align-items: center; gap: clamp(32px,4vw,80px); padding-block: 38px; }
+.directory-intro-text { min-width: 0; }
 .directory-intro .eyebrow { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; }
-.directory-intro h1 { max-width: 900px; font-size: clamp(34px,3.7vw,52px); line-height: 1.1; letter-spacing: -1.8px; margin-bottom: 16px; text-wrap: balance; }
+.directory-intro h1 { max-width: 900px; font-size: clamp(34px,3.2vw,52px); line-height: 1.1; letter-spacing: -1.8px; margin-bottom: 16px; text-wrap: balance; }
 .directory-intro h1 em { font-style: normal; }
 .directory-intro h1 em, .directory-intro h1 span { color: #62767f; }
 .directory-intro p { max-width: 750px; font-size: 16px; color: #59656a; line-height: 1.65; margin: 0; }
-.country-site .directory-section { padding-block: 0 42px; }
+.country-site .directory-section { padding-block: 18px 48px; }
 .country-site:has(.directory-section) { background: #fafbfb; }
-.country-site .directory-search { padding: 7px 8px 7px 18px; border: 1px solid #aab7bc; border-radius: 6px; background: white; margin: 0 0 22px; box-shadow: 0 3px 8px #20262805; }
+.country-site .directory-search { padding: 7px 8px 7px 18px; border: 1px solid #aab7bc; border-radius: 6px; background: white; margin: 0; box-shadow: 0 3px 8px #20262805; }
 .country-site .directory-search input { height: 46px; background: transparent; font-size: 16px; }
 .country-site .directory-search > svg { color: #596a73; }
 .country-site .directory-search .button { min-width: 130px; min-height: 46px; background: var(--accent); color: var(--ink); }
@@ -86,6 +88,7 @@
 .country-site .results-heading { min-height: 50px; padding-block: 20px; border-top: 1px solid #dae2e6; margin-bottom: 0; font-size: 16px; }
 .country-site .results-heading > div > span { font-size: 12px; margin-top: 5px; }
 .country-site .sort-control { font-size: 12px; }
+.sort-note { color: #63747d; font-size: 13px; }
 .country-site .sort-control select { min-height: 44px; background: transparent; padding: 8px; font-size: 13px; }
 .country-site .active-filters { gap: 8px; margin-bottom: 18px; }
 .country-site .active-filters > button { font-size: 12px; min-height: 44px; color: #354650; border-color: #d3dce0; background: #e9eff2; border-radius: 4px; padding: 9px 12px; overflow-wrap: anywhere; }
@@ -195,9 +198,32 @@
 .country-site:has(.compare-tray) { padding-bottom: 110px; }
 .country-site .pagination { gap: 12px; }
 .country-site .icon-button { min-width: 44px; min-height: 44px; }
+/* Wide screens use a structured row: identity, services, then actions. */
+@media (min-width:1200px) {
+  .country-site .freight-record:not(.compact) { grid-template-columns: minmax(0,1fr) 190px; padding: 28px; gap: 32px; }
+  .country-site .freight-record:not(.compact) .record-main { display: grid; grid-template-columns: minmax(280px,.9fr) minmax(340px,1.1fr); grid-template-rows: auto 1fr; gap: 12px clamp(28px,3vw,60px); }
+  .country-site .freight-record:not(.compact) .record-identity { grid-column: 1; grid-row: 1; align-self: start; }
+  .country-site .freight-record:not(.compact) .record-summary { grid-column: 1; grid-row: 2; margin: 0; max-width: 62ch; font-size: 15px; }
+  .country-site .freight-record:not(.compact) .record-data { grid-column: 2; grid-row: 1 / span 2; align-content: center; gap: 20px; padding-block: 2px; }
+  .country-site .freight-record:not(.compact) .record-bottom { padding-left: 28px; }
+  .country-site .freight-record:not(.compact) .record-services li { font-size: 13px; padding: 7px 10px; }
+  .country-site .freight-record:not(.compact) .record-data p { font-size: 14px; }
+  .service-shortcuts { gap: 18px; }
+  .service-shortcuts > button { font-size: 14px; }
+  .extra-filters { display: grid; grid-template-columns: minmax(360px,1fr) minmax(360px,1fr) auto; align-items: start; gap: 32px; }
+  .extra-filters[hidden] { display: none; }
+  .extra-filter-fields { gap: 20px; }
+  .country-site .extra-filters .field { margin-bottom: 0; }
+  .filter-done { margin-top: 26px; }
+  .buyer-notes { display: grid; grid-template-columns: minmax(280px,.8fr) minmax(0,1.2fr); column-gap: 70px; align-items: start; }
+  .country-site .buyer-notes h2 { max-width: 480px; margin: 15px 0 0; font-size: 28px; }
+  .buyer-notes .guide-questions { grid-column: 2; grid-row: 1 / span 2; }
+  .buyer-methodology { grid-column: 1; justify-self: start; }
+}
 @media (max-width:1100px) {
-  .country-site .wrap, .country-site .nav-inner { width: calc(100% - 64px); }
-  .edition-utility { padding-inline: 32px; }
+  .country-site { --page-gutter: 32px; }
+  .directory-intro-copy { grid-template-columns: 1fr; gap: 24px; }
+
   .country-site .main-nav { margin-left: 20px; gap: 24px; }
   .country-site .nav-inner { gap: 25px; }
   .country-site .nav-actions { gap: 20px; }
@@ -205,7 +231,7 @@
   .country-site .profile-layout { gap: 28px; }
 }
 @media (max-width:900px) {
-  .country-site .wrap, .country-site .nav-inner { width: calc(100% - 40px); }
+  .country-site { --page-gutter: 20px; }
   .edition-utility { padding-inline: 20px; font-size: 10px; letter-spacing: .3px; }
   .country-site .nav-inner { height: 72px; position: relative; }
   .country-site .main-nav { display: none; position: absolute; z-index: 30; top: 72px; left: -20px; right: -20px; margin: 0; padding: 10px 20px 20px; background: white; border-bottom: 1px solid #ccd8df; }
@@ -248,7 +274,7 @@
   .country-site .mobile-scroll-note { display: block; font-size: 13px; }
 }
 @media (max-width:480px) {
-  .country-site .wrap, .country-site .nav-inner { width: calc(100% - 32px); }
+  .country-site { --page-gutter: 16px; }
   .edition-utility { padding: 9px 16px; font-size: 10px; gap: 8px; }
   .edition-utility > span:first-child { font-size: 0; }
   .edition-utility > span:first-child::after { content: "Slovenia edition"; font-size: 10px; }
@@ -264,7 +290,7 @@
   .directory-intro h1 { font-size: clamp(32px,8.4vw,40px); letter-spacing: -1.2px; }
   .directory-intro .eyebrow { font-size: 10px; }
   .directory-intro p { font-size: 15px; line-height: 1.6; }
-  .country-site .directory-search { padding: 5px; gap: 2px; margin-bottom: 17px; }
+  .country-site .directory-search { padding: 5px; gap: 2px; margin-bottom: 0; }
   .country-site .directory-search > svg { margin-left: 8px; width: 18px; }
   .country-site .directory-search input { font-size: 16px; padding-inline: 8px !important; }
   .country-site .directory-search .button { min-width: 65px; font-size: 12px; padding: 10px; }

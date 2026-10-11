@@ -23,18 +23,20 @@ export function Directory({ result, onChange, title, subtitle = "Compare service
   return <>
     <section className="directory-intro">
       <div className="wrap directory-intro-copy">
+        <div className="directory-intro-text">
         <span className="eyebrow">SLOVENIA / FREIGHT & LOGISTICS</span>
         <h1>{title ?? <>Freight forwarders <span>in Slovenia.</span></>}</h1>
         <p>{subtitle}</p>
-      </div>
-    </section>
-    <section className="wrap directory-section" aria-label="Find logistics companies">
+        </div>
       <form className="directory-search" role="search" onSubmit={e => { e.preventDefault(); onChange({ q, page: 1 }); }}>
         <Search size={21}/>
         <label className="sr-only" htmlFor="company-search">Company, service, or city</label>
         <input id="company-search" type="search" value={q} onChange={e => setQ(e.target.value)} placeholder="Company, service, or city" maxLength={100}/>
         <button className="button dark" type="submit">Search <ArrowRight size={17}/></button>
       </form>
+      </div>
+    </section>
+    <section className="wrap directory-section" aria-label="Find logistics companies">
       <div className="directory-tools">
         <span className="filters-label">Filter by service</span>
         <div className="service-shortcuts" role="group" aria-label="Services: match any selected">
@@ -54,7 +56,7 @@ export function Directory({ result, onChange, title, subtitle = "Compare service
       <div className="results">
         <div className="results-heading">
           <div role="status"><strong>{result.total}</strong> {result.total === 1 ? "company" : "companies"}<span>Sample listings · No quality ranking</span></div>
-          <label className="sort-control"><span>Sort</span><select value={s.sort} onChange={e => onChange({sort:e.target.value as DirectorySearch["sort"],page:1})}><option value="relevance">{s.q ? "Relevance" : "Default (A–Z)"}</option><option value="name">Name A–Z</option></select></label>
+          {s.q ? <label className="sort-control"><span>Sort</span><select value={s.sort} onChange={e => onChange({sort:e.target.value as DirectorySearch["sort"],page:1})}><option value="relevance">Relevance</option><option value="name">Name A–Z</option></select></label> : <span className="sort-note">Name A–Z</span>}
         </div>
         {active > 0 && <div className="active-filters">
           {s.q && <button onClick={() => onChange({q:"",page:1})} aria-label={`Remove search ${s.q}`}>“{s.q}”<X size={13}/></button>}

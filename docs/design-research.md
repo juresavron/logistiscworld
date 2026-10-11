@@ -117,3 +117,23 @@ International service coverage is still shown. Server smoke checks verify that
 foreign companies cannot reappear through old URLs or related-company links.
 Visual browser verification remains unavailable; automated checks do not certify
 visual polish or device compatibility.
+
+
+## Fluid desktop layout correction
+
+The user explicitly rejected the 1200px maximum-width layout as too narrow.
+Replaced the fixed public shell with fluid width and 3vw side gutters clamped
+to 24–64px; tablet and phone gutters remain 20px/16px. At 1920px the directory
+uses 1804.8px (94% of the viewport), rather than 1200px. Header, introduction,
+search, filters, results and footer share this horizontal alignment.
+
+Desktop introduction now places search beside the heading. At 1200px and wider,
+company rows use identity/description, service information, and actions as three
+separate areas. This uses the additional width to shorten rows and improve
+comparison, without creating excessively long paragraphs. Below 1100px search
+sits below the heading; existing tablet/mobile card stacking remains. Buyer
+notes and expanded filters also use desktop columns. Removed the redundant
+sort selector when the query is empty and both options mean alphabetical.
+
+These are source-level layout corrections. No browser screenshot or live
+visual verification was available for this revision.
