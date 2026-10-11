@@ -32,7 +32,13 @@ npm run check
 npm run smoke
 ```
 
-`check` runs TypeScript, behavior tests, and the client/server production build. `smoke` then checks rendered routes directly through the built server handler without opening a listening server. Browser layout and interaction QA remains outstanding.
+`check` runs TypeScript, behavior tests, and the client/server production build. `smoke` builds a separate Node test bundle, then checks rendered routes directly through its server handler without opening a listening server. Browser layout and interaction QA remains outstanding.
+
+## Cloudflare deployment
+
+Cloudflare Workers configuration is included. See [deployment setup](docs/cloudflare-deployment.md) for GitHub integration and first deployment. To validate the Workers bundle without publishing, run `npm run deploy:check`. To build and publish from an authenticated CLI, run `npm run deploy`.
+
+The deployment configuration is ready; a successful Cloudflare build and live URL must be verified before treating the app as deployed.
 
 ## Design and architecture
 
@@ -47,6 +53,6 @@ The original `docs/wireframes.html` is a superseded planning artifact. The appli
 
 ## Next milestone
 
-Connect an independent Supabase project with migrations, administrator authentication and access rules, then replace fixture lookup with database queries. Add source-backed real listings and direct contact links, complete browser QA, and configure the production Cloudflare deployment. The demo stays `noindex` until real content and publication controls are ready.
+Connect an independent Supabase project with migrations, administrator authentication and access rules, then replace fixture lookup with database queries. Add source-backed real listings and direct contact links, complete browser QA, and verify the Cloudflare deployment on its live URL. The demo stays `noindex` until real content and publication controls are ready.
 
 English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Brand/domain and commercial pricing remain open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.
