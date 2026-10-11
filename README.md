@@ -4,7 +4,9 @@ A regional directory for finding, comparing, and directly contacting logistics c
 
 ## Current milestone
 
-A working, fictional-data application with a revised visual design is implemented. This is a development preview, not a live company directory. No production deployment, database, or administrator authentication has been connected.
+Live demo: https://logisticsworld.worldfans.workers.dev/
+
+A working, fictional-data application with a revised visual design is implemented. This is a development preview, not a live company directory. The demo is deployed to Cloudflare Workers. No database or administrator authentication has been connected.
 
 - Homepage with service and country discovery.
 - Searchable directory with URL-based filters, sorting, and pagination.
@@ -38,7 +40,7 @@ npm run smoke
 
 Cloudflare Workers configuration is included. See [deployment setup](docs/cloudflare-deployment.md) for GitHub integration and first deployment. To validate the Workers bundle without publishing, run `npm run deploy:check`. To build and publish from an authenticated CLI, run `npm run deploy`.
 
-The deployment configuration is ready; a successful Cloudflare build and live URL must be verified before treating the app as deployed.
+The first demo was published through the Cloudflare API on 11 October 2026. GitHub automatic deployments are not yet connected. The connector asset-upload endpoint rejected authentication, so this demo packages JS/CSS as Worker text modules; normal Wrangler deployments use native static assets.
 
 ## Design and architecture
 

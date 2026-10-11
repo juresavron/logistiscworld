@@ -42,3 +42,17 @@ npm run deploy:check
 ## Launch state
 
 This first deployment is a visibly labelled sample-data preview with `noindex` metadata. The admin workspace and submission form save only to browser storage. They do not offer authenticated server-side administration or process submissions. Supabase integration, real company listings, browser QA, and a custom domain are separate launch milestones.
+
+## Verified first deployment
+
+- URL: https://logisticsworld.worldfans.workers.dev/
+- Worker: `logisticsworld`
+- Source app commit: `325be50839cfb9d6b5b9ac0999c0dab31fafd723`
+- Deployment ID: `3e2acbc6f4fc4b7ba64b56b073aaa2ed`
+- Published: 11 October 2026 through the connected Cloudflare API.
+
+The account had no configured build token and the target repository was unavailable to the Git build autofill API, so automatic Git deployments were not enabled. Native asset upload via the connector returned HTTP 401. The demo was therefore deployed through the supported multipart Worker module API, with the existing JS/CSS assets supplied as text modules and served by a small entry handler. This preserves server rendering and all app routes. Static requests on this fallback invoke the Worker and count toward Worker usage; native static-asset hosting remains the preferred normal deployment path.
+
+To reproduce a connector-compatible package, run `npm run build && node scripts/package-worker-modules.mjs`. The generated `dist/worker-modules.json` contains `metadata` and `modules`; upload these using Cloudflare's multipart script API. No credentials are included. The initial deployment used content-hash ETags; the reproducible packager uses SHA-256 ETags with equivalent cache behavior. Running a normal authenticated `npm run deploy` replaces this transport with native asset storage.
+
+GitHub commits alone will not update the live demo until its build connection is configured.
