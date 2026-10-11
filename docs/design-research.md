@@ -20,3 +20,12 @@ Warm ivory canvas, deep forest-green typography/navigation, and restrained orang
 Home: concise headline, service/location search, distinct service tiles, country discovery, and company examples. Directory: compact header, filters, repeatable results, persistent comparison tray. Profile: identity and essential facts first, service-by-service coverage, easy-to-find contact panel. Admin: quieter workspace with table-based catalog, short navigation, dedicated editor, explicit save state and readiness checks.
 
 No invented ratings, customer counts, verification claims, or live traffic. The application milestone is clearly marked as a sample-data preview. Browser-only admin drafts do not modify a live database.
+
+## Country-directory redesign — supersedes the color/layout direction above
+
+Following the user's further design rejection and country-domain plan, the public
+site now uses navy text, blue actions, white surfaces, and pale blue-grey section
+backgrounds. A compact country masthead, task-focused search, service shortcuts,
+company rows, comparison guidance, and local buyer content replace the decorative
+globe and broad regional landing page. See `country-sites.md` for the domain
+architecture and `seo-strategy.md` for search intent. Admin styling remains separate.

@@ -20,7 +20,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
   const { ids } = useComparison();
   const path = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <>
+    <div className="country-site">
       <div className="demo-bar">
         <span className="demo-dot" />
         WORKING PREVIEW{" "}
@@ -33,7 +33,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
       </div>
       <header className="site-header">
         <div className="nav-inner">
-          <Brand />
+          <div className="edition-brand"><Brand /><Link className="edition-switch" to="/locations"><span className="slovenia-mark" aria-hidden="true" /> Slovenia</Link></div>
           <nav
             id="main-navigation"
             className={menu ? "main-nav open" : "main-nav"}
@@ -41,11 +41,11 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
           >
             <Link
               to="/companies"
-              search={emptySearch}
+              search={{ ...emptySearch, office: "SI" }}
               data-active={path.startsWith("/companies")}
               onClick={() => setMenu(false)}
             >
-              Find a company
+              Find companies
             </Link>
             <Link
               to="/services"
@@ -66,7 +66,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
               data-active={path === "/methodology"}
               onClick={() => setMenu(false)}
             >
-              Our approach
+              Buyer’s guide
             </Link>
           </nav>
           <div className="nav-actions">
@@ -103,14 +103,14 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
           <div>
             <Brand />
             <p>
-              Good connections.
+              Find your next freight forwarder.
               <br />
-              Better logistics.
+              Local expertise. Direct connections.
             </p>
           </div>
           <div>
             <span className="eyebrow">Explore</span>
-            <Link to="/companies" search={emptySearch}>
+            <Link to="/companies" search={{ ...emptySearch, office: "SI" }}>
               Company directory
             </Link>
             <Link to="/services">Logistics services</Link>
@@ -129,6 +129,6 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
       <CompareTray />
-    </>
+    </div>
   );
 }

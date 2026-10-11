@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-router";
 import { ComparisonProvider } from "../components/comparison";
 import stylesheet from "../styles.css?url";
+import countryStylesheet from "../country-site.css?url";
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -20,9 +21,9 @@ export const Route = createRootRoute({
           "Discover logistics providers in Slovenia and neighbouring markets. Compare services, coverage, and company details.",
       },
       { name: "robots", content: "noindex, nofollow" },
-      { name: "theme-color", content: "#183d32" },
+      { name: "theme-color", content: "#12243b" },
     ],
-    links: [{ rel: "stylesheet", href: stylesheet }],
+    links: [{ rel: "stylesheet", href: stylesheet }, { rel: "stylesheet", href: countryStylesheet }],
   }),
   component: Root,
   notFoundComponent: () => (
