@@ -30,7 +30,7 @@ company rows, comparison guidance, and local buyer content replace the decorativ
 globe and broad regional landing page. See `country-sites.md` for the domain
 architecture and `seo-strategy.md` for search intent. Admin styling remains separate.
 
-## Editorial freight index — current direction
+## Editorial freight index — superseded
 
 The user rejected the blue directory as still looking like a generic AI-built
 site. The current version replaces that public stylesheet, rather than adding
@@ -50,3 +50,25 @@ Responsive layouts are implemented in `src/country-site.css`. Type checking,
 server rendering, filtering, and the exact static-asset deployment handler are
 checked. A full browser visual/interaction review is still unavailable in this
 managed environment and must not be represented as completed.
+
+
+## Directory revision from the supplied screenshot — current direction
+
+The screenshot showed `/companies?office=SI`, not the homepage. Visible defects:
+small low-contrast typography, weak separation between records, and an almost
+empty sidebar. The filters were inside a closed native `details` element while
+the desktop summary was hidden. CSS alone did not expose that closed content.
+
+The directory now has a 1400px maximum content width, a white introduction with
+a licensed Koper image, 14–16px reading text, a charcoal navigation strip, and
+yellow search accents. Company cards separate identity, service tags, service
+coverage, comparison, and a clearly labelled profile button. The same tokens
+and card layout apply to the homepage and secondary routes. The previous
+public stylesheet was replaced, not appended with another override layer.
+
+Filters render open, then use a responsive disclosure on mobile. Crossing the
+900px breakpoint updates disclosure state. A server-rendering regression check
+asserts the initial open state on the Slovenian directory route. The provided
+screenshot was inspected, but browser review of the revised render remains
+unavailable in this managed environment. Fictional listings remain labelled
+and excluded from indexing.

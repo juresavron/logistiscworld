@@ -23,13 +23,13 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
   const { ids } = useComparison();
   const path = useRouterState({ select: s => s.location.pathname });
   return <div className="country-site">
-    <div className="edition-utility wrap"><span>THE FREIGHT DIRECTORY <span className="utility-slash">/</span> SLOVENIA</span><span>Preview edition · Fictional listings</span></div>
+    <div className="edition-utility"><span>FREIGHT FORWARDING & LOGISTICS <span className="utility-slash">/</span> SLOVENIA</span><span>Preview edition · Fictional listings</span></div>
     <header className="site-header"><div className="nav-inner">
       <DirectoryBrand />
       <nav id="main-navigation" className={menu ? "main-nav open" : "main-nav"} aria-label="Main navigation">
-        <Link to="/companies" search={{...emptySearch, office:"SI"}} data-active={path.startsWith("/companies")} onClick={()=>setMenu(false)}><span>01</span> Directory</Link>
-        <Link to="/services" data-active={path.startsWith("/services")} onClick={()=>setMenu(false)}><span>02</span> Services</Link>
-        <Link to="/locations" data-active={path.startsWith("/locations")} onClick={()=>setMenu(false)}><span>03</span> Markets</Link>
+        <Link to="/companies" search={{...emptySearch, office:"SI"}} data-active={path.startsWith("/companies")} onClick={()=>setMenu(false)}>Find a company</Link>
+        <Link to="/services" data-active={path.startsWith("/services")} onClick={()=>setMenu(false)}>Services</Link>
+        <Link to="/locations" data-active={path.startsWith("/locations")} onClick={()=>setMenu(false)}>Countries</Link>
       </nav>
       <div className="nav-actions"><Link className="shortlist-link" to="/compare" search={{company:ids}}>Shortlist <span>{ids.length.toString().padStart(2,"0")}</span></Link><Link className="listing-link" to="/submit-company">List a company <ArrowUpRight size={16}/></Link><button className="icon-button mobile-menu" aria-expanded={menu} aria-controls="main-navigation" aria-label={menu?"Close menu":"Open menu"} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div>
     </div></header>

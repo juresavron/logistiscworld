@@ -17,6 +17,7 @@ import {
   type CountryCode,
   type ServiceId,
 } from "../domain/company";
+import harbourImage from "../assets/koper-harbour.jpg";
 import { type DirectorySearch, type searchCompanies } from "../domain/search";
 import { CompanyCard } from "./company-card";
 import { EmptyState } from "./ui";
@@ -25,8 +26,8 @@ type Result = ReturnType<typeof searchCompanies>;
 export function Directory({
   result,
   onChange,
-  title = "Find your next logistics partner.",
-  subtitle = "Local knowledge. The right capabilities. A direct connection.",
+  title,
+  subtitle = "Find the right expertise for your shipment. Explore services, compare companies, and get in touch directly.",
 }: {
   result: Result;
   onChange: (patch: Partial<DirectorySearch>) => void;
@@ -35,6 +36,14 @@ export function Directory({
 }) {
   const s = result.search;
   const [q, setQ] = useState(s.q);
+  const [filtersOpen, setFiltersOpen] = useState(true);
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 901px)");
+    const sync = () => setFiltersOpen(desktop.matches);
+    sync();
+    desktop.addEventListener("change", sync);
+    return () => desktop.removeEventListener("change", sync);
+  }, []);
   useEffect(() => setQ(s.q), [s.q]);
   const active =
     s.services.length +
@@ -62,10 +71,18 @@ export function Directory({
     });
   return (
     <>
-      <section className="page-intro wrap">
-        <span className="eyebrow">THE COMPANY DIRECTORY</span>
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
+      <section className="directory-intro">
+        <div className="wrap directory-intro-grid">
+          <div>
+            <span className="eyebrow">THE LOGISTICS DIRECTORY</span>
+            <h1>{title ?? <>Logistics companies <span>{s.office ? `in ${countryName(s.office)}.` : "across the region."}</span></>}</h1>
+            <p>{subtitle}</p>
+          </div>
+          <figure className="directory-port">
+            <img src={harbourImage} alt="Container ship and cranes at the Port of Koper, Slovenia" width="1280" height="841" />
+            <figcaption><span>ON THE GROUND</span> Port of Koper, Slovenia <a href="https://commons.wikimedia.org/wiki/File:MSC_HARMONY_III_(container_ship,_2006)_in_Port_Koper_(SIKOP,_2024).jpg" aria-label="Photograph by Petar Milošević, CC BY-SA 4.0, cropped to fit">Petar Milošević · CC BY-SA 4.0 ↗</a></figcaption>
+          </figure>
+        </div>
       </section>
       <section className="wrap directory-section">
         <form
@@ -92,7 +109,7 @@ export function Directory({
         </form>
         <div className="directory-layout">
           <aside>
-            <details className="filters">
+            <details className="filters" open={filtersOpen} onToggle={e => setFiltersOpen(e.currentTarget.open)}>
               <summary>
                 <SlidersHorizontal size={17} />
                 Filters {active > 0 && <span>{active}</span>}

@@ -7,6 +7,7 @@ const cases = [
   ['/?q=Koper', 200, 'Adriatic Connect'],
   ['/?services=customs', 200, 'Customs clearance'],
   ['/companies', 200, 'Adriatic Connect'],
+  ['/companies?office=SI', 200, 'in Slovenia.'],
   ['/companies?q=zzzznonexistent', 200, 'No companies'],
   ['/companies/adriatic-connect', 200, 'Adriatic Connect'],
   ['/compare?company=sample-01,sample-02', 200, 'Adriatic Connect'],
@@ -40,6 +41,10 @@ for (const [path, status, content] of cases) {
     assert.ok(/<h1>Best logistics companies <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
     assert.ok(html.includes('How to choose the best logistics company in Slovenia'), 'Buyer guidance is server rendered');
     assert.ok(html.includes('https://logisticsworld.worldfans.workers.dev/'), 'Canonical uses deployed origin');
+  }
+  if (path === '/companies?office=SI') {
+    assert.ok(/<details class="filters" open(?:="")?>/.test(html), 'Directory filters are open in initial desktop markup');
+    assert.ok(html.includes('View company'), 'Each result has an explicit profile action');
   }
   if (path === '/locations/slovenia') {
     assert.ok(html.includes('<title>Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Country title is distinct from homepage');
