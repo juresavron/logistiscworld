@@ -59,9 +59,9 @@ function Page() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">YOUR SHORTLIST</span>
-            <h1>A clearer comparison.</h1>
+            <h1>Compare companies</h1>
             <p className="muted">
-              The same questions. Side-by-side answers. Up to three companies.
+              Compare services, office locations, and coverage for up to three companies.
             </p>
           </div>
         </div>

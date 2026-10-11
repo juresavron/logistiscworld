@@ -1,14 +1,9 @@
 import { emptySearch } from "../domain/search";
 import { Link } from "@tanstack/react-router";
-import { useRef } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
-  Globe2,
-  Mail,
   MapPin,
-  Phone,
-  X,
 } from "lucide-react";
 import {
   countries,
@@ -22,72 +17,12 @@ import { companies } from "../data/companies";
 import { CompanyCard } from "./company-card";
 
 export function ContactPanel({ company }: { company: Company }) {
-  const dialog = useRef<HTMLDialogElement>(null);
-  return (
-    <>
-      <aside className="contact-panel">
-        <span className="eyebrow">MAKE THE CONNECTION</span>
-        <h2>Let’s talk logistics.</h2>
-        <p>
-          Reach the company directly.
-          <br />
-          No middleman, no extra steps.
-        </p>
-        <button
-          className="button orange"
-          onClick={() => dialog.current?.showModal()}
-        >
-          Contact options <ArrowUpRight size={18} />
-        </button>
-        <div className="contact-options">
-          <span>
-            <Globe2 size={16} />
-            Website
-          </span>
-          <span>
-            <Phone size={16} />
-            Phone
-          </span>
-          <span>
-            <Mail size={16} />
-            Email
-          </span>
-        </div>
-        <div className="contact-footnote">
-          <strong>Sample profile</strong>
-          <p>This fictional company has no live contact details.</p>
-        </div>
-      </aside>
-      <dialog
-        aria-labelledby="contact-dialog-title"
-        ref={dialog}
-        className="contact-dialog"
-        onClick={(e) => {
-          if (e.target === dialog.current) dialog.current.close();
-        }}
-      >
-        <div className="dialog-top">
-          <span className="eyebrow">SAMPLE COMPANY</span>
-          <button
-            className="icon-button"
-            aria-label="Close contact options"
-            onClick={() => dialog.current?.close()}
-          >
-            <X size={20} />
-          </button>
-        </div>
-        <h2 id="contact-dialog-title">{company.name}</h2>
-        <p>
-          This is a fictional listing. Live profiles will offer the company’s
-          published website, phone, email, and WhatsApp where provided.
-        </p>
-        <p className="muted">No message or inquiry has been sent.</p>
-        <button className="button dark" onClick={() => dialog.current?.close()}>
-          Back to profile
-        </button>
-      </dialog>
-    </>
-  );
+  return <aside className="contact-panel" id="contact" aria-label={`Contact ${company.name}`}>
+    <span className="eyebrow">CONTACT</span>
+    <h2>Contact details</h2>
+    <p>{company.name} is a fictional sample. Contact details are not available.</p>
+    <Link className="text-link" to="/methodology">About our listings <ArrowUpRight size={15}/></Link>
+  </aside>;
 }
 export function Profile({ company: c }: { company: Company }) {
   const office = c.offices.find((o) => o.primary) ?? c.offices[0];
@@ -122,6 +57,7 @@ export function Profile({ company: c }: { company: Company }) {
         </div>
       </section>
       <div className="wrap profile-layout">
+        <ContactPanel company={c} />
         <div className="profile-body">
           <nav className="profile-sections" aria-label="Company sections">
             <a href="#overview">Overview</a>
@@ -130,35 +66,11 @@ export function Profile({ company: c }: { company: Company }) {
             <a href="#details">Listing details</a>
           </nav>
           <section id="overview" className="profile-section">
-            <span className="eyebrow">IN THEIR CORNER OF LOGISTICS</span>
-            <h2>{c.summary}</h2>
+            <h2>About the company</h2>
             <p>{c.description}</p>
-            <dl className="facts-grid">
-              <div>
-                <dt>Company type</dt>
-                <dd>{c.types.join(", ")}</dd>
-              </div>
-              <div>
-                <dt>Primary office</dt>
-                <dd>
-                  {office.city}, {countryName(office.country)}
-                </dd>
-              </div>
-              <div>
-                <dt>Services</dt>
-                <dd>{c.services.length} areas of expertise</dd>
-              </div>
-              <div>
-                <dt>Service coverage</dt>
-                <dd>
-                  {new Set(c.coverage.flatMap((v) => v.countries)).size}{" "}
-                  regional markets
-                </dd>
-              </div>
-            </dl>
+            <dl className="profile-facts"><div><dt>Registered name</dt><dd>{c.legalName}</dd></div><div><dt>Company type</dt><dd>{c.types.join(", ")}</dd></div></dl>
           </section>
           <section id="services" className="profile-section">
-            <span className="eyebrow">WHAT THEY DO</span>
             <h2>Services & coverage</h2>
             <p className="muted">See where each service is available.</p>
             <div className="coverage-list">
@@ -189,7 +101,6 @@ export function Profile({ company: c }: { company: Company }) {
             )}
           </section>
           <section id="offices" className="profile-section">
-            <span className="eyebrow">LOCAL PRESENCE</span>
             <h2>Offices</h2>
             {c.offices.map((o, i) => (
               <div className="office-card" key={i}>
@@ -213,7 +124,6 @@ export function Profile({ company: c }: { company: Company }) {
             ))}
           </section>
           <section id="details" className="profile-section">
-            <span className="eyebrow">CLEAR INFORMATION</span>
             <h2>About this listing</h2>
             <p>
               This profile uses fictional information to demonstrate the
@@ -229,14 +139,12 @@ export function Profile({ company: c }: { company: Company }) {
             </Link>
           </section>
         </div>
-        <ContactPanel company={c} />
       </div>
       <section className="section soft-section">
         <div className="wrap">
           <div className="section-heading">
             <div>
-              <span className="eyebrow">KEEP EXPLORING</span>
-              <h2>More companies. More possibilities.</h2>
+              <h2>Similar companies</h2>
             </div>
           </div>
           <div className="company-grid">

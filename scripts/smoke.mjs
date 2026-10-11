@@ -6,6 +6,8 @@ const cases = [
   ['/?q=zzzznonexistent', 200, 'No companies match'],
   ['/?q=Koper', 200, 'Adriatic Connect'],
   ['/?services=customs', 200, 'Customs clearance'],
+  ['/?coverage=IT&type=Customs%20broker', 200, 'Karst Customs'],
+  ['/?capabilities=Refrigerated%20cargo', 200, 'No companies match'],
   ['/companies', 200, 'Adriatic Connect'],
   ['/companies?office=SI', 200, 'in Slovenia.'],
   ['/companies?q=zzzznonexistent', 200, 'No companies'],
@@ -43,8 +45,15 @@ for (const [path, status, content] of cases) {
     assert.ok(html.includes('https://logisticsworld.worldfans.workers.dev/'), 'Canonical uses deployed origin');
   }
   if (path === '/companies?office=SI') {
-    assert.ok(/<details class="filters" open(?:="")?>/.test(html), 'Directory filters are open in initial desktop markup');
+    assert.ok(html.includes('aria-controls="extra-filters"'), 'Additional filters have an accessible disclosure control');
+    assert.ok(html.includes('value="SI" selected=""'), 'Slovenian country context is visible in the selector');
     assert.ok(html.includes('View company'), 'Each result has an explicit profile action');
+  }
+  if (path.startsWith('/?coverage=')) {
+    assert.ok(!html.includes('>Adriatic Connect</a>'), 'Homepage preserves the company type and coverage filters');
+  }
+  if (path === '/companies/adriatic-connect') {
+    assert.ok(!html.includes('>Contact options'), 'Sample contact information does not require a dead-end modal');
   }
   if (path === '/locations/slovenia') {
     assert.ok(html.includes('<title>Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Country title is distinct from homepage');

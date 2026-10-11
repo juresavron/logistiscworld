@@ -28,7 +28,7 @@ function Page() {
     <PublicLayout>
       <Directory
         result={result}
-        title={`${service.name}. The right people.`}
+        title={`${service.name} companies.`}
         subtitle={service.description}
         onChange={(patch) =>
           void navigate({

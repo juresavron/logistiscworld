@@ -9,8 +9,8 @@ export const Route = createFileRoute("/services")({
   component: () => (
     <PublicLayout>
       <div className="wrap section">
-        <span className="eyebrow">FIND THE RIGHT EXPERTISE</span>
-        <h1>What needs moving?</h1>
+        <span className="eyebrow">BROWSE BY SERVICE</span>
+        <h1>Find companies by service.</h1>
         <p className="intro-text">
           From a single customs declaration to a complete transport operation,
           start with the service your business needs.

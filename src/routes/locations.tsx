@@ -9,8 +9,8 @@ export const Route = createFileRoute("/locations")({
   component: () => (
     <PublicLayout>
       <div className="wrap section">
-        <span className="eyebrow">REGIONAL REACH. LOCAL KNOWLEDGE.</span>
-        <h1>Start closer to your business.</h1>
+        <span className="eyebrow">BROWSE BY COUNTRY</span>
+        <h1>Find companies by country.</h1>
         <p className="intro-text">
           Explore companies by their physical office location. Every profile
           also shows the countries its services cover.

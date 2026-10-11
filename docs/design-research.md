@@ -52,7 +52,7 @@ checked. A full browser visual/interaction review is still unavailable in this
 managed environment and must not be represented as completed.
 
 
-## Directory revision from the supplied screenshot — current direction
+## Directory revision from the supplied screenshot — superseded
 
 The screenshot showed `/companies?office=SI`, not the homepage. Visible defects:
 small low-contrast typography, weak separation between records, and an almost
@@ -72,3 +72,32 @@ asserts the initial open state on the Slovenian directory route. The provided
 screenshot was inspected, but browser review of the revised render remains
 unavailable in this managed environment. Fictional listings remain labelled
 and excluded from indexing.
+
+
+## Simple aggregator — current direction
+
+The user accepted the improved visual language and requested a simpler product
+that works across screen sizes. Retained the charcoal, white and yellow palette.
+Home, country, service and general results now share `Directory`: a short
+heading, one search field, office country, service buttons and a collapsed
+advanced-filter panel. Removed the photo hero, duplicate homepage search logic,
+sidebar prose, nonfunctional city shortcut and repeated market sections.
+
+Company rows put comparable information on the left and actions on the right;
+they stack below 700px. Filter fields stack, service buttons scroll within their
+own strip, and page widths remain fluid down to 320px. Controls have 44px touch
+targets, input text stays 16px on phones, navigation supports Escape, comparison
+leaves space below the footer, and reduced-motion preferences are respected.
+Country results show the matching local office when one exists. The homepage
+now preserves advanced filters and switches to the general directory when
+another office country is selected.
+
+Profiles show the contact panel first on mobile. Removed the contact modal
+which only told users that contacts were unavailable. Sample status is stated
+in the panel. Real direct contact still requires real listings and the
+production publishing workflow; the current schema only allows sample records.
+
+Validation: TypeScript, server-rendering/filtering checks and asset packaging.
+Responsive CSS was inspected at its breakpoint boundaries, but no browser
+rendering/interaction verification is available in this environment. Do not
+claim the design has been visually verified across devices.
