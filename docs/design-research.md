@@ -157,3 +157,13 @@ The user's 18:21 screenshot is the directory, not the profile. Full-width horizo
 Changed the result container to a two-column desktop grid, with one column below 1100px. Each card now contains its company identity, summary, services and coverage in one reading flow; comparison and profile actions share a bottom row. Names are 28px on desktop, summaries 17px, and service tags 15px. Small screens retain 16px summaries and 23px names. Removed the conflicting desktop row rules.
 
 The full page width is retained. Search, filters, ordering and comparison behavior are unchanged. Existing functional checks and a production build validate the change; current browser rendering remains unverified.
+
+## Admin design alignment — 11 October 2026
+
+The 18:30 screenshot showed the admin still using the original green/beige palette, old wordmark, 1400px maximum content width, and 9–12px table/form typography. The public redesign had not been applied to the admin shell.
+
+Added an admin-scoped stylesheet using the public system font, charcoal/yellow identity, white sidebar, shared DirectoryBrand component, fluid workspace and readable controls. Updated catalog, editor tabs, input fields, readiness panel and feedback notices. At phone widths, table records become labelled cards; sidebar navigation remains text-labelled. The unused visitor metric is now an honest footer note instead of a large empty statistic.
+
+The catalog displays the four Slovenian fixtures and Slovenian browser drafts. Existing stored records are not deleted. Demo-only status, browser persistence and lack of live publishing remain explicit. This is a presentation update, not implementation of production authentication or storage.
+
+Checks: TypeScript, existing 24 SSR smoke checks, production build and packaged Worker asset verification. Screenshot inspected; updated browser render not verified because the required browser capability is unavailable.

@@ -15,7 +15,7 @@ export function Brand() {
     </Link>
   );
 }
-function DirectoryBrand() {
+export function DirectoryBrand() {
   return <Link to="/" search={emptySearch} className="directory-wordmark" aria-label="LogisticsWorld home"><span className="wordmark-symbol" aria-hidden="true"><i/><i/><i/></span><span>LOGISTICS<span>WORLD</span></span></Link>;
 }
 export function PublicLayout({ children }: { children: React.ReactNode }) {

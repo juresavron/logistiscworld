@@ -9,8 +9,8 @@ import {
   Search,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Brand } from "./layout";
-import { companies } from "../data/companies";
+import { DirectoryBrand } from "./layout";
+import { companies } from "../data/slovenia";
 import { countryName } from "../domain/company";
 import { decodeDrafts, DRAFT_KEY, type DraftRecord } from "../domain/drafts";
 import { Monogram } from "./ui";
@@ -19,8 +19,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
-        <Brand />
-        <span className="workspace-label">DIRECTORY WORKSPACE</span>
+        <DirectoryBrand />
+        <span className="workspace-label">Slovenia workspace</span>
         <nav aria-label="Admin navigation">
           <Link to="/admin" activeOptions={{ exact: true }}>
             <LayoutGrid size={18} />
@@ -51,15 +51,14 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         <div className="admin-topbar">
           <span>
             <Building2 size={16} />
-            LogisticsWorld / Company management
+            Company management
           </span>
           <Link to="/" search={emptySearch}>
             Open directory <ArrowUpRight size={14} />
           </Link>
         </div>
         <div className="admin-demo-note">
-          Sample workspace. Changes are saved in this browser only and do not
-          alter the public sample catalog.
+          Demo workspace — drafts stay in this browser. Saving does not update the public website.
         </div>
         <main id="main-content" className="admin-content">
           {children}
@@ -75,7 +74,7 @@ export function AdminCatalog() {
   useEffect(() => {
     const load = () => {
       try {
-        setDrafts(decodeDrafts(localStorage.getItem(DRAFT_KEY)));
+        setDrafts(Object.fromEntries(Object.entries(decodeDrafts(localStorage.getItem(DRAFT_KEY))).filter(([, record]) => record.draft.offices.some(office => office.country === "SI"))));
       } catch {}
     };
     load();
@@ -102,9 +101,8 @@ export function AdminCatalog() {
     <>
       <div className="admin-page-heading">
         <div>
-          <span className="eyebrow">YOUR DIRECTORY, AT A GLANCE</span>
           <h1>Company catalog</h1>
-          <p>Keep the details useful. Keep the directory up to date.</p>
+          <p>Manage Slovenian company profiles, services and contact details.</p>
         </div>
         <Link
           className="button dark"
@@ -119,7 +117,7 @@ export function AdminCatalog() {
         <div>
           <span>Sample catalog</span>
           <strong>{companies.length}</strong>
-          <small>Fictional public profiles</small>
+          <small>Slovenian sample profiles</small>
         </div>
         <div>
           <span>Saved drafts</span>
@@ -132,11 +130,6 @@ export function AdminCatalog() {
             {Object.values(drafts).filter((d) => d.published).length}
           </strong>
           <small>Demo publishing flow</small>
-        </div>
-        <div>
-          <span>Website visitors</span>
-          <strong className="no-value">—</strong>
-          <small>Analytics not connected</small>
         </div>
       </div>
       <div className="catalog-panel">
@@ -185,12 +178,12 @@ export function AdminCatalog() {
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <td data-label="Office">
                     {c.offices[0]?.city || "Not set"}
                     <small>{countryName(c.offices[0]?.country ?? "")}</small>
                   </td>
-                  <td>{c.services.length} services</td>
-                  <td>
+                  <td data-label="Services">{c.services.length} services</td>
+                  <td data-label="Status">
                     <span
                       className={`status-pill ${record?.published ? "approved" : ""}`}
                     >
@@ -230,7 +223,7 @@ export function AdminCatalog() {
           </div>
         )}
         <div className="catalog-footer">
-          {rows.length} companies · No live records or customer data
+          <span>{rows.length} companies · Sample data only</span><span>Visitor analytics not connected</span>
         </div>
       </div>
     </>
