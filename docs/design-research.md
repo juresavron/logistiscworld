@@ -137,3 +137,14 @@ sort selector when the query is empty and both options mean alphabetical.
 
 These are source-level layout corrections. No browser screenshot or live
 visual verification was available for this revision.
+
+
+## Company profile readability — 11 October 2026
+
+Reviewed the user-supplied 18:16 screenshot. The fluid width exposed weak grouping: coverage was separated from service names by most of the viewport; a long placeholder paragraph dominated the overview; small type and redundant section links added friction.
+
+The profile now presents a short summary below the company name, service/coverage pairs in readable rows, company facts and offices grouped together, and a dedicated contact panel. Wide screens use the available width for these distinct groups. Below 1400px the main sections stack; below 900px contact and content become one column; small phones use a compact identity grid and full-width comparison button.
+
+Removed repeated explanatory copy and section navigation; listing provenance remains in a native accessible details disclosure. Fictional status and unavailable contacts remain explicit. No fabricated contact actions or verification badges were added.
+
+Verification: type checking, existing server-rendering smoke suite, production build, and packaged Worker asset checks. The supplied screenshot was inspected; the revised render has not been browser-tested because the required browser capability is unavailable.

@@ -155,34 +155,61 @@
 .country-site .page-intro { padding-block: 36px 25px; }
 .country-site .page-intro h1 { font-size: 42px; letter-spacing: -1.5px; }
 .country-site .page-intro > p { font-size: 16px; }
-.country-site .profile-top { background: white; border-bottom: 1px solid var(--line); padding-block: 25px; }
-.country-site .profile-layout { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 40px; padding-block: 30px 45px; }
-.country-site .profile-body { grid-column: 1; grid-row: 1; min-width: 0; }
-.country-site .profile-identity h1 { font-size: clamp(30px,3.5vw,45px); overflow-wrap: anywhere; }
-.country-site .profile-identity .eyebrow { font-size: 12px; }
-.country-site .profile-meta > span:first-child { font-size: 14px; }
-.country-site .profile-sections { gap: 22px; font-size: 13px; margin-bottom: 17px; }
-.country-site .profile-sections a { min-height: 44px; }
-.country-site .profile-sections a:first-child { border-bottom: 0; }
-.country-site .profile-section { border-color: #d5e0e5; padding-block: 24px; }
-.country-site .profile-section h2 { font-size: 26px; letter-spacing: -.7px; }
-.country-site .profile-section p { font-size: 15px; line-height: 1.8; }
-.profile-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; padding: 20px; border: 1px solid #dde5e9; border-radius: 5px; background: white; }
-.profile-facts dt { font-size: 12px; color: #667d88; margin-bottom: 7px; }
-.profile-facts dd { font-size: 14px; margin: 0; overflow-wrap: anywhere; }
-.country-site .contact-panel { grid-column: 2; grid-row: 1; display: block; position: sticky; top: 20px; color: var(--ink); background: white; border: 1px solid #cbd9e0; border-top: 3px solid var(--accent); border-radius: 6px; padding: 25px; box-shadow: none; }
-.country-site .contact-panel .eyebrow { color: #667b85; font-size: 11px; margin-bottom: 12px; }
-.country-site .contact-panel h2 { font-size: 24px; }
-.country-site .contact-panel > p { font-size: 14px; color: #556d79; margin-bottom: 18px; }
-.country-site .contact-panel .text-link { font-size: 13px; min-height: 44px; }
-.country-site .coverage-list > div { display: grid; grid-template-columns: 36px minmax(110px,1fr) minmax(100px,1fr); border-color: #dde5e9; gap: 12px; }
-.country-site .coverage-list strong { font-size: 14px; }
-.country-site .coverage-list > div > span:last-child { max-width: none; font-size: 13px; }
-.country-site .service-icon { background: #edf2f5; width: 36px; height: 36px; }
-.country-site .office-card { background: white; border-color: #d5e0e5; margin-bottom: 12px; flex-wrap: wrap; padding: 18px; }
-.country-site .office-card p, .country-site .office-card .text-link { font-size: 12px; }
-.country-site .office-card .text-link { min-height: 44px; }
-.country-site .tag-list > span { font-size: 12px; background: #eaf0f3; color: #465f6d; }
+/* Company profiles keep related facts together instead of stretching rows. */
+.company-profile { background: #fff; }
+.country-site .profile-top { background: #fff; border-bottom: 1px solid var(--line); padding-block: 24px 32px; }
+.company-profile .back-link { min-height: 44px; margin-bottom: 18px; font-size: 14px; }
+.country-site .profile-identity { align-items: flex-start; gap: 24px; }
+.country-site .profile-identity h1 { font-size: clamp(30px,3vw,44px); line-height: 1.15; letter-spacing: -1.3px; margin: 7px 0 12px; overflow-wrap: anywhere; }
+.profile-heading { min-width: 0; }
+.country-site .profile-identity .eyebrow { font-size: 13px; text-transform: none; letter-spacing: 0; margin: 0; }
+.country-site .profile-identity .monogram.large { width: 88px; height: 88px; flex-shrink: 0; border-radius: 8px; }
+.country-site .profile-meta { flex-wrap: wrap; gap: 10px 18px; }
+.country-site .profile-meta > span:first-child { font-size: 15px; }
+.company-profile .sample-label { font-size: 11px; letter-spacing: .2px; padding: 4px 8px; }
+.profile-summary { max-width: 70ch; margin: 16px 0 0; font-size: 17px; line-height: 1.65; color: #4b5b63; }
+.country-site .profile-identity > .compare-button { align-self: flex-start; padding: 12px 18px; margin-top: 30px; font-size: 14px; border-color: #cbd4d8; border-radius: 5px; white-space: nowrap; }
+.country-site .profile-layout { display: grid; grid-template-columns: minmax(0,1fr) clamp(300px,23vw,380px); gap: clamp(32px,4vw,72px); padding-block: 36px 40px; align-items: start; }
+.country-site .profile-body { grid-column: 1; grid-row: 1; min-width: 0; display: grid; grid-template-columns: minmax(0,1fr); gap: 30px; }
+.country-site .profile-section { border: 0; padding: 0; min-width: 0; }
+.country-site .profile-section h2 { font-size: 24px; line-height: 1.3; letter-spacing: -.6px; margin-bottom: 12px; }
+.country-site .profile-section p { font-size: 16px; line-height: 1.6; }
+.country-site .profile-section .section-caption { margin: 0 0 12px; font-size: 15px; color: #5b6870; }
+.profile-service-list { list-style: none; margin: 0; padding: 0; }
+.profile-service-list li { display: flex; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid #e3e7e9; }
+.country-site .profile-service-list h3 { margin: 0 0 5px; font-size: 17px; letter-spacing: -.2px; line-height: 1.4; }
+.country-site .profile-service-list p { margin: 0; font-size: 15px; color: #52616a; }
+.company-profile .service-icon { width: 42px; height: 42px; flex-shrink: 0; background: #f0f3f4; border-radius: 6px; }
+.profile-capabilities { margin-top: 26px; }
+.country-site .profile-capabilities h3 { font-size: 16px; margin-bottom: 12px; }
+.country-site .tag-list > span { font-size: 13px; background: #eaf0f3; color: #465f6d; }
+.profile-company-info { display: grid; align-content: start; gap: 30px; }
+.profile-facts { display: grid; grid-template-columns: 1fr; gap: 18px; margin: 20px 0 0; padding: 0; }
+.profile-facts dt { font-size: 14px; color: #5b6870; margin-bottom: 5px; }
+.profile-facts dd { font-size: 16px; line-height: 1.55; margin: 0; overflow-wrap: anywhere; }
+.profile-office { display: flex; align-items: flex-start; gap: 12px; padding-top: 8px; }
+.profile-office + .profile-office { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 20px; }
+.profile-office > svg { color: #62747c; margin-top: 3px; flex-shrink: 0; }
+.country-site .profile-office h3 { font-size: 17px; line-height: 1.4; margin-bottom: 4px; }
+.country-site .profile-office p { font-size: 14px; margin: 0; }
+.profile-office .text-link { min-height: 44px; font-size: 14px; gap: 10px; margin-top: 6px; }
+.country-site .contact-panel { grid-column: 2; grid-row: 1; display: block; position: sticky; top: 24px; color: var(--ink); background: #f6f7f7; border: 1px solid #dce1e3; border-top: 3px solid var(--accent); border-radius: 6px; padding: 28px; box-shadow: none; }
+.country-site .contact-panel h2 { font-size: 24px; letter-spacing: -.6px; margin-bottom: 14px; }
+.country-site .contact-panel > p { font-size: 16px; line-height: 1.65; color: #52616a; margin-bottom: 18px; }
+.country-site .contact-panel .text-link { font-size: 14px; min-height: 44px; gap: 10px; }
+.profile-listing-note { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 8px; color: #59656a; }
+.profile-listing-note summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; cursor: pointer; font-size: 14px; list-style: none; }
+.profile-listing-note summary::-webkit-details-marker { display: none; }
+.profile-listing-note[open] summary svg { transform: rotate(180deg); }
+.profile-listing-note p { max-width: 70ch; font-size: 15px; line-height: 1.7; margin: 8px 0; }
+.profile-listing-note .text-link { min-height: 44px; font-size: 14px; }
+.country-site .profile-related { border-top: 1px solid var(--line); background: #f6f7f7; }
+.country-site .profile-related .section-heading { margin-bottom: 24px; }
+.country-site .profile-related h2 { font-size: 26px; letter-spacing: -.6px; }
+@media (min-width:1400px) {
+  .country-site .profile-body { grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); gap: 32px clamp(32px,4vw,72px); }
+  .profile-company-info { border-left: 1px solid var(--line); padding-left: clamp(28px,3vw,48px); }
+}
 .country-site .service-tile, .country-site .country-tile, .country-site .notice-panel { background: white; border: 1px solid #d5e0e5; border-radius: 6px; }
 .country-site .service-tile, .country-site .country-tile { min-height: 210px; }
 .country-site .service-tile:hover, .country-site .country-tile:hover { border-color: #8ea5b1; transform: none; }
@@ -245,6 +272,8 @@
   .directory-intro p { font-size: 15px; }
   .country-site .profile-layout { display: flex; flex-direction: column; gap: 25px; }
   .country-site .profile-body { width: 100%; }
+  .country-site .profile-identity { flex-wrap: wrap; }
+  .country-site .profile-identity > .compare-button { margin: 0; }
   .country-site .contact-panel { position: static; width: 100%; padding: 22px; }
   .country-site .contact-panel h2 { font-size: 23px; margin-bottom: 12px; }
   .country-site .contact-panel > p { margin-bottom: 8px; }
@@ -324,14 +353,17 @@
   .country-site .service-grid, .country-site .country-grid { grid-template-columns: 1fr; }
   .country-site .service-tile, .country-site .country-tile { min-height: 180px; padding: 22px; }
   .country-site .service-tile h2, .country-site .country-tile h2 { font-size: 26px; }
-  .country-site .profile-identity .eyebrow { font-size: 11px; }
-  .country-site .profile-identity > .compare-button { margin-left: 0; }
-  .country-site .profile-meta > span:first-child { font-size: 13px; }
-  .country-site .profile-section h2 { font-size: 24px; }
-  .profile-facts { grid-template-columns: 1fr; gap: 18px; padding: 18px; }
-  .country-site .coverage-list > div { grid-template-columns: 36px minmax(0,1fr); }
-  .country-site .coverage-list > div > span:last-child { grid-column: 2; margin: 0; text-align: left; }
-  .country-site .office-card .text-link { margin-left: 0; }
+  .country-site .profile-top { padding-block: 14px 24px; }
+  .country-site .profile-identity { display: grid; grid-template-columns: 56px minmax(0,1fr); gap: 16px; }
+  .country-site .profile-identity .monogram.large { width: 56px; height: 60px; font-size: 22px; }
+  .country-site .profile-identity h1 { font-size: 30px; letter-spacing: -.8px; }
+  .country-site .profile-identity .eyebrow { font-size: 13px; }
+  .country-site .profile-meta > span:first-child { font-size: 14px; }
+  .country-site .profile-identity > .compare-button { grid-column: 1 / -1; margin: 0; width: 100%; font-size: 14px; }
+  .profile-summary { font-size: 16px; }
+  .country-site .profile-layout { padding-block: 24px 32px; gap: 28px; }
+  .country-site .profile-section h2 { font-size: 23px; }
+  .country-site .profile-related h2 { font-size: 24px; }
   .country-site .compare-tray { padding: 10px; gap: 6px; bottom: max(10px, env(safe-area-inset-bottom)); }
   .country-site .compare-tray .tray-notice { display: none; }
   .country-site .tray-label { font-size: 12px; gap: 7px; }
