@@ -1,3 +1,4 @@
+import { pageHead } from "../domain/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicLayout } from "../components/layout";
 import { Directory } from "../components/directory";
@@ -7,9 +8,11 @@ export const Route = createFileRoute("/companies")({
   validateSearch: normalizeSearch,
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) => getDirectory({ data: deps }),
-  head: () => ({
-    meta: [{ title: "Find logistics companies | LogisticsWorld" }],
-  }),
+  head: () => pageHead(
+    "Logistics Company Directory — Slovenia & Region",
+    "Filter logistics providers by service, office country, and coverage. Compare sample companies in Slovenia, Italy, Austria, Croatia, and Hungary.",
+    "/companies",
+  ),
   component: Page,
 });
 function Page() {

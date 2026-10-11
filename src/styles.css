@@ -3159,3 +3159,10 @@ hr {
     animation: none !important;
   }
 }
+
+/* Buyer guidance stays readable without adding a second visual system. */
+.seo-faq { margin-top: 28px; }
+.seo-faq details { border-bottom: 1px solid var(--line, #d9ded5); padding: 20px 0; }
+.seo-faq summary { cursor: pointer; font-weight: 600; line-height: 1.5; }
+.seo-faq p { max-width: 760px; color: var(--muted); margin: 14px 0 0; font-size: 14px; }
+.editorial-grid h3 { font-size: 21px; margin-bottom: 14px; }

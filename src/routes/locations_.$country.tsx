@@ -1,3 +1,4 @@
+import { pageHead } from "../domain/seo";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { countries } from "../domain/company";
 import { companies } from "../data/companies";
@@ -13,6 +14,11 @@ export const Route = createFileRoute("/locations_/$country")({
       result: searchCompanies(companies, { office: country.code }),
     };
   },
+  head: ({ loaderData }) => loaderData ? pageHead(
+    `Logistics Companies in ${loaderData.country.name}`,
+    `Explore logistics companies with offices in ${loaderData.country.name}. Compare services and coverage in our sample directory before contacting a provider.`,
+    `/locations/${loaderData.country.slug}`,
+  ) : {},
   component: Page,
 });
 function Page() {

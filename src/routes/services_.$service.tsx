@@ -1,3 +1,4 @@
+import { pageHead } from "../domain/seo";
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { PublicLayout } from "../components/layout";
 import { Directory } from "../components/directory";
@@ -13,6 +14,11 @@ export const Route = createFileRoute("/services_/$service")({
       result: searchCompanies(companies, { services: [service.id] }),
     };
   },
+  head: ({ loaderData }) => loaderData ? pageHead(
+    `${loaderData.service.name} Companies — Slovenia & Region`,
+    `Explore ${loaderData.service.name.toLowerCase()} providers in Slovenia and neighbouring markets. Compare offices and service coverage in our directory preview.`,
+    `/services/${loaderData.service.id}`,
+  ) : {},
   component: Page,
 });
 function Page() {

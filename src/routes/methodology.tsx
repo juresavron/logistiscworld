@@ -1,8 +1,10 @@
+import { pageHead } from "../domain/seo";
 import { emptySearch } from "../domain/search";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { PublicLayout } from "../components/layout";
 export const Route = createFileRoute("/methodology")({
+  head: () => pageHead('How to Compare Logistics Companies', 'Understand how LogisticsWorld helps you compare logistics providers by services, offices, and coverage, and what has been checked.', '/methodology'),
   component: () => (
     <PublicLayout>
       <div className="wrap section editorial">
@@ -19,10 +21,11 @@ export const Route = createFileRoute("/methodology")({
         <div className="editorial-grid">
           <section>
             <span className="step-number">01</span>
-            <h2>Relevance comes first.</h2>
+            <h2>What “best” means for your shipment.</h2>
             <p>
-              Choose a service, office location, and the country you need
-              served. Results match those requirements. Relevant-first sorting
+              The best logistics company depends on the shipment. Choose a
+              service, office location, and the country you need served.
+              We do not assign a universal quality ranking. Results match those requirements. Relevant-first sorting
               prioritizes matching company names when you search; otherwise
               results are alphabetical.
             </p>

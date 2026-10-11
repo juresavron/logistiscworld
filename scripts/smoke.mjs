@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import server from '../dist/server/server.js';
 
 const cases = [
-  ['/', 200, 'Find the people'],
+  ['/', 200, 'Best logistics companies'],
   ['/companies', 200, 'Adriatic Connect'],
   ['/companies?q=zzzznonexistent', 200, 'No companies'],
   ['/companies/adriatic-connect', 200, 'Adriatic Connect'],
@@ -32,6 +32,20 @@ for (const [path, status, content] of cases) {
   assert.equal(response.status, status, `${path}: HTTP status`);
   assert.ok(html.includes(content), `${path}: expected content ${content}`);
   assert.ok(!html.includes('We couldn’t load this page'), `${path}: no error boundary`);
+  if (path === '/') {
+    assert.ok(html.includes('<title>Best Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Homepage search title');
+    assert.ok(/<h1>Best logistics companies <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
+    assert.ok(html.includes('How to choose the best logistics company in Slovenia'), 'Buyer guidance is server rendered');
+    assert.ok(html.includes('https://logisticsworld.worldfans.workers.dev/'), 'Canonical uses deployed origin');
+  }
+  if (path === '/locations/slovenia') {
+    assert.ok(html.includes('<title>Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Country title is distinct from homepage');
+    assert.ok(html.includes('href="https://logisticsworld.worldfans.workers.dev/locations/slovenia"'), 'Country canonical');
+  }
+  if (status === 200) {
+    assert.ok(html.includes('content="noindex, nofollow"'), `${path}: fictional preview remains excluded from indexing`);
+    assert.equal((html.match(/<title>/g) || []).length, 1, `${path}: one resolved title`);
+  }
   console.log(`PASS ${status} ${path}`);
 }
 console.log(`${cases.length} server-rendering smoke checks passed.`);

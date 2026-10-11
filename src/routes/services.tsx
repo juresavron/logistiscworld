@@ -1,9 +1,11 @@
+import { pageHead } from "../domain/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { PublicLayout } from "../components/layout";
 import { ServiceIcon } from "../components/ui";
 import { services } from "../domain/company";
 export const Route = createFileRoute("/services")({
+  head: () => pageHead('Logistics Services in Slovenia & Neighbouring Markets', 'Explore freight forwarding, road transport, sea and air freight, customs clearance, and warehousing services in our regional directory preview.', '/services'),
   component: () => (
     <PublicLayout>
       <div className="wrap section">

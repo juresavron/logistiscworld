@@ -1,9 +1,11 @@
+import { pageHead } from "../domain/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { PublicLayout } from "../components/layout";
 import { countries } from "../domain/company";
 import { companies } from "../data/companies";
 export const Route = createFileRoute("/locations")({
+  head: () => pageHead('Logistics Companies by Country', 'Find logistics companies with offices in Slovenia, Italy, Austria, Croatia, and Hungary. Explore sample profiles by country.', '/locations'),
   component: () => (
     <PublicLayout>
       <div className="wrap section">

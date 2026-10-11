@@ -1,3 +1,4 @@
+import { pageHead } from "../domain/seo";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { findCompany } from "../data/companies";
 import { PublicLayout } from "../components/layout";
@@ -8,9 +9,11 @@ export const Route = createFileRoute("/companies_/$slug")({
     if (!c) throw notFound();
     return c;
   },
-  head: ({ loaderData }) => ({
-    meta: [{ title: `${loaderData?.name ?? "Company"} | LogisticsWorld` }],
-  }),
+  head: ({ loaderData }) => loaderData ? pageHead(
+    `${loaderData.name} — Sample Company Profile`,
+    `Fictional preview profile: ${loaderData.summary}`,
+    `/companies/${loaderData.slug}`,
+  ) : {},
   component: Page,
 });
 function Page() {
