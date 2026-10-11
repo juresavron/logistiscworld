@@ -1,6 +1,6 @@
 import { pageHead } from "../domain/seo";
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { findCompany } from "../data/companies";
+import { findCompany } from "../data/slovenia";
 import { PublicLayout } from "../components/layout";
 import { Profile } from "../components/profile";
 export const Route = createFileRoute("/companies_/$slug")({

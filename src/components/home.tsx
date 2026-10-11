@@ -1,4 +1,4 @@
-import { companies } from "../data/companies";
+import { companies } from "../data/slovenia";
 import { type DirectorySearch, searchCompanies } from "../domain/search";
 import { Directory } from "./directory";
 import { BuyerGuide } from "./buyer-guide";
@@ -12,7 +12,7 @@ export function Home({ search, onChange }: {
       result={searchCompanies(companies, { ...search, office: "SI" })}
       onChange={onChange}
       title={<>Best logistics companies <em>in Slovenia.</em></>}
-      subtitle="Find the right company for your shipment. Compare services, check coverage, and contact them directly."
+      subtitle="Local freight forwarders and logistics providers. Compare services and contact the right company directly."
     />
     <BuyerGuide/>
   </>;

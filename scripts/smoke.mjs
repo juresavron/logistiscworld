@@ -10,6 +10,8 @@ const cases = [
   ['/?capabilities=Refrigerated%20cargo', 200, 'No companies match'],
   ['/companies', 200, 'Adriatic Connect'],
   ['/companies?office=SI', 200, 'in Slovenia.'],
+  ['/companies?office=IT', 200, 'Adriatic Connect'],
+  ['/companies?coverage=IT', 200, 'Karst Customs'],
   ['/companies?q=zzzznonexistent', 200, 'No companies'],
   ['/companies/adriatic-connect', 200, 'Adriatic Connect'],
   ['/compare?company=sample-01,sample-02', 200, 'Adriatic Connect'],
@@ -21,6 +23,8 @@ const cases = [
   ['/admin/companies/sample-01', 200, 'Adriatic Connect'],
   ['/submit-company', 200, 'Tell us about your company'],
   ['/companies/missing-company', 404, 'page'],
+  ['/companies/alpine-cargo', 404, 'page'],
+  ['/locations/italy', 404, 'page'],
   ['/services/unknown', 404, 'page'],
 ];
 for (const [path, status, content] of cases) {
@@ -46,7 +50,7 @@ for (const [path, status, content] of cases) {
   }
   if (path === '/companies?office=SI') {
     assert.ok(html.includes('aria-controls="extra-filters"'), 'Additional filters have an accessible disclosure control');
-    assert.ok(html.includes('value="SI" selected=""'), 'Slovenian country context is visible in the selector');
+    assert.ok(!html.includes('Office country'), 'No unnecessary office-country selector');
     assert.ok(html.includes('View company'), 'Each result has an explicit profile action');
   }
   if (path.startsWith('/?coverage=')) {
@@ -55,9 +59,14 @@ for (const [path, status, content] of cases) {
   if (path === '/companies/adriatic-connect') {
     assert.ok(!html.includes('>Contact options'), 'Sample contact information does not require a dead-end modal');
   }
-  if (path === '/locations/slovenia') {
-    assert.ok(html.includes('<title>Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Country title is distinct from homepage');
-    assert.ok(html.includes('href="https://logisticsworld.worldfans.workers.dev/locations/slovenia"'), 'Country canonical');
+  if (path === '/locations/slovenia' || path === '/locations') {
+    assert.equal(url.pathname, '/companies', 'Old country navigation redirects to the Slovenian directory');
+  }
+  if (!path.startsWith('/admin')) {
+    for (const foreign of ['Alpine Cargo', 'Portline Logistics', 'Sava Distribution', 'Danube Freight', 'Rijeka Link', 'Vienna Freight Studio', 'Friuli Transport', 'Pannon Storage']) {
+      assert.ok(!html.includes(foreign), `${path}: foreign provider ${foreign} is excluded`);
+    }
+    assert.ok(!html.includes('>Countries</a>'), `${path}: no country browsing in public navigation`);
   }
   if (status === 200) {
     assert.ok(html.includes('content="noindex, nofollow"'), `${path}: fictional preview remains excluded from indexing`);

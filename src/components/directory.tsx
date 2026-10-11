@@ -23,8 +23,8 @@ export function Directory({ result, onChange, title, subtitle = "Compare service
   return <>
     <section className="directory-intro">
       <div className="wrap directory-intro-copy">
-        <span className="eyebrow">{s.office ? countryName(s.office) : "SLOVENIA & NEIGHBOURING MARKETS"} / COMPANY DIRECTORY</span>
-        <h1>{title ?? <>Logistics companies <span>{s.office ? `in ${countryName(s.office)}.` : "across the region."}</span></>}</h1>
+        <span className="eyebrow">SLOVENIA / FREIGHT & LOGISTICS</span>
+        <h1>{title ?? <>Freight forwarders <span>in Slovenia.</span></>}</h1>
         <p>{subtitle}</p>
       </div>
     </section>
@@ -36,17 +36,17 @@ export function Directory({ result, onChange, title, subtitle = "Compare service
         <button className="button dark" type="submit">Search <ArrowRight size={17}/></button>
       </form>
       <div className="directory-tools">
-        <label className="country-control"><span>Office country</span><select value={s.office} onChange={e => onChange({office:e.target.value as CountryCode | "",page:1})}><option value="">All countries</option>{countries.map(c => <option value={c.code} key={c.code}>{c.name}</option>)}</select></label>
-        <button className={`filter-toggle ${filtersOpen ? "is-open" : ""}`} aria-expanded={filtersOpen} aria-controls="extra-filters" onClick={() => setFiltersOpen(!filtersOpen)}><SlidersHorizontal size={17}/>More filters{advancedCount > 0 && <span>{advancedCount}</span>}</button>
-      </div>
-      <div className="service-shortcuts" role="group" aria-label="Services: match any selected">
-        <button aria-pressed={!s.services.length} onClick={() => onChange({services:[],page:1})}>All services</button>
-        {services.map(service => <button key={service.id} aria-pressed={s.services.includes(service.id)} onClick={() => toggleService(service.id)}>{service.name}</button>)}
+        <span className="filters-label">Filter by service</span>
+        <div className="service-shortcuts" role="group" aria-label="Services: match any selected">
+          <button aria-pressed={!s.services.length} onClick={() => onChange({services:[],page:1})}>All services</button>
+          {services.map(service => <button key={service.id} aria-pressed={s.services.includes(service.id)} onClick={() => toggleService(service.id)}>{service.name}</button>)}
+        </div>
+        <button className={`filter-toggle ${filtersOpen ? "is-open" : ""}`} aria-expanded={filtersOpen} aria-controls="extra-filters" onClick={() => setFiltersOpen(!filtersOpen)}><SlidersHorizontal size={17}/>Filters{advancedCount > 0 && <span>{advancedCount}</span>}</button>
       </div>
       <div id="extra-filters" className="extra-filters" hidden={!filtersOpen}>
         <div className="extra-filter-fields">
           <label className="field"><span>Company type</span><select value={s.type} onChange={e => onChange({type:e.target.value,page:1})}><option value="">Any type</option>{companyTypes.map(t => <option key={t}>{t}</option>)}</select></label>
-          <label className="field"><span>Serves country</span><select value={s.coverage} onChange={e => onChange({coverage:e.target.value as CountryCode | "",page:1})}><option value="">Any destination</option>{countries.map(c => <option value={c.code} key={c.code}>{c.name}</option>)}</select><small>Service coverage, regardless of office location.</small></label>
+          <label className="field"><span>Serves country</span><select value={s.coverage} onChange={e => onChange({coverage:e.target.value as CountryCode | "",page:1})}><option value="">Any destination</option>{countries.map(c => <option value={c.code} key={c.code}>{c.name}</option>)}</select><small>Where the Slovenian provider offers services.</small></label>
         </div>
         <fieldset><legend>Special capabilities <span>Must include all selected</span></legend><div className="capability-options">{capabilityOptions.map(v => <label className="check-label" key={v}><input type="checkbox" checked={s.capabilities.includes(v)} onChange={() => onChange({capabilities:s.capabilities.includes(v) ? s.capabilities.filter(c => c !== v) : [...s.capabilities,v],page:1})}/><span>{v}</span></label>)}</div></fieldset>
         <button className="filter-done" onClick={() => setFiltersOpen(false)}>Done <ArrowRight size={16}/></button>

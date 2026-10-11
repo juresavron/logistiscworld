@@ -30,12 +30,12 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
       <DirectoryBrand />
       <nav id="main-navigation" className={menu ? "main-nav open" : "main-nav"} aria-label="Main navigation" onKeyDown={e => { if (e.key === "Escape") { setMenu(false); menuButton.current?.focus(); } }}>
         <Link to="/companies" search={{...emptySearch, office:"SI"}} data-active={path === "/" || path.startsWith("/companies")} onClick={()=>setMenu(false)}>Find a company</Link>
-        <Link to="/locations" data-active={path.startsWith("/locations")} onClick={()=>setMenu(false)}>Countries</Link>
+        <Link to="/services" data-active={path.startsWith("/services")} onClick={()=>setMenu(false)}>Services</Link>
       </nav>
       <div className="nav-actions"><Link className="shortlist-link" to="/compare" search={{company:ids}}>Compare <span>{ids.length}</span></Link><Link className="listing-link" to="/submit-company">List a company <ArrowUpRight size={16}/></Link><button ref={menuButton} className="icon-button mobile-menu" aria-expanded={menu} aria-controls="main-navigation" aria-label={menu?"Close menu":"Open menu"} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div>
     </div></header>
     <main id="main-content">{children}</main>
-    <footer className="directory-footer"><div className="wrap"><div className="directory-footer-top"><DirectoryBrand/><p>A practical directory for finding<br/>logistics expertise in Slovenia.</p><Link to="/submit-company">List your company <ArrowUpRight size={18}/></Link></div><div className="directory-footer-bottom"><span>© {new Date().getFullYear()} LogisticsWorld</span><div><Link to="/methodology">Our approach</Link><Link to="/locations">Countries</Link><Link to="/services">Services</Link><Link to="/admin">Demo admin</Link></div><span>Slovenia edition / English</span></div></div></footer>
+    <footer className="directory-footer"><div className="wrap"><div className="directory-footer-top"><DirectoryBrand/><p>A practical directory for finding<br/>logistics expertise in Slovenia.</p><Link to="/submit-company">List your company <ArrowUpRight size={18}/></Link></div><div className="directory-footer-bottom"><span>© {new Date().getFullYear()} LogisticsWorld</span><div><Link to="/methodology">Our approach</Link><Link to="/services">Services</Link></div><span>Slovenia / English</span></div></div></footer>
     <CompareTray/>
   </div>;
 }

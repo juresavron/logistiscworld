@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Columns3, X } from "lucide-react";
-import { companies } from "../data/companies";
+import { companies } from "../data/slovenia";
 import { compareIds } from "../domain/search";
 
 type Value = {

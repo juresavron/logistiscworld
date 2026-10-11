@@ -6,14 +6,13 @@ import {
   MapPin,
 } from "lucide-react";
 import {
-  countries,
   countryName,
   serviceName,
   type Company,
 } from "../domain/company";
 import { Monogram, ServiceIcon } from "./ui";
 import { CompareButton } from "./comparison";
-import { companies } from "../data/companies";
+import { companies } from "../data/slovenia";
 import { CompanyCard } from "./company-card";
 
 export function ContactPanel({ company }: { company: Company }) {
@@ -111,15 +110,9 @@ export function Profile({ company: c }: { company: Company }) {
                   </h3>
                   <p>{o.primary ? "Primary office" : "Branch office"}</p>
                 </div>
-                <Link
-                  className="text-link"
-                  to="/locations/$country"
-                  params={{
-                    country: countries.find((x) => x.code === o.country)!.slug,
-                  }}
-                >
-                  Explore market <ArrowUpRight size={16} />
-                </Link>
+                {o.country === "SI" && <Link className="text-link" to="/companies" search={{...emptySearch,q:o.city}}>
+                  Companies in {o.city} <ArrowUpRight size={16}/>
+                </Link>}
               </div>
             ))}
           </section>

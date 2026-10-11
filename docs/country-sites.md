@@ -1,4 +1,4 @@
-# Country directory network
+# Slovenia launch and future country editions
 
 User direction, 11 October 2026: acquire a separate country domain, for example
 `freightforwarderslovenia.com` and `freightforwarderpoland.com`.
@@ -37,13 +37,22 @@ changing country words alone.
 
 ## Current implementation
 
-The first visual edition is Slovenia, hosted on the existing workers.dev preview.
-It has a country label, Slovenia-scoped homepage search, service shortcuts,
-city searches, local sample company cards, and secondary regional browsing.
-Titles and canonical metadata are centralized in `src/domain/seo.ts`.
-The shared public design lives in `src/country-site.css`; admin remains separate.
-No purchased domains, hostname routing, Poland edition, production database,
-or automatic Git deployment have been configured by this change.
+Launch is strictly Slovenia-only, per the user's clarification on 11 October.
+No country browsing or office-country selector appears on the public website.
+`src/data/slovenia.ts` scopes discovery, profiles, recommendations and comparison
+to companies with a Slovenian office. Search forces the Slovenian scope even
+when an old URL requests another office country. International destinations
+remain service-coverage data, not a way to browse foreign providers.
+
+Old `/locations` and `/locations/slovenia` links redirect to `/companies`.
+Other country pages and foreign-only company profiles return 404. Foreign
+fixtures are retained only for demo admin and generic domain tests. Future
+country editions are a separate launch decision; they do not add a country
+switcher to this website.
+
+The Worker still uses its preview domain. No purchased domains, hostname
+routing, Poland edition, production database, or automatic Git deployment are
+configured. See `design-research.md` for the current visual direction.
 
 ## Design references
 

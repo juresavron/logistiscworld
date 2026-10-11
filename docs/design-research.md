@@ -101,3 +101,19 @@ Validation: TypeScript, server-rendering/filtering checks and asset packaging.
 Responsive CSS was inspected at its breakpoint boundaries, but no browser
 rendering/interaction verification is available in this environment. Do not
 claim the design has been visually verified across devices.
+
+
+## Slovenia-only refinement
+
+Launch scope is now local Slovenian freight forwarders and logistics providers.
+Removed country browsing from navigation and removed the country selector. The
+service controls and optional filters share a compact toolbar, with a separate
+scrollable service row on narrow screens. Retained the accepted visual palette
+and card hierarchy. Removed the internal demo-admin link from the public footer.
+
+The Slovenia boundary is applied to public search, service pages, individual
+profiles, related companies, comparison URLs and stored comparison selections.
+International service coverage is still shown. Server smoke checks verify that
+foreign companies cannot reappear through old URLs or related-company links.
+Visual browser verification remains unavailable; automated checks do not certify
+visual polish or device compatibility.

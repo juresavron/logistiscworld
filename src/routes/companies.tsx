@@ -2,15 +2,15 @@ import { pageHead } from "../domain/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicLayout } from "../components/layout";
 import { Directory } from "../components/directory";
-import { normalizeSearch } from "../domain/search";
+import { normalizeSloveniaSearch } from "../data/slovenia";
 import { getDirectory } from "../server/catalog";
 export const Route = createFileRoute("/companies")({
-  validateSearch: normalizeSearch,
+  validateSearch: normalizeSloveniaSearch,
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) => getDirectory({ data: deps }),
   head: () => pageHead(
-    "Logistics Company Directory — Slovenia & Region",
-    "Filter logistics providers by service, office country, and coverage. Compare sample companies in Slovenia, Italy, Austria, Croatia, and Hungary.",
+    "Freight Forwarders & Logistics Companies in Slovenia",
+    "Find Slovenian freight forwarders and logistics providers. Compare services, local offices, and international coverage in our directory preview.",
     "/companies",
   ),
   component: Page,

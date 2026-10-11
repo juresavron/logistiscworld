@@ -1,19 +1,18 @@
 # Slovenia-first search strategy
 
 Primary target: **best logistics companies in Slovenia**.
-Language: English initially, matching the current product. Neighbouring markets
-remain secondary. No keyword volumes or ranking positions have been measured.
+Language: English initially, matching the current product. The public launch
+is exclusively Slovenia; other countries describe service coverage only. No keyword volumes or ranking positions have been measured.
 
 ## Search intent and page ownership
 
 | Page | Purpose / target |
 | --- | --- |
 | `/` | Best logistics companies in Slovenia: a buyer's guide and entry point to comparison |
-| `/locations/slovenia` | Logistics companies in Slovenia: directory of companies with Slovenian offices |
-| `/services/forwarding` | Freight forwarding services across the supported region |
-| `/services/sea` | Sea freight providers, with Koper-related guidance on the homepage |
-| Other service pages | Distinct service intent, with country filters in the directory |
-| Other country pages | Secondary local-office intent for Italy, Austria, Croatia, Hungary |
+| `/companies` | Local freight forwarders and logistics providers with Slovenian offices |
+| `/services/forwarding` | Freight forwarding services from Slovenian providers |
+| `/services/sea` | Sea freight providers, with local Koper shipment guidance in the buyer notes |
+| Other service pages | Distinct service intent, limited to Slovenian providers |
 | `/methodology` | Explain comparison criteria, sorting, source checks, and sponsorship policy |
 | Company profiles | Specific company identity, services, locations, and direct contact |
 
@@ -26,12 +25,12 @@ pages and hreflang only when those pages exist.
 ## Implemented
 
 - Homepage title and H1 explicitly target the main query.
-- Slovenia is the default office country in the homepage search.
+- Slovenia is enforced across all public search, profiles and comparison.
 - Homepage sample shortlist contains only companies with Slovenian offices.
 - Buyer guidance covers service fit, local offices versus service coverage,
   shipment requirements, and comparable quotes.
 - Visible FAQs answer selection, Koper shipment, and direct-contact questions.
-- Public directory, country, service, profile, and approach pages have distinct
+- Public directory, service, profile, and approach pages have distinct
   titles, descriptions, canonical links, and Open Graph metadata.
 - The canonical origin is centralized in `src/domain/seo.ts`.
 - Existing demo disclosures remain. No invented ratings, rankings, reviews,

@@ -1,7 +1,7 @@
 import { emptySearch } from "../domain/search";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, X } from "lucide-react";
-import { companies } from "../data/companies";
+import { companies } from "../data/slovenia";
 import { compareIds } from "../domain/search";
 import { countryName, serviceName, type Company } from "../domain/company";
 import { PublicLayout } from "../components/layout";
@@ -9,7 +9,7 @@ import { EmptyState, Monogram } from "../components/ui";
 import { useComparison } from "../components/comparison";
 export const Route = createFileRoute("/compare")({
   validateSearch: (r: Record<string, unknown>) => ({
-    company: compareIds(r.company),
+    company: compareIds(r.company).filter(id => companies.some(company => company.id === id)),
   }),
   head: () => ({
     meta: [{ title: "Compare logistics companies | LogisticsWorld" }],
