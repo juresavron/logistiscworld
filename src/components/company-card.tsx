@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, ArrowRight } from "lucide-react";
 import { countryName, serviceName, type Company, type CountryCode } from "../domain/company";
-import { CompareButton } from "./comparison";
 
 export function CompanyCard({ company: c, compact = false, officeCountry }: { company: Company; compact?: boolean; officeCountry?: CountryCode }) {
   const primary = c.offices.find(o => o.country === officeCountry) ?? c.offices.find(o => o.primary) ?? c.offices[0];
@@ -19,6 +18,6 @@ export function CompanyCard({ company: c, compact = false, officeCountry }: { co
       <div className="record-coverage"><span>Service coverage</span><p>{coverage.map(countryName).join(" · ")}</p></div>
     </div>
     </div>
-    <div className="record-bottom"><CompareButton id={c.id} compact/><Link to="/companies/$slug" params={{slug:c.slug}}>View company <ArrowRight size={17}/></Link></div>
+    <div className="record-bottom"><Link to="/companies/$slug" params={{slug:c.slug}}>View company <ArrowRight size={17}/></Link></div>
   </article>;
 }

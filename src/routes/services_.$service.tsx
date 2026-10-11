@@ -15,7 +15,7 @@ export const Route = createFileRoute("/services_/$service")({
   },
   head: ({ loaderData }) => loaderData ? pageHead(
     `${loaderData.service.name} Companies in Slovenia`,
-    `Explore ${loaderData.service.name.toLowerCase()} providers with offices in Slovenia. Compare offices and service coverage in our directory preview.`,
+    `Explore ${loaderData.service.name.toLowerCase()} providers with offices in Slovenia. Browse offices and service coverage in our directory preview.`,
     `/services/${loaderData.service.id}`,
   ) : {},
   component: Page,

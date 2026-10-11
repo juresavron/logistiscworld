@@ -6,7 +6,7 @@ import { CompanyCard } from "./company-card";
 import { EmptyState } from "./ui";
 
 type Result = ReturnType<typeof searchCompanies>;
-export function Directory({ result, onChange, title, subtitle = "Compare services and coverage. Contact the right company directly." }: {
+export function Directory({ result, onChange, title, subtitle = "Find the services you need. Contact the company directly." }: {
   result: Result;
   onChange: (patch: Partial<DirectorySearch>) => void;
   title?: ReactNode;

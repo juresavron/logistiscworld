@@ -10,7 +10,7 @@ export const Route = createFileRoute("/companies")({
   loader: ({ deps }) => getDirectory({ data: deps }),
   head: () => pageHead(
     "Freight Forwarders & Logistics Companies in Slovenia",
-    "Find Slovenian freight forwarders and logistics providers. Compare services, local offices, and international coverage in our directory preview.",
+    "Find Slovenian freight forwarders and logistics providers. Browse services, local offices, and international coverage in our directory preview.",
     "/companies",
   ),
   component: Page,

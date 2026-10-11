@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, ChevronDown, MapPin } from "lucide-react";
 import { countryName, serviceName, type Company } from "../domain/company";
 import { Monogram, ServiceIcon } from "./ui";
-import { CompareButton } from "./comparison";
 import { companies } from "../data/slovenia";
 import { CompanyCard } from "./company-card";
 
@@ -35,7 +34,6 @@ export function Profile({ company: c }: { company: Company }) {
             </div>
             <p className="profile-summary">{c.summary}</p>
           </div>
-          <CompareButton id={c.id}/>
         </div>
       </div>
     </section>

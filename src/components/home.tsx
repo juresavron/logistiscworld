@@ -12,7 +12,7 @@ export function Home({ search, onChange }: {
       result={searchCompanies(companies, { ...search, office: "SI" })}
       onChange={onChange}
       title={<>Best logistics companies <em>in Slovenia.</em></>}
-      subtitle="Local freight forwarders and logistics providers. Compare services and contact the right company directly."
+      subtitle="Local freight forwarders and logistics providers. Find the right company and contact them directly."
     />
     <BuyerGuide/>
   </>;

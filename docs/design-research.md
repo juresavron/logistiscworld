@@ -167,3 +167,8 @@ Added an admin-scoped stylesheet using the public system font, charcoal/yellow i
 The catalog displays the four Slovenian fixtures and Slovenian browser drafts. Existing stored records are not deleted. Demo-only status, browser persistence and lack of live publishing remain explicit. This is a presentation update, not implementation of production authentication or storage.
 
 Checks: TypeScript, existing 24 SSR smoke checks, production build and packaged Worker asset verification. Screenshot inspected; updated browser render not verified because the required browser capability is unavailable.
+
+
+## Comparison removed — 11 October 2026
+
+Removed comparison buttons from listing cards and profiles, the header link/count, floating tray, and comparison state provider. Old /compare URLs redirect permanently to the directory. Updated discovery copy to focus on finding and contacting companies. The inactive browser session data is no longer read or written.

@@ -2,7 +2,6 @@ import { emptySearch } from "../domain/search";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X, MoveUpRight } from "lucide-react";
-import { CompareTray, useComparison } from "./comparison";
 
 export function Brand() {
   return (
@@ -20,7 +19,6 @@ export function DirectoryBrand() {
 }
 export function PublicLayout({ children }: { children: React.ReactNode }) {
   const [menu, setMenu] = useState(false);
-  const { ids } = useComparison();
   const menuButton = useRef<HTMLButtonElement>(null);
   const path = useRouterState({ select: s => s.location.pathname });
   useEffect(() => setMenu(false), [path]);
@@ -32,10 +30,9 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
         <Link to="/companies" search={{...emptySearch, office:"SI"}} data-active={path === "/" || path.startsWith("/companies")} onClick={()=>setMenu(false)}>Find a company</Link>
         <Link to="/services" data-active={path.startsWith("/services")} onClick={()=>setMenu(false)}>Services</Link>
       </nav>
-      <div className="nav-actions"><Link className="shortlist-link" to="/compare" search={{company:ids}}>Compare <span>{ids.length}</span></Link><Link className="listing-link" to="/submit-company">List a company <ArrowUpRight size={16}/></Link><button ref={menuButton} className="icon-button mobile-menu" aria-expanded={menu} aria-controls="main-navigation" aria-label={menu?"Close menu":"Open menu"} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div>
+      <div className="nav-actions"><Link className="listing-link" to="/submit-company">List a company <ArrowUpRight size={16}/></Link><button ref={menuButton} className="icon-button mobile-menu" aria-expanded={menu} aria-controls="main-navigation" aria-label={menu?"Close menu":"Open menu"} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div>
     </div></header>
     <main id="main-content">{children}</main>
     <footer className="directory-footer"><div className="wrap"><div className="directory-footer-top"><DirectoryBrand/><p>A practical directory for finding<br/>logistics expertise in Slovenia.</p><Link to="/submit-company">List your company <ArrowUpRight size={18}/></Link></div><div className="directory-footer-bottom"><span>© {new Date().getFullYear()} LogisticsWorld</span><div><Link to="/methodology">Our approach</Link><Link to="/services">Services</Link></div><span>Slovenia / English</span></div></div></footer>
-    <CompareTray/>
   </div>;
 }

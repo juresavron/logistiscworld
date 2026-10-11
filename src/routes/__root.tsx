@@ -6,7 +6,6 @@ import {
   Scripts,
   Link,
 } from "@tanstack/react-router";
-import { ComparisonProvider } from "../components/comparison";
 import stylesheet from "../styles.css?url";
 import countryStylesheet from "../country-site.css?url";
 import adminStylesheet from "../admin-site.css?url";
@@ -19,7 +18,7 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Find local freight forwarders and logistics providers in Slovenia. Compare services, coverage, and company details.",
+          "Find local freight forwarders and logistics providers in Slovenia. Browse services, coverage, and company details.",
       },
       { name: "robots", content: "noindex, nofollow" },
       { name: "theme-color", content: "#252c2f" },
@@ -60,9 +59,7 @@ function Root() {
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
-        <ComparisonProvider>
-          <Outlet />
-        </ComparisonProvider>
+        <Outlet />
         <Scripts />
       </body>
     </html>

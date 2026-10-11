@@ -14,7 +14,7 @@ const cases = [
   ['/companies?coverage=IT', 200, 'Karst Customs'],
   ['/companies?q=zzzznonexistent', 200, 'No companies'],
   ['/companies/adriatic-connect', 200, 'Adriatic Connect'],
-  ['/compare?company=sample-01,sample-02', 200, 'Adriatic Connect'],
+  ['/compare?company=sample-01,sample-02', 200, 'Freight forwarders'],
   ['/services', 200, 'Road transport'],
   ['/services/customs', 200, 'Customs clearance'],
   ['/locations', 200, 'Slovenia'],
