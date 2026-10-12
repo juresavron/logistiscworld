@@ -1,22 +1,22 @@
 # LogisticsWorld
 
-A regional directory for finding, comparing, and directly contacting logistics companies. Built with React, TypeScript, TanStack Start, and Tailwind, using OnlyWorld as the architecture reference.
+A Slovenia-focused directory for finding and directly contacting logistics companies. Built with React, TypeScript, TanStack Start, and Tailwind, using OnlyWorld as the architecture reference.
 
 ## Current milestone
 
 Live demo: https://logisticsworld.worldfans.workers.dev/
 
-A working, fictional-data application with a revised visual design is implemented. This is a development preview, not a live company directory. The demo is deployed to Cloudflare Workers. No database or administrator authentication has been connected.
+The directory is deployed to Cloudflare Workers with 25 real company listings. Source notes distinguish owner-supplied details from official website checks (12 October 2026). No database or administrator authentication has been connected.
 
-- Homepage with service and country discovery.
+- Slovenia-only homepage with service discovery.
 - Searchable directory with URL-based filters, sorting, and pagination.
-- Company profiles with service-specific coverage and sample contact dialogs.
-- Comparison of up to three companies, with shareable comparison URLs.
-- Service and country landing pages for Slovenia, Italy, Austria, Croatia, and Hungary.
+- Company profiles with addresses, branch contacts, source notes and direct website/email/phone links.
+- Mediašped appears first in default matching results, labelled Featured; explicit alphabetical sorting is preserved.
+- Service landing pages, including rail freight. Comparison has been removed.
 - Browser-only admin catalog and company editor with draft validation, revision checks, and independent approved snapshots.
 - Sample company submission form saved locally in the browser; no messages are sent.
 
-All 12 companies are fictional and clearly labelled. Approval in the demo editor does not change the public sample catalog. Browser storage is neither shared nor permanent, and the admin route is deliberately unauthenticated for this sample milestone. No ratings, traffic, or verification claims are invented.
+The public catalog is maintained in `src/data/slovenian-companies.ts`; fictional fixtures remain only for tests. Approval in the demo editor does not change the public directory. Browser storage is neither shared nor permanent, and the admin route is deliberately unauthenticated for this sample milestone. No ratings, traffic, or verification claims are invented.
 
 ## Run locally
 
@@ -44,7 +44,7 @@ The first demo was published through the Cloudflare API on 11 October 2026. GitH
 
 ## Design and architecture
 
-The updated design uses warm ivory, forest green, orange accents, structured company information, prominent search, and a consistent comparison workflow. Research references include Clutch, Freightnet, Freightos, and Cargo Directory World.
+The current design uses charcoal, white and yellow accents, wide responsive layouts, structured company information and prominent search. Research references include Clutch, Freightnet, Freightos, and Cargo Directory World.
 
 - [Design research and decisions](docs/design-research.md)
 - [Product and page layouts](docs/product-and-layouts.md)
@@ -55,6 +55,6 @@ The original `docs/wireframes.html` is a superseded planning artifact. The appli
 
 ## Next milestone
 
-Connect an independent Supabase project with migrations, administrator authentication and access rules, then replace fixture lookup with database queries. Add source-backed real listings and direct contact links, complete browser QA, and verify the Cloudflare deployment on its live URL. The demo stays `noindex` until real content and publication controls are ready.
+Connect an independent Supabase project with migrations, administrator authentication and access rules, then replace the static catalog lookup with database queries. Complete browser QA and verify the Cloudflare deployment on its live URL. The demo stays `noindex` until real content and publication controls are ready.
 
 English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Brand/domain and commercial pricing remain open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.

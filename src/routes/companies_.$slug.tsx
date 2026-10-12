@@ -10,8 +10,8 @@ export const Route = createFileRoute("/companies_/$slug")({
     return c;
   },
   head: ({ loaderData }) => loaderData ? pageHead(
-    `${loaderData.name} — Sample Company Profile`,
-    `Fictional preview profile: ${loaderData.summary}`,
+    `${loaderData.name} | Logistics in Slovenia`,
+    loaderData.summary,
     `/companies/${loaderData.slug}`,
   ) : {},
   component: Page,

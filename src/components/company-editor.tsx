@@ -14,7 +14,7 @@ import {
   type ServiceId,
 } from "../domain/company";
 import { decodeDrafts, DRAFT_KEY, nextDraft } from "../domain/drafts";
-import { companies } from "../data/companies";
+import { companies } from "../data/slovenia";
 import { Monogram } from "./ui";
 
 const tabs = ["Identity", "Services", "Offices", "Contacts", "Evidence"];
@@ -169,7 +169,7 @@ export function CompanyEditor({ id }: { id: string }) {
       setErrors([]);
       setStatus(
         publish
-          ? "Approved snapshot saved in this browser. The public sample catalog is unchanged."
+          ? "Approved snapshot saved in this browser. The public directory is unchanged."
           : "Draft saved in this browser.",
       );
     } catch (error) {
@@ -218,7 +218,7 @@ export function CompanyEditor({ id }: { id: string }) {
             onClick={() => save(true)}
             disabled={!loaded || blocked}
           >
-            Approve sample <Check size={16} />
+            Approve locally <Check size={16} />
           </button>
         </div>
       </div>
@@ -288,8 +288,8 @@ export function CompanyEditor({ id }: { id: string }) {
               <>
                 <h2>Make a clear first impression.</h2>
                 <p className="muted">
-                  Use factual company details. Every entry in this workspace
-                  remains a sample.
+                  Use factual company details. Changes saved here stay in this
+                  browser until they are added to the public directory.
                 </p>
                 {input("name", "Trading name", "Company name")}
                 {input(
@@ -500,7 +500,7 @@ export function CompanyEditor({ id }: { id: string }) {
               <>
                 <h2>Make it easy to get in touch.</h2>
                 <p className="muted">
-                  Use sample contact information. No messages are sent by this
+                  No messages are sent by this
                   editor.
                 </p>
                 {input("website", "Website", "https://example.com")}
@@ -517,7 +517,7 @@ export function CompanyEditor({ id }: { id: string }) {
               <>
                 <h2>A source behind the details.</h2>
                 <p className="muted">
-                  Try the publication checklist with sample evidence. This does
+                  Record the sources for this listing. Local approval does
                   not verify a real company.
                 </p>
                 {input(

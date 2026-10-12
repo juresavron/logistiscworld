@@ -6,8 +6,9 @@ export const countries = [
   { code: "AT", name: "Austria", slug: "austria", city: "Graz & Vienna" },
   { code: "HR", name: "Croatia", slug: "croatia", city: "Rijeka & Zagreb" },
   { code: "HU", name: "Hungary", slug: "hungary", city: "Budapest & beyond" },
+  { code: "DE", name: "Germany", slug: "germany", city: "Germany" },
 ] as const;
-export const countryCodes = ["SI", "IT", "AT", "HR", "HU"] as const;
+export const countryCodes = ["SI", "IT", "AT", "HR", "HU", "DE"] as const;
 export type CountryCode = (typeof countryCodes)[number];
 export const services = [
   {
@@ -46,9 +47,11 @@ export const services = [
     description: "Coordinate every stage of your shipment.",
     icon: "route",
   },
+  { id: "rail", name: "Rail freight", description: "Rail and intermodal freight transport.", icon: "train" },
 ] as const;
 export type ServiceId = (typeof services)[number]["id"];
 export const serviceIds = [
+  "rail",
   "road",
   "sea",
   "air",
@@ -81,7 +84,18 @@ const webUrl = z
     (value) => !value || safeContactHref("website", value) !== null,
     "Use a complete https:// website address.",
   );
+const officeDetails = {
+  address: z.string().trim().max(200).optional(),
+  postalCode: z.string().trim().max(20).optional(),
+  email: z.string().email().max(150).optional(),
+  phone: z.string().regex(/^\+[1-9]\d{6,14}$/).optional(),
+  fax: z.string().regex(/^\+[1-9]\d{6,14}$/).optional(),
+};
 export const companyFields = z.object({
+  featured: z.boolean().optional(),
+  listingNote: z.string().max(2000).optional(),
+  serviceDetails: z.array(z.string().max(200)).max(20).optional(),
+  additionalSources: z.array(webUrl).max(10).optional(),
   id: z.string().min(1).max(80),
   slug: z
     .string()
@@ -107,6 +121,7 @@ export const companyFields = z.object({
         city: z.string().trim().min(2, "Enter the office city.").max(80),
         country: z.enum(countryCodes),
         primary: z.boolean(),
+        ...officeDetails,
       }),
     )
     .min(1)
@@ -114,15 +129,15 @@ export const companyFields = z.object({
   services: z
     .array(z.enum(serviceIds))
     .min(1, "Choose at least one service.")
-    .max(6),
+    .max(serviceIds.length),
   coverage: z
     .array(
       z.object({
         service: z.enum(serviceIds),
-        countries: z.array(z.enum(countryCodes)).max(5),
+        countries: z.array(z.enum(countryCodes)).max(countryCodes.length),
       }),
     )
-    .max(6),
+    .max(serviceIds.length),
   capabilities: z.array(z.enum(capabilityOptions)).max(4),
   website: webUrl,
   email: z.union([
@@ -153,7 +168,7 @@ export const companyFields = z.object({
     ),
   tone: z.enum(["green", "blue", "rust", "plum"]),
   initials: z.string().min(1).max(3),
-  isSample: z.literal(true),
+  isSample: z.boolean(),
 });
 export const companyDraftSchema = companyFields.extend({
   slug: z.string().max(100),
@@ -161,13 +176,14 @@ export const companyDraftSchema = companyFields.extend({
   legalName: z.string().max(150),
   summary: z.string().max(260),
   types: z.array(z.enum(companyTypes)).max(4),
-  services: z.array(z.enum(serviceIds)).max(6),
+  services: z.array(z.enum(serviceIds)).max(serviceIds.length),
   offices: z
     .array(
       z.object({
         city: z.string().max(80),
         country: z.enum(countryCodes),
         primary: z.boolean(),
+        ...officeDetails,
       }),
     )
     .min(1)

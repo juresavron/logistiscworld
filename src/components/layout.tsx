@@ -23,7 +23,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
   const path = useRouterState({ select: s => s.location.pathname });
   useEffect(() => setMenu(false), [path]);
   return <div className="country-site">
-    <div className="edition-utility"><span>LOGISTICSWORLD <span className="utility-slash">/</span> SLOVENIA</span><span>Preview · Fictional company data</span></div>
+    <div className="edition-utility"><span>LOGISTICSWORLD <span className="utility-slash">/</span> SLOVENIA</span><span>Slovenian companies · Direct contact</span></div>
     <header className="site-header"><div className="nav-inner">
       <DirectoryBrand />
       <nav id="main-navigation" className={menu ? "main-nav open" : "main-nav"} aria-label="Main navigation" onKeyDown={e => { if (e.key === "Escape") { setMenu(false); menuButton.current?.focus(); } }}>

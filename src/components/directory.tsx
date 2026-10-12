@@ -55,7 +55,7 @@ export function Directory({ result, onChange, title, subtitle = "Find the servic
       </div>
       <div className="results">
         <div className="results-heading">
-          <div role="status"><strong>{result.total}</strong> {result.total === 1 ? "company" : "companies"}<span>Sample listings · No quality ranking</span></div>
+          <div role="status"><strong>{result.total}</strong> {result.total === 1 ? "company" : "companies"}<span>Company directory · No quality ranking</span></div>
           {s.q ? <label className="sort-control"><span>Sort</span><select value={s.sort} onChange={e => onChange({sort:e.target.value as DirectorySearch["sort"],page:1})}><option value="relevance">Relevance</option><option value="name">Name A–Z</option></select></label> : <span className="sort-note">Name A–Z</span>}
         </div>
         {active > 0 && <div className="active-filters">

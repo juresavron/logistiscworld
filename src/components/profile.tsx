@@ -1,16 +1,25 @@
 import { emptySearch } from "../domain/search";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, ChevronDown, MapPin } from "lucide-react";
-import { countryName, serviceName, type Company } from "../domain/company";
+import { countryName, serviceName, safeContactHref, type Company } from "../domain/company";
 import { Monogram, ServiceIcon } from "./ui";
 import { companies } from "../data/slovenia";
 import { CompanyCard } from "./company-card";
 
+function ContactLink({ channel, value, label, primary = false }: { channel: "website" | "email" | "phone"; value?: string; label?: string; primary?: boolean }) {
+  const href = safeContactHref(channel, value ?? "");
+  if (!href) return null;
+  return <a className={primary ? "button dark company-contact-primary" : "company-contact-link"} href={href} {...(channel === "website" ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{label ?? value}{channel === "website" && <ArrowUpRight size={17}/>}</a>;
+}
 export function ContactPanel({ company }: { company: Company }) {
   return <aside className="contact-panel" id="contact" aria-label={`Contact ${company.name}`}>
     <h2>Contact company</h2>
-    <p>This is a fictional sample. Email, phone and website details are not available.</p>
-    <Link className="text-link" to="/methodology">About our listings <ArrowUpRight size={16}/></Link>
+    {company.isSample ? <p>This is a fictional sample. Contact details are not available.</p> : <>
+      <p>Speak directly with {company.name} about your shipment.</p>
+      <ContactLink channel="website" value={company.website} label="Visit website" primary/>
+      <ContactLink channel="email" value={company.email}/>
+      <ContactLink channel="phone" value={company.phone}/>
+    </>}
   </aside>;
 }
 
@@ -30,7 +39,7 @@ export function Profile({ company: c }: { company: Company }) {
             <h1>{c.name}</h1>
             <div className="profile-meta">
               <span><MapPin size={16}/>{office.city}, {countryName(office.country)}</span>
-              <span className="sample-label">Sample company</span>
+              {c.isSample && <span className="sample-label">Sample company</span>}
             </div>
             <p className="profile-summary">{c.summary}</p>
           </div>
@@ -42,13 +51,13 @@ export function Profile({ company: c }: { company: Company }) {
       <div className="profile-body">
         <section id="services" className="profile-section profile-services">
           <h2>Services & coverage</h2>
-          <p className="section-caption">Countries served by each service.</p>
+          <p className="section-caption">Confirm availability and destinations with the company.</p>
           <ul className="profile-service-list">
             {c.services.map(service => <li key={service}>
               <span className="service-icon"><ServiceIcon service={service}/></span>
               <div>
                 <h3>{serviceName(service)}</h3>
-                <p>{c.coverage.find(v => v.service === service)?.countries.map(countryName).join(" · ") || "Coverage not provided"}</p>
+                <p>{c.coverage.find(v => v.service === service)?.countries.map(countryName).join(" · ") || "Ask company for destinations"}</p>
               </div>
             </li>)}
           </ul>
@@ -60,8 +69,10 @@ export function Profile({ company: c }: { company: Company }) {
         <div className="profile-company-info">
           <section id="overview" className="profile-section">
             <h2>Company details</h2>
+            {c.description && <p>{c.description}</p>}
+            {!!c.serviceDetails?.length && <ul className="profile-service-details">{c.serviceDetails.map(detail => <li key={detail}>{detail}</li>)}</ul>}
             <dl className="profile-facts">
-              <div><dt>Registered name</dt><dd>{c.legalName}</dd></div>
+              <div><dt>Company name</dt><dd>{c.legalName}</dd></div>
               <div><dt>Company type</dt><dd>{c.types.join(", ")}</dd></div>
             </dl>
           </section>
@@ -71,7 +82,10 @@ export function Profile({ company: c }: { company: Company }) {
               <MapPin size={20}/>
               <div>
                 <h3>{o.city}, {countryName(o.country)}</h3>
-                <p>{o.primary ? "Primary office" : "Branch office"}</p>
+                {o.address && <p>{o.address}<br/>{o.postalCode} {o.city}</p>}
+                <ContactLink channel="phone" value={o.phone}/>
+                <ContactLink channel="email" value={o.email}/>
+                {o.fax && <p>Fax: {o.fax}</p>}
                 {o.country === "SI" && <Link className="text-link" to="/companies" search={{...emptySearch,q:o.city}}>
                   Companies in {o.city} <ArrowUpRight size={16}/>
                 </Link>}
@@ -80,8 +94,12 @@ export function Profile({ company: c }: { company: Company }) {
           </section>
         </div>
         <details id="details" className="profile-listing-note">
-          <summary>About this sample listing <ChevronDown size={18}/></summary>
-          <p>This profile is fictional and does not represent a real business. Its information has not been verified.</p>
+          <summary>Sources & listing information <ChevronDown size={18}/></summary>
+          <p>{c.isSample ? "This profile is fictional and does not represent a real business." : c.listingNote}</p>
+          {!c.isSample && <>
+            <p>Source review: <time dateTime={c.checkedAt}>{c.checkedAt}</time>. This is not a service-quality rating.</p>
+            {[c.sourceUrl, ...(c.additionalSources ?? [])].filter(Boolean).map((source, i) => <ContactLink key={source} channel="website" value={source} label={`Source ${i + 1}: ${new URL(source).hostname}`}/>)}
+          </>}
           <Link className="text-link" to="/methodology">How we check listings <ArrowUpRight size={16}/></Link>
         </details>
       </div>

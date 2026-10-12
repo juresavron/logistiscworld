@@ -25,17 +25,17 @@ export const Route = createFileRoute("/methodology")({
             <p>
               The best logistics company depends on the shipment. Choose a
               service and the countries you need served. All listed providers have an office in Slovenia.
-              We do not assign a universal quality ranking. Results match those requirements. Relevant-first sorting
-              prioritizes matching company names when you search; otherwise
-              results are alphabetical.
+              We do not assign a universal quality ranking. Results match those requirements. In the default order, owner-selected
+              featured listings appear first and are labelled. The remaining results prioritise matching
+              names when searching, then alphabetical order. Choosing A–Z sorts every result alphabetically.
             </p>
           </section>
           <section>
             <span className="step-number">02</span>
             <h2>Know what has been checked.</h2>
             <p>
-              Live profiles will distinguish company statements from details
-              checked against a source, including the review date. Checking a
+              Each profile explains which details were supplied and which were
+              checked against official sources, with a review date. Checking a
               company’s identity or website does not guarantee service quality.
             </p>
           </section>
@@ -61,9 +61,9 @@ export const Route = createFileRoute("/methodology")({
         <div className="notice-panel">
           <strong>About this working preview</strong>
           <p>
-            All company records are fictional. There are no verified businesses,
-            live reviews, paid placements, or visitor-tracking systems connected
-            yet.
+            Listings combine information supplied to the directory with official website checks.
+            Source notes explain any gaps or changes. Inclusion is not an endorsement.
+            Confirm services and contact details with the company before arranging a shipment.
           </p>
         </div>
         <Link className="button dark" to="/companies" search={emptySearch}>

@@ -89,8 +89,10 @@ export function searchCompanies(
       [
         c.name,
         c.summary,
+        c.description,
+        ...(c.serviceDetails ?? []),
         ...c.services.map(serviceName),
-        ...c.offices.flatMap((o) => [o.city, countryName(o.country)]),
+        ...c.offices.flatMap((o) => [o.city, o.address ?? "", countryName(o.country)]),
         ...c.types,
         ...c.capabilities,
       ].join(" "),
@@ -110,6 +112,10 @@ export function searchCompanies(
     );
   });
   matches.sort((a, b) => {
+    if (s.sort === "relevance") {
+      const featured = Number(b.featured ?? false) - Number(a.featured ?? false);
+      if (featured) return featured;
+    }
     if (s.sort === "relevance" && s.q) {
       const exact = (c: Company) =>
         normalizeText(c.name).startsWith(normalizeText(s.q)) ? 1 : 0;

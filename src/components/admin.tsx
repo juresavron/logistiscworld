@@ -115,9 +115,9 @@ export function AdminCatalog() {
       </div>
       <div className="admin-stats">
         <div>
-          <span>Sample catalog</span>
+          <span>Company catalog</span>
           <strong>{companies.length}</strong>
-          <small>Slovenian sample profiles</small>
+          <small>Listed Slovenian companies</small>
         </div>
         <div>
           <span>Saved drafts</span>
@@ -191,7 +191,7 @@ export function AdminCatalog() {
                         ? "Approved snapshot"
                         : record
                           ? "Draft saved"
-                          : "Sample profile"}
+                          : "Published listing"}
                     </span>
                   </td>
                   <td>
@@ -223,7 +223,7 @@ export function AdminCatalog() {
           </div>
         )}
         <div className="catalog-footer">
-          <span>{rows.length} companies · Sample data only</span><span>Visitor analytics not connected</span>
+          <span>{rows.length} companies · Local editing only</span><span>Visitor analytics not connected</span>
         </div>
       </div>
     </>

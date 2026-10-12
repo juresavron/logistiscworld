@@ -12,6 +12,7 @@ import {
   Search,
   Ship,
   Truck,
+  TrainFront,
   Warehouse,
   X,
 } from "lucide-react";
@@ -25,6 +26,7 @@ export function ServiceIcon({
   size?: number;
 }) {
   const Icon = {
+    rail: TrainFront,
     road: Truck,
     sea: Ship,
     air: Plane,

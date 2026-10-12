@@ -409,3 +409,12 @@
 @media (prefers-reduced-motion: reduce) {
   .country-site *, .country-site *::before, .country-site *::after { transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Direct contacts and office details share the profile's existing type scale. */
+.company-contact-link { display: flex; align-items: center; gap: 8px; min-height: 44px; width: fit-content; max-width: 100%; font-size: 15px; line-height: 1.5; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.company-contact-link svg { flex-shrink: 0; }
+.company-contact-primary { width: 100%; margin: 6px 0 10px; }
+.profile-office > div { min-width: 0; }
+.profile-service-details { padding-left: 20px; margin: 18px 0; font-size: 16px; line-height: 1.7; }
+.profile-service-details li + li { margin-top: 5px; }
+.record-featured { display: inline-block; color: #514316; background: #fff4c8; padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
