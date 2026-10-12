@@ -16,7 +16,9 @@ for (const file of assets) {
   const response = await worker.fetch(new Request(url));
   assert.equal(response.status, 200);
   assert.deepEqual(Buffer.from(await response.arrayBuffer()), fs.readFileSync(`dist/client/assets/${file}`), file);
-  const expected = file.endsWith('.jpg') ? 'image/jpeg' : file.endsWith('.css') ? 'text/css' : 'application/javascript';
+  const extension = file.slice(file.lastIndexOf('.'));
+  const expected = {'.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.gif':'image/gif','.css':'text/css','.js':'application/javascript'}[extension];
+  assert.ok(expected, `Supported MIME type for ${file}`);
   assert.ok(response.headers.get('content-type').startsWith(expected));
   const head = await worker.fetch(new Request(url, {method:'HEAD'}));
   assert.equal(head.status, 200);

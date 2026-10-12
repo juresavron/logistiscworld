@@ -18,7 +18,7 @@ const imports = ['import handler from "./index.js";'];
 const entries = [];
 for (const [index, file] of walk('dist/client/assets').entries()) {
   const extension = path.extname(file);
-  const types = {'.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp'};
+  const types = {'.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml','.gif':'image/gif'};
   const type = types[extension];
   if (!type) throw new Error(`Review unsupported asset: ${file}`);
   const binary = !['.js', '.css'].includes(extension);

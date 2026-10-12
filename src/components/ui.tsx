@@ -1,5 +1,5 @@
+import { CompanyLogo } from "./company-logo";
 import {
-  ArrowDownLeft,
   ArrowUpRight,
   Building2,
   Check,
@@ -43,15 +43,7 @@ export function Monogram({
   company: Company;
   large?: boolean;
 }) {
-  return (
-    <div
-      className={`monogram tone-${company.tone} ${large ? "large" : ""}`}
-      aria-hidden="true"
-    >
-      {company.initials}
-      <ArrowDownLeft size={large ? 24 : 14} />
-    </div>
-  );
+  return <CompanyLogo company={company} size={large ? "profile" : "admin"}/>;
 }
 export function EmptyState({
   title,

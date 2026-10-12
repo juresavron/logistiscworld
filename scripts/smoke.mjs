@@ -65,6 +65,8 @@ for (const [path, status, content] of cases) {
     assert.ok(html.includes('href="mailto:info@mediasped.com"'), 'Real email is actionable');
     assert.ok(html.includes('href="tel:+38641728712"'), 'Real phone is actionable');
     assert.ok(html.includes('Ferrarska ulica 30'), 'Office address is visible');
+    assert.ok(html.includes('alt="Mediašped d.o.o. logo"'), 'Profile renders the company logo');
+    assert.ok(html.includes('company-logo--profile'), 'Profile uses the larger logo frame');
     assert.ok(!html.includes('Sample company'), 'Real profile is not labelled fictional');
   }
   if (path === '/locations/slovenia' || path === '/locations') {

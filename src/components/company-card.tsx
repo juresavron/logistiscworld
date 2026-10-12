@@ -1,3 +1,4 @@
+import { CompanyLogo } from "./company-logo";
 import { Link } from "@tanstack/react-router";
 import { MapPin, ArrowRight } from "lucide-react";
 import { countryName, serviceName, type Company, type CountryCode } from "../domain/company";
@@ -8,7 +9,7 @@ export function CompanyCard({ company: c, compact = false, officeCountry }: { co
   return <article className={`company-card freight-record ${compact ? "compact" : ""}`}>
     <div className="record-main">
     <div className="record-identity">
-      <span className={`record-monogram tone-${c.tone}`} aria-hidden="true">{c.initials}<span /></span>
+      <CompanyLogo company={c}/>
       <div className="record-name">{c.featured && <span className="record-featured">Featured</span>}<span className="record-type">{c.types[0]}</span><h3><Link to="/companies/$slug" params={{slug:c.slug}}>{c.name}</Link></h3><span className="record-location"><MapPin size={14}/>{primary.city}, {countryName(primary.country)}</span></div>
 
     </div>
