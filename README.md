@@ -11,7 +11,7 @@ The directory is deployed to Cloudflare Workers with 25 real company listings. S
 - Slovenia-only homepage with service discovery.
 - Searchable directory with URL-based filters, sorting, and pagination.
 - Company profiles with addresses, branch contacts, source notes and direct website/email/phone links.
-- Mediašped appears first in default matching results, labelled Featured; explicit alphabetical sorting is preserved.
+- Mediašped appears first in default matching results; explicit alphabetical sorting is preserved.
 - Service landing pages, including rail freight. Comparison has been removed.
 - Browser-only admin catalog and company editor with draft validation, revision checks, and independent approved snapshots.
 - Sample company submission form saved locally in the browser; no messages are sent.

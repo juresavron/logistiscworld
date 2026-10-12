@@ -26,7 +26,7 @@ export const Route = createFileRoute("/methodology")({
               The best logistics company depends on the shipment. Choose a
               service and the countries you need served. All listed providers have an office in Slovenia.
               We do not assign a universal quality ranking. Results match those requirements. In the default order, owner-selected
-              featured listings appear first and are labelled. The remaining results prioritise matching
+              priority listings appear first. The remaining results prioritise matching
               names when searching, then alphabetical order. Choosing A–Z sorts every result alphabetically.
             </p>
           </section>

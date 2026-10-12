@@ -10,7 +10,7 @@ export function CompanyCard({ company: c, compact = false, officeCountry }: { co
     <div className="record-main">
     <div className="record-identity">
       <CompanyLogo company={c}/>
-      <div className="record-name">{c.featured && <span className="record-featured">Featured</span>}<span className="record-type">{c.types[0]}</span><h3><Link to="/companies/$slug" params={{slug:c.slug}}>{c.name}</Link></h3><span className="record-location"><MapPin size={14}/>{primary.city}, {countryName(primary.country)}</span></div>
+      <div className="record-name"><span className="record-type">{c.types[0]}</span><h3><Link to="/companies/$slug" params={{slug:c.slug}}>{c.name}</Link></h3><span className="record-location"><MapPin size={14}/>{primary.city}, {countryName(primary.country)}</span></div>
 
     </div>
     <p className="record-summary">{c.summary}</p>

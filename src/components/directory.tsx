@@ -56,7 +56,7 @@ export function Directory({ result, onChange, title, subtitle = "Find the servic
       <div className="results">
         <div className="results-heading">
           <div role="status"><strong>{result.total}</strong> {result.total === 1 ? "company" : "companies"}<span>Company directory · No quality ranking</span></div>
-          {s.q ? <label className="sort-control"><span>Sort</span><select value={s.sort} onChange={e => onChange({sort:e.target.value as DirectorySearch["sort"],page:1})}><option value="relevance">Relevance</option><option value="name">Name A–Z</option></select></label> : <span className="sort-note">Name A–Z</span>}
+          <label className="sort-control"><span>Sort</span><select aria-label="Sort companies" value={s.sort} onChange={e => onChange({sort:e.target.value as DirectorySearch["sort"],page:1})}><option value="relevance">{s.q ? "Relevance" : "Default order"}</option><option value="name">Name A–Z</option></select></label>
         </div>
         {active > 0 && <div className="active-filters">
           {s.q && <button onClick={() => onChange({q:"",page:1})} aria-label={`Remove search ${s.q}`}>“{s.q}”<X size={13}/></button>}

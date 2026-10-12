@@ -388,7 +388,7 @@
   .country-site .service-tile, .country-site .country-tile { min-height: 180px; padding: 22px; }
   .country-site .service-tile h2, .country-site .country-tile h2 { font-size: 26px; }
   .country-site .profile-top { padding-block: 14px 24px; }
-  .country-site .profile-identity { display: grid; grid-template-columns: 56px minmax(0,1fr); gap: 16px; }
+  .country-site .profile-identity { display: grid; grid-template-columns: minmax(0,1fr); gap: 18px; }
   .country-site .profile-identity .monogram.large { width: 56px; height: 60px; font-size: 22px; }
   .country-site .profile-identity h1 { font-size: 30px; letter-spacing: -.8px; }
   .country-site .profile-identity .eyebrow { font-size: 13px; }
@@ -417,4 +417,3 @@
 .profile-office > div { min-width: 0; }
 .profile-service-details { padding-left: 20px; margin: 18px 0; font-size: 16px; line-height: 1.7; }
 .profile-service-details li + li { margin-top: 5px; }
-.record-featured { display: inline-block; color: #514316; background: #fff4c8; padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: 600; margin-bottom: 8px; }

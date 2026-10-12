@@ -472,7 +472,7 @@ export const slovenianCompanies: Company[] = [
       "Rail and intermodal transport",
       "Customs clearance and warehousing"
     ],
-    "listingNote": "Contact details and service categories were checked against Mediašped’s official website. Featured placement is selected by the directory owner and is not an independent quality ranking.",
+    "listingNote": "Contact details and service categories were checked against Mediašped’s official website. Default placement is selected by the directory owner and is not an independent quality ranking.",
     "additionalSources": [],
     "featured": true
   },
