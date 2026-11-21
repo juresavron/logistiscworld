@@ -10,6 +10,7 @@ export function Home({ search, onChange }: {
 }) {
   return <>
     <Directory
+      referralSource={{placement:"homepage",content:"featured"}}
       result={searchSloveniaCompanies(search)}
       onChange={onChange}
       title={<>Best logistics companies <em>in Slovenia.</em></>}

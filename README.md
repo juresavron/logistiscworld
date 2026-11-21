@@ -16,6 +16,7 @@ The directory is deployed to Cloudflare Workers with 25 real company listings. S
 - Mediašped appears first in default matching results; explicit alphabetical sorting is preserved.
 - Service landing pages, including rail freight. Comparison has been removed.
 - Blog at `/blog`, with topic filters, three shipping guides, article pages, source links, related reading and a homepage preview. Articles use the custom domain for canonical and social metadata.
+- Labelled Mediašped featured placements, an enriched company profile and source-tagged quote handoffs to Mediašped's own form. Aggregate referral metrics and the remaining CRM attribution gap are described in `docs/mediasped-referrals.md`.
 - Browser-only admin catalog and company editor with draft validation, revision checks, and independent approved snapshots.
 - Sample company submission form saved locally in the browser; no messages are sent.
 

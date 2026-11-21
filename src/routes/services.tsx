@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { PublicLayout } from "../components/layout";
 import { ServiceIcon } from "../components/ui";
 import { services } from "../domain/company";
+import { FeaturedPartner } from "../components/featured-partner";
 export const Route = createFileRoute("/services")({
   head: () => pageHead('Freight Forwarding & Logistics Services in Slovenia', 'Explore freight forwarding, road transport, sea and air freight, customs clearance, and warehousing services from Slovenian providers in our directory preview.', '/services'),
   component: () => (
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/services")({
           ))}
         </div>
       </div>
+      <div className="wrap featured-partner-wrap"><FeaturedPartner source={{placement:"service",content:"index"}}/></div>
     </PublicLayout>
   ),
 });

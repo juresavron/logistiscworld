@@ -5,6 +5,7 @@ import harbourImage from "../assets/koper-harbour.jpg";
 import { blogPosts, formatBlogDate, readingMinutes, type BlogCategory, type BlogPost } from "../data/blog";
 import { emptySearch } from "../domain/search";
 import { siteOrigin } from "../domain/seo";
+import { FeaturedPartner } from "./featured-partner";
 
 function BlogArtwork({ post, eager = false }: { post: BlogPost; eager?: boolean }) {
   const Icon = post.artwork === "containers" ? Container : ClipboardList;
@@ -31,7 +32,7 @@ export function BlogListing() {
   return <>
     <section className="blog-intro"><div className="wrap"><span className="eyebrow">THE LOGISTICSWORLD BLOG</span><div className="blog-intro-row"><h1>A clearer view<br/>of your next shipment<span>.</span></h1><p>Practical guides for moving goods, choosing a partner and understanding the journey. From Slovenia to wherever business takes you.</p></div><a className="blog-jump" href="#latest-guides">Explore the guides <ArrowDown size={17}/></a></div></section>
     <section className="wrap blog-library" id="latest-guides" aria-labelledby="latest-guides-title"><div className="blog-library-heading"><h2 id="latest-guides-title">Notes for the journey</h2><span aria-live="polite">{posts.length} {posts.length === 1 ? "guide" : "guides"}</span></div><div className="blog-filters" role="group" aria-label="Filter guides by topic">{(["All", "Slovenia", "Ocean freight", "Planning"] as const).map(topic => <button key={topic} type="button" aria-pressed={category === topic} onClick={() => setCategory(topic)}>{topic === "All" ? "All guides" : topic}</button>)}</div><div className="blog-grid">{posts.map((post, index) => <BlogCard key={post.slug} post={post} featured={index === 0 && category === "All"}/>)}</div></section>
-    <DirectoryCallout/>
+    <div className="wrap featured-partner-wrap"><FeaturedPartner source={{placement:"blog",content:"index"}}/></div><DirectoryCallout/>
   </>;
 }
 
@@ -62,6 +63,6 @@ export function BlogArticle({ post }: { post: BlogPost }) {
     <article className="blog-article"><header className="wrap blog-article-header"><Link className="blog-back" to="/blog"><ArrowLeft size={16}/> All guides</Link><PostMeta post={post}/><h1>{post.title}</h1><p className="blog-standfirst">{post.description}</p><span className="blog-byline">By LogisticsWorld</span><BlogArtwork post={post} eager/></header>
       <div className="wrap blog-reading-layout"><aside className="blog-contents" aria-label="In this guide"><span className="eyebrow">IN THIS GUIDE</span><nav>{post.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>0{index + 1}</span>{section.title}</a>)}</nav><div className="blog-contents-note"><Ship size={22}/><p>Practical knowledge.<br/>Direct connections.</p></div></aside><div className="blog-prose"><div className="blog-takeaway"><span className="eyebrow">THE TAKEAWAY</span><p>{post.takeaway}</p></div>{post.sections.map(section => <section id={section.id} key={section.id}><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}{section.items && <ul>{section.items.map(item => <li key={item}>{item}</li>)}</ul>}</section>)}<section className="blog-sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Sources & further reading</h2><ul>{post.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} <ArrowUpRight size={14}/><span className="sr-only"> (opens in a new tab)</span></a></li>)}</ul></section></div></div>
     </article>
-    <section className="wrap blog-related" aria-labelledby="related-guides-title"><div className="blog-section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2 id="related-guides-title">More for the journey.</h2></div><Link className="blog-read-link" to="/blog">All guides <ArrowUpRight size={18}/></Link></div><div className="blog-grid">{related.map(article => <BlogCard key={article.slug} post={article}/>)}</div></section><DirectoryCallout/>
+    <div className="wrap featured-partner-wrap"><FeaturedPartner source={{placement:"blog",content:post.slug}}/></div><section className="wrap blog-related" aria-labelledby="related-guides-title"><div className="blog-section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2 id="related-guides-title">More for the journey.</h2></div><Link className="blog-read-link" to="/blog">All guides <ArrowUpRight size={18}/></Link></div><div className="blog-grid">{related.map(article => <BlogCard key={article.slug} post={article}/>)}</div></section><DirectoryCallout/>
   </>;
 }

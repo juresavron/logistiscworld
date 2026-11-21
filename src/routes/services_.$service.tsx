@@ -4,6 +4,7 @@ import { PublicLayout } from "../components/layout";
 import { Directory } from "../components/directory";
 import { services } from "../domain/company";
 import { searchSloveniaCompanies } from "../data/slovenia";
+import { FeaturedPartner } from "../components/featured-partner";
 export const Route = createFileRoute("/services_/$service")({
   loader: ({ params }) => {
     const service = services.find((s) => s.id === params.service);
@@ -26,6 +27,7 @@ function Page() {
   return (
     <PublicLayout>
       <Directory
+        referralSource={{placement:"service",content:service.id}}
         result={result}
         title={`${service.name} companies in Slovenia.`}
         subtitle={service.description}
@@ -36,6 +38,7 @@ function Page() {
           })
         }
       />
+      <div className="wrap featured-partner-wrap"><FeaturedPartner source={{placement:"service",content:service.id}}/></div>
     </PublicLayout>
   );
 }

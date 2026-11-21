@@ -39,13 +39,15 @@ export const Route = createFileRoute("/methodology")({
               company’s identity or website does not guarantee service quality.
             </p>
           </section>
-          <section>
+          <section id="featured-placements">
             <span className="step-number">03</span>
-            <h2>Paid placement stays visible.</h2>
+            <h2>Featured placement stays visible.</h2>
             <p>
-              Future sponsored placements will be labelled and separate from
-              organic results. Payment will not create a verification badge or
-              an editorial recommendation.
+              Mediašped is affiliated with the directory operator and receives
+              promotional placement, labelled “Featured partner”. Placement does
+              not represent an independent quality ranking or customer vote.
+              Company filters and alphabetical sorting still apply to featured listings.
+              Promotional quote links are marked as sponsored.
             </p>
           </section>
           <section>
@@ -56,6 +58,7 @@ export const Route = createFileRoute("/methodology")({
               not book shipments, calculate freight quotes, or act as an
               intermediary in this release.
             </p>
+            <p>Mediašped quote links open Mediašped’s own quotation form. They carry a source tag identifying the LogisticsWorld page or placement. We record aggregate outbound handoffs by source, without names, contact details, IP addresses, cookies or visitor identifiers in those analytics events. Handoffs are not confirmed enquiries or customer reviews.</p>
           </section>
         </div>
         <div className="notice-panel">

@@ -20,6 +20,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SubmitCompanyRouteImport } from './routes/submit-company'
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as CompaniesSlugRouteImport } from './routes/companies_.$slug'
+import { Route as GoMediaspedRouteImport } from './routes/go.mediasped'
 import { Route as LocationsCountryRouteImport } from './routes/locations_.$country'
 import { Route as ServicesServiceRouteImport } from './routes/services_.$service'
 import { Route as AdminCompaniesIdRouteImport } from './routes/admin_.companies.$id'
@@ -79,6 +80,11 @@ const CompaniesSlugRoute = CompaniesSlugRouteImport.update({
   path: '/companies/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GoMediaspedRoute = GoMediaspedRouteImport.update({
+  id: '/go/mediasped',
+  path: '/go/mediasped',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocationsCountryRoute = LocationsCountryRouteImport.update({
   id: '/locations_/$country',
   path: '/locations/$country',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/submit-company': typeof SubmitCompanyRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
+  '/go/mediasped': typeof GoMediaspedRoute
   '/locations/$country': typeof LocationsCountryRoute
   '/services/$service': typeof ServicesServiceRoute
   '/admin/companies/$id': typeof AdminCompaniesIdRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/submit-company': typeof SubmitCompanyRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
+  '/go/mediasped': typeof GoMediaspedRoute
   '/locations/$country': typeof LocationsCountryRoute
   '/services/$service': typeof ServicesServiceRoute
   '/admin/companies/$id': typeof AdminCompaniesIdRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/submit-company': typeof SubmitCompanyRoute
   '/blog_/$slug': typeof BlogSlugRoute
   '/companies_/$slug': typeof CompaniesSlugRoute
+  '/go/mediasped': typeof GoMediaspedRoute
   '/locations_/$country': typeof LocationsCountryRoute
   '/services_/$service': typeof ServicesServiceRoute
   '/admin_/companies/$id': typeof AdminCompaniesIdRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/submit-company'
     | '/blog/$slug'
     | '/companies/$slug'
+    | '/go/mediasped'
     | '/locations/$country'
     | '/services/$service'
     | '/admin/companies/$id'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/submit-company'
     | '/blog/$slug'
     | '/companies/$slug'
+    | '/go/mediasped'
     | '/locations/$country'
     | '/services/$service'
     | '/admin/companies/$id'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/submit-company'
     | '/blog_/$slug'
     | '/companies_/$slug'
+    | '/go/mediasped'
     | '/locations_/$country'
     | '/services_/$service'
     | '/admin_/companies/$id'
@@ -207,6 +219,7 @@ export interface RootRouteChildren {
   SubmitCompanyRoute: typeof SubmitCompanyRoute
   BlogSlugRoute: typeof BlogSlugRoute
   CompaniesSlugRoute: typeof CompaniesSlugRoute
+  GoMediaspedRoute: typeof GoMediaspedRoute
   LocationsCountryRoute: typeof LocationsCountryRoute
   ServicesServiceRoute: typeof ServicesServiceRoute
   AdminCompaniesIdRoute: typeof AdminCompaniesIdRoute
@@ -291,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompaniesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/go/mediasped': {
+      id: '/go/mediasped'
+      path: '/go/mediasped'
+      fullPath: '/go/mediasped'
+      preLoaderRoute: typeof GoMediaspedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/locations_/$country': {
       id: '/locations_/$country'
       path: '/locations/$country'
@@ -327,6 +347,7 @@ const rootRouteChildren: RootRouteChildren = {
   SubmitCompanyRoute: SubmitCompanyRoute,
   BlogSlugRoute: BlogSlugRoute,
   CompaniesSlugRoute: CompaniesSlugRoute,
+  GoMediaspedRoute: GoMediaspedRoute,
   LocationsCountryRoute: LocationsCountryRoute,
   ServicesServiceRoute: ServicesServiceRoute,
   AdminCompaniesIdRoute: AdminCompaniesIdRoute,

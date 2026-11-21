@@ -10,6 +10,7 @@ import stylesheet from "../styles.css?url";
 import countryStylesheet from "../country-site.css?url";
 import adminStylesheet from "../admin-site.css?url";
 import blogStylesheet from "../blog.css?url";
+import featuredStylesheet from "../featured-partner.css?url";
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -24,7 +25,7 @@ export const Route = createRootRoute({
       { name: "robots", content: "noindex, nofollow" },
       { name: "theme-color", content: "#252c2f" },
     ],
-    links: [{ rel: "stylesheet", href: stylesheet }, { rel: "stylesheet", href: countryStylesheet }, { rel: "stylesheet", href: adminStylesheet }, { rel: "stylesheet", href: blogStylesheet }],
+    links: [{ rel: "stylesheet", href: stylesheet }, { rel: "stylesheet", href: countryStylesheet }, { rel: "stylesheet", href: adminStylesheet }, { rel: "stylesheet", href: blogStylesheet }, { rel: "stylesheet", href: featuredStylesheet }],
   }),
   component: Root,
   notFoundComponent: () => (

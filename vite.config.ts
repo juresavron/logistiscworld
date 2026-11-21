@@ -13,4 +13,6 @@ export default defineConfig(({ mode }) => ({
     react(),
   ],
   server: { port: 4173, allowedHosts: ["terminal.local"] },
+  ssr: mode === "node-smoke" ? { external: ["cloudflare:workers"] } : undefined,
+  build: mode === "node-smoke" ? { rollupOptions: { external: ["cloudflare:workers"] } } : undefined,
 }));
