@@ -7,9 +7,10 @@
     "node": ">=22.12"
   },
   "scripts": {
+    "cf-typegen": "wrangler types",
     "dev": "vite dev --host 0.0.0.0",
     "build": "node scripts/clean-build.mjs && vite build",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npm run cf-typegen && tsc --noEmit",
     "test": "vitest run",
     "check": "npm run typecheck && npm test && npm run build",
     "smoke": "npm run build:node && node scripts/smoke.mjs",

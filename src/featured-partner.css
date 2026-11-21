@@ -1,0 +1,41 @@
+.featured-badge { display: inline-flex; align-items: center; min-height: 25px; padding: 4px 9px; border-radius: 3px; color: #675010; background: #fff2bd; font-size: 11px; line-height: 1.4; font-weight: 650; letter-spacing: .2px; }
+.record-name > .featured-badge { margin-bottom: 8px; }
+.country-site .freight-record--featured { border-color: #c7b77d; }
+.country-site .directory-results .freight-record--featured .record-bottom { flex-wrap: wrap; }
+.record-bottom .record-quote-link { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 46px; padding: 12px 16px; border-radius: 4px; background: #f5ce46; color: #252c2f; font-size: 14px; font-weight: 650; margin: 0; }
+.record-bottom .record-quote-link:hover { background: #ebc036; }
+.country-site .directory-results .record-bottom > .record-quote-link { margin: 0; background: #f5ce46; color: #252c2f; }
+.record-featured-note { display: block; flex-basis: 100%; font-size: 11px; line-height: 1.6; color: #66747b; }
+.record-featured-note a, .featured-disclosure a { text-decoration: underline; text-underline-offset: 3px; }
+.featured-partner { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: 35px; padding: 35px; background: #fff; border: 1px solid #d7c98f; border-top: 3px solid #e3bd3e; border-radius: 5px; }
+.featured-partner > div, .featured-partner-identity > div { min-width: 0; }
+.featured-partner-identity { display: flex; align-items: start; gap: 18px; }
+.featured-partner .company-logo { flex-shrink: 0; }
+.country-site .featured-partner h2 { font-size: 26px; letter-spacing: -.7px; line-height: 1.25; margin: 12px 0 8px; }
+.featured-partner-location { display: flex; align-items: center; gap: 5px; font-size: 13px; color: #5d7078; }
+.country-site .featured-partner h3 { font-size: 23px; letter-spacing: -.5px; margin: 0 0 12px; }
+.featured-partner-copy > p { color: #53636b; line-height: 1.8; font-size: 15px; margin: 0 0 20px; }
+.featured-partner-actions { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; }
+.featured-partner-actions .button { display: inline-flex; justify-content: center; gap: 14px; white-space: normal; text-align: center; }
+.featured-profile-link { min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
+.featured-partner-copy > .featured-disclosure { font-size: 11px; line-height: 1.7; margin: 18px 0 0; color: #69767c; }
+.featured-partner-wrap { margin-block: 0 55px; }
+.profile-heading > .featured-badge { margin-bottom: 12px; }
+.profile-featured-disclosure { font-size: 12px; line-height: 1.7; color: #65727a; margin-top: 15px; }
+.profile-featured-disclosure a { text-decoration: underline; text-underline-offset: 3px; }
+.contact-panel .company-contact-quote { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; background: #f5ce46; color: #252c2f; border-radius: 4px; padding: 13px 16px; font-size: 14px; font-weight: 650; line-height: 1.5; margin-bottom: 14px; }
+.contact-panel .company-contact-quote:hover { background: #ebc036; }
+.shipment-needs-grid { display: grid; gap: 15px; }
+.shipment-needs-grid article { padding: 22px; border: 1px solid #dce2e5; border-radius: 5px; background: #fff; }
+.country-site .shipment-needs-grid h3 { font-size: 19px; letter-spacing: -.4px; margin: 0 0 10px; }
+.shipment-needs-grid p { color: #53636b; font-size: 15px; line-height: 1.8; margin: 0 0 10px; }
+.shipment-quote-link { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 900px) { .featured-partner { grid-template-columns: 1fr; gap: 25px; } }
+@media (max-width: 600px) {
+  .featured-partner { padding: 24px; }
+  .featured-partner-identity { flex-direction: column; gap: 16px; }
+  .featured-partner-actions { flex-direction: column; align-items: stretch; }
+  .featured-partner-actions .button { font-size: 13px; }
+  .featured-profile-link { justify-content: center; }
+  .featured-partner-wrap { margin-bottom: 35px; }
+}

@@ -58,6 +58,7 @@ for (const [path, status, content] of cases) {
     assert.ok(html.includes('How to choose the best logistics company in Slovenia'), 'Buyer guidance is server rendered');
     assert.ok(html.includes('https://logisticsworld.eu/'), 'Canonical uses the custom domain');
     assert.ok(html.includes('A little clarity before you ship.'), 'Homepage includes latest guides');
+    assert.ok(html.includes('placement=homepage&amp;content=featured'), 'Homepage quotation link identifies the placement');
   }
   if (path === '/companies?office=SI') {
     assert.ok(html.includes('aria-controls="extra-filters"'), 'Additional filters have an accessible disclosure control');
@@ -70,7 +71,12 @@ for (const [path, status, content] of cases) {
       assert.ok(html.includes(`href="/blog/${slug}"`), 'Every published guide is linked from the blog');
     }
   }
+  if (path === '/services/customs') {
+    assert.ok(html.includes('placement=service&amp;content=customs'), 'Service-page quote links preserve their service source');
+    assert.ok(!html.includes('placement=directory&amp;content=listing'), 'Service result cards retain the service source');
+  }
   if (path.startsWith('/blog/') && status === 200) {
+    assert.ok(html.includes(`placement=blog&amp;content=${path.split('/').pop()}`), 'Article quote link identifies the originating article');
     assert.ok(html.includes(`rel="canonical" href="https://logisticsworld.eu${path}"`), 'Article has its own canonical URL');
     assert.ok(html.includes('property="og:type" content="article"'), 'Article social metadata');
     const json = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
@@ -85,6 +91,9 @@ for (const [path, status, content] of cases) {
     assert.ok(!html.includes('>Mediašped</a>'), 'Homepage preserves the company type and coverage filters');
   }
   if (path === '/companies/mediasped') {
+    assert.ok(html.includes('Featured partner'), 'Promotional company placement is labelled');
+    assert.ok(html.includes('Start with your shipment'), 'Mediašped profile helps visitors prepare an enquiry');
+    assert.ok(html.includes('/go/mediasped?placement=profile&amp;content=mediasped'), 'Profile has a source-tagged quotation link');
     assert.ok(html.includes('href="mailto:info@mediasped.com"'), 'Real email is actionable');
     assert.ok(html.includes('href="tel:+38641728712"'), 'Real phone is actionable');
     assert.ok(html.includes('Ferrarska ulica 30'), 'Office address is visible');
@@ -107,4 +116,11 @@ for (const [path, status, content] of cases) {
   }
   console.log(`PASS ${status} ${path}`);
 }
+const handoff = await server.fetch(new Request('http://localhost/go/mediasped?placement=service&content=sea'));
+assert.equal(handoff.status, 302, 'Quotation handoff is a server redirect');
+const quoteDestination = new URL(handoff.headers.get('location'));
+assert.equal(quoteDestination.origin + quoteDestination.pathname, 'https://mediasped.com/en/request-quote/');
+assert.equal(quoteDestination.searchParams.get('utm_content'), 'service:sea');
+assert.equal((await server.fetch(new Request('http://localhost/go/mediasped?placement=blog&content=invalid'))).status, 400);
+console.log('PASS: quotation handoff destination, attribution and invalid-source handling');
 console.log(`${cases.length} server-rendering smoke checks passed.`);

@@ -431,7 +431,7 @@ export const slovenianCompanies: Company[] = [
     "name": "Mediašped d.o.o.",
     "legalName": "Mediašped d.o.o.",
     "summary": "Freight forwarding from Koper, with sea, road, air and intermodal transport, customs clearance and warehousing.",
-    "description": "",
+    "description": "Mediašped is a freight forwarder based in Koper, Slovenia. Its published services include sea and container freight, road, air, rail and intermodal transport, customs clearance and warehousing. Contact the team with your origin, destination, cargo specifications and timing to discuss a shipment-specific proposal. The company must confirm route availability, equipment, schedule and quotation details for each enquiry.",
     "types": [
       "Freight forwarder"
     ],
@@ -472,7 +472,7 @@ export const slovenianCompanies: Company[] = [
       "Rail and intermodal transport",
       "Customs clearance and warehousing"
     ],
-    "listingNote": "Contact details and service categories were checked against Mediašped’s official website. Default placement is selected by the directory owner and is not an independent quality ranking.",
+    "listingNote": "Contact details and service categories were checked against Mediašped’s official website. Mediašped is affiliated with the directory operator and receives promotional placement, labelled Featured partner. Placement is not an independent quality ranking or customer vote. Shipment examples are enquiry starting points, not confirmed service availability.",
     "additionalSources": [],
     "featured": true
   },

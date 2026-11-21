@@ -5,6 +5,7 @@ import { countryName, serviceName, safeContactHref, type Company } from "../doma
 import { Monogram, ServiceIcon } from "./ui";
 import { companies } from "../data/slovenia";
 import { CompanyCard } from "./company-card";
+import { FeaturedBadge, MediaSpedQuoteLink, MediaSpedShipmentNeeds } from "./featured-partner";
 
 function ContactLink({ channel, value, label, primary = false }: { channel: "website" | "email" | "phone"; value?: string; label?: string; primary?: boolean }) {
   const href = safeContactHref(channel, value ?? "");
@@ -16,6 +17,7 @@ export function ContactPanel({ company }: { company: Company }) {
     <h2>Contact company</h2>
     {company.isSample ? <p>This is a fictional sample. Contact details are not available.</p> : <>
       <p>Speak directly with {company.name} about your shipment.</p>
+      {company.slug === "mediasped" && <MediaSpedQuoteLink className="company-contact-quote" source={{placement:"profile",content:"mediasped"}}>Request a quote</MediaSpedQuoteLink>}
       <ContactLink channel="website" value={company.website} label="Visit website" primary/>
       <ContactLink channel="email" value={company.email}/>
       <ContactLink channel="phone" value={company.phone}/>
@@ -35,6 +37,7 @@ export function Profile({ company: c }: { company: Company }) {
         <div className="profile-identity">
           <Monogram company={c} large/>
           <div className="profile-heading">
+            {c.featured && <FeaturedBadge/>}
             <span className="eyebrow">{c.types.join(" · ")}</span>
             <h1>{c.name}</h1>
             <div className="profile-meta">
@@ -42,6 +45,7 @@ export function Profile({ company: c }: { company: Company }) {
               {c.isSample && <span className="sample-label">Sample company</span>}
             </div>
             <p className="profile-summary">{c.summary}</p>
+            {c.featured && <div className="profile-featured-disclosure">Promotional placement. Mediašped is affiliated with the directory operator. <Link to="/methodology" hash="featured-placements">About featured placements</Link></div>}
           </div>
         </div>
       </div>
@@ -49,6 +53,7 @@ export function Profile({ company: c }: { company: Company }) {
     <div className="wrap profile-layout">
       <ContactPanel company={c}/>
       <div className="profile-body">
+        {c.slug === "mediasped" && <MediaSpedShipmentNeeds/>}
         <section id="services" className="profile-section profile-services">
           <h2>Services & coverage</h2>
           <p className="section-caption">Confirm availability and destinations with the company.</p>
