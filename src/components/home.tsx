@@ -2,6 +2,7 @@ import { searchSloveniaCompanies } from "../data/slovenia";
 import { type DirectorySearch } from "../domain/search";
 import { Directory } from "./directory";
 import { BuyerGuide } from "./buyer-guide";
+import { LatestGuides } from "./blog";
 
 export function Home({ search, onChange }: {
   search: DirectorySearch;
@@ -15,5 +16,6 @@ export function Home({ search, onChange }: {
       subtitle="Local freight forwarders and logistics providers. Find the right company and contact them directly."
     />
     <BuyerGuide/>
+    <LatestGuides/>
   </>;
 }

@@ -11,12 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as CompaniesRouteImport } from './routes/companies'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SubmitCompanyRouteImport } from './routes/submit-company'
+import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as CompaniesSlugRouteImport } from './routes/companies_.$slug'
 import { Route as LocationsCountryRouteImport } from './routes/locations_.$country'
 import { Route as ServicesServiceRouteImport } from './routes/services_.$service'
@@ -30,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompaniesRoute = CompaniesRouteImport.update({
@@ -62,6 +69,11 @@ const SubmitCompanyRoute = SubmitCompanyRouteImport.update({
   path: '/submit-company',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog_/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompaniesSlugRoute = CompaniesSlugRouteImport.update({
   id: '/companies_/$slug',
   path: '/companies/$slug',
@@ -86,12 +98,14 @@ const AdminCompaniesIdRoute = AdminCompaniesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/blog': typeof BlogRoute
   '/companies': typeof CompaniesRoute
   '/compare': typeof CompareRoute
   '/locations': typeof LocationsRoute
   '/methodology': typeof MethodologyRoute
   '/services': typeof ServicesRoute
   '/submit-company': typeof SubmitCompanyRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/locations/$country': typeof LocationsCountryRoute
   '/services/$service': typeof ServicesServiceRoute
@@ -100,12 +114,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/blog': typeof BlogRoute
   '/companies': typeof CompaniesRoute
   '/compare': typeof CompareRoute
   '/locations': typeof LocationsRoute
   '/methodology': typeof MethodologyRoute
   '/services': typeof ServicesRoute
   '/submit-company': typeof SubmitCompanyRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/locations/$country': typeof LocationsCountryRoute
   '/services/$service': typeof ServicesServiceRoute
@@ -115,12 +131,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/blog': typeof BlogRoute
   '/companies': typeof CompaniesRoute
   '/compare': typeof CompareRoute
   '/locations': typeof LocationsRoute
   '/methodology': typeof MethodologyRoute
   '/services': typeof ServicesRoute
   '/submit-company': typeof SubmitCompanyRoute
+  '/blog_/$slug': typeof BlogSlugRoute
   '/companies_/$slug': typeof CompaniesSlugRoute
   '/locations_/$country': typeof LocationsCountryRoute
   '/services_/$service': typeof ServicesServiceRoute
@@ -131,12 +149,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/blog'
     | '/companies'
     | '/compare'
     | '/locations'
     | '/methodology'
     | '/services'
     | '/submit-company'
+    | '/blog/$slug'
     | '/companies/$slug'
     | '/locations/$country'
     | '/services/$service'
@@ -145,12 +165,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/blog'
     | '/companies'
     | '/compare'
     | '/locations'
     | '/methodology'
     | '/services'
     | '/submit-company'
+    | '/blog/$slug'
     | '/companies/$slug'
     | '/locations/$country'
     | '/services/$service'
@@ -159,12 +181,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/blog'
     | '/companies'
     | '/compare'
     | '/locations'
     | '/methodology'
     | '/services'
     | '/submit-company'
+    | '/blog_/$slug'
     | '/companies_/$slug'
     | '/locations_/$country'
     | '/services_/$service'
@@ -174,12 +198,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  BlogRoute: typeof BlogRoute
   CompaniesRoute: typeof CompaniesRoute
   CompareRoute: typeof CompareRoute
   LocationsRoute: typeof LocationsRoute
   MethodologyRoute: typeof MethodologyRoute
   ServicesRoute: typeof ServicesRoute
   SubmitCompanyRoute: typeof SubmitCompanyRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   CompaniesSlugRoute: typeof CompaniesSlugRoute
   LocationsCountryRoute: typeof LocationsCountryRoute
   ServicesServiceRoute: typeof ServicesServiceRoute
@@ -200,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/companies': {
@@ -244,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SubmitCompanyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog_/$slug': {
+      id: '/blog_/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/companies_/$slug': {
       id: '/companies_/$slug'
       path: '/companies/$slug'
@@ -278,12 +318,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  BlogRoute: BlogRoute,
   CompaniesRoute: CompaniesRoute,
   CompareRoute: CompareRoute,
   LocationsRoute: LocationsRoute,
   MethodologyRoute: MethodologyRoute,
   ServicesRoute: ServicesRoute,
   SubmitCompanyRoute: SubmitCompanyRoute,
+  BlogSlugRoute: BlogSlugRoute,
   CompaniesSlugRoute: CompaniesSlugRoute,
   LocationsCountryRoute: LocationsCountryRoute,
   ServicesServiceRoute: ServicesServiceRoute,
