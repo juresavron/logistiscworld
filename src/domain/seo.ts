@@ -1,5 +1,4 @@
-// Preview origin; change this once a permanent domain is connected.
-export const siteOrigin = "https://logisticsworld.worldfans.workers.dev";
+export const siteOrigin = "https://logisticsworld.eu";
 
 export function pageHead(title: string, description: string, path: string) {
   const url = new URL(path, siteOrigin).href;

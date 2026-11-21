@@ -17,6 +17,11 @@ const cases = [
   ['/compare?company=sample-01,sample-02', 200, 'Freight forwarders'],
   ['/services', 200, 'Road transport'],
   ['/services/customs', 200, 'Customs clearance'],
+  ['/blog', 200, 'Notes for the journey'],
+  ['/blog/shipping-through-koper', 200, 'Start with the final destination'],
+  ['/blog/fcl-or-lcl-container-shipping', 200, 'Two ways to use a container'],
+  ['/blog/freight-quote-checklist', 200, 'Use one checklist for every provider'],
+  ['/blog/missing-guide', 404, 'This guide isn’t here'],
   ['/locations', 200, 'Slovenia'],
   ['/locations/slovenia', 200, 'Slovenia'],
   ['/admin', 200, 'Company catalog'],
@@ -51,12 +56,30 @@ for (const [path, status, content] of cases) {
     assert.ok(/<h1>Best logistics companies <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
     assert.ok(html.indexOf('href="/companies/mediasped"') < html.indexOf('href="/companies/abc-logistika"'), 'Mediašped is the first default result');
     assert.ok(html.includes('How to choose the best logistics company in Slovenia'), 'Buyer guidance is server rendered');
-    assert.ok(html.includes('https://logisticsworld.worldfans.workers.dev/'), 'Canonical uses deployed origin');
+    assert.ok(html.includes('https://logisticsworld.eu/'), 'Canonical uses the custom domain');
+    assert.ok(html.includes('A little clarity before you ship.'), 'Homepage includes latest guides');
   }
   if (path === '/companies?office=SI') {
     assert.ok(html.includes('aria-controls="extra-filters"'), 'Additional filters have an accessible disclosure control');
     assert.ok(!html.includes('Office country'), 'No unnecessary office-country selector');
     assert.ok(html.includes('View company'), 'Each result has an explicit profile action');
+  }
+  if (path === '/blog') {
+    assert.ok(html.includes('aria-label="Filter guides by topic"'), 'Blog filters have a group label');
+    for (const slug of ['shipping-through-koper', 'fcl-or-lcl-container-shipping', 'freight-quote-checklist']) {
+      assert.ok(html.includes(`href="/blog/${slug}"`), 'Every published guide is linked from the blog');
+    }
+  }
+  if (path.startsWith('/blog/') && status === 200) {
+    assert.ok(html.includes(`rel="canonical" href="https://logisticsworld.eu${path}"`), 'Article has its own canonical URL');
+    assert.ok(html.includes('property="og:type" content="article"'), 'Article social metadata');
+    const json = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
+    assert.ok(json, 'Article structured data is server rendered');
+    const article = JSON.parse(json[1]);
+    assert.equal(article['@type'], 'BlogPosting');
+    assert.equal(article.mainEntityOfPage, `https://logisticsworld.eu${path}`);
+    assert.ok(html.includes('Sources &amp; further reading'), 'Article includes source references');
+    assert.ok(html.includes('aria-label="In this guide"'), 'Article includes a contents navigation');
   }
   if (path.startsWith('/?coverage=')) {
     assert.ok(!html.includes('>Mediašped</a>'), 'Homepage preserves the company type and coverage filters');

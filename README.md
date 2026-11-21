@@ -6,6 +6,8 @@ A Slovenia-focused directory for finding and directly contacting logistics compa
 
 Live demo: https://logisticsworld.worldfans.workers.dev/
 
+Custom domain: https://logisticsworld.eu/ (including `www`).
+
 The directory is deployed to Cloudflare Workers with 25 real company listings. Source notes distinguish owner-supplied details from official website checks (12 October 2026). No database or administrator authentication has been connected.
 
 - Slovenia-only homepage with service discovery.
@@ -13,6 +15,7 @@ The directory is deployed to Cloudflare Workers with 25 real company listings. S
 - Company profiles with addresses, branch contacts, source notes and direct website/email/phone links.
 - Mediašped appears first in default matching results; explicit alphabetical sorting is preserved.
 - Service landing pages, including rail freight. Comparison has been removed.
+- Blog at `/blog`, with topic filters, three shipping guides, article pages, source links, related reading and a homepage preview. Articles use the custom domain for canonical and social metadata.
 - Browser-only admin catalog and company editor with draft validation, revision checks, and independent approved snapshots.
 - Sample company submission form saved locally in the browser; no messages are sent.
 
@@ -57,4 +60,10 @@ The original `docs/wireframes.html` is a superseded planning artifact. The appli
 
 Connect an independent Supabase project with migrations, administrator authentication and access rules, then replace the static catalog lookup with database queries. Complete browser QA and verify the Cloudflare deployment on its live URL. The demo stays `noindex` until real content and publication controls are ready.
 
-English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Brand/domain and commercial pricing remain open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.
+English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Commercial pricing remains open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.
+
+## Blog content
+
+Published articles live in `src/data/blog.ts`, newest first. Add a `BlogPost` with a unique URL slug, summary, topic, publication date, takeaway, sections with unique anchor IDs, and primary-source links. Article pages, the blog listing, related reading and homepage previews use this catalog. New content is published with an application deployment; the browser-only company editor does not manage articles.
+
+The domain is `logisticsworld.eu`. Search indexing remains disabled while the wider directory is in preview.

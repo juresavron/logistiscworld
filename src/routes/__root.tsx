@@ -9,6 +9,7 @@ import {
 import stylesheet from "../styles.css?url";
 import countryStylesheet from "../country-site.css?url";
 import adminStylesheet from "../admin-site.css?url";
+import blogStylesheet from "../blog.css?url";
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -23,7 +24,7 @@ export const Route = createRootRoute({
       { name: "robots", content: "noindex, nofollow" },
       { name: "theme-color", content: "#252c2f" },
     ],
-    links: [{ rel: "stylesheet", href: stylesheet }, { rel: "stylesheet", href: countryStylesheet }, { rel: "stylesheet", href: adminStylesheet }],
+    links: [{ rel: "stylesheet", href: stylesheet }, { rel: "stylesheet", href: countryStylesheet }, { rel: "stylesheet", href: adminStylesheet }, { rel: "stylesheet", href: blogStylesheet }],
   }),
   component: Root,
   notFoundComponent: () => (
