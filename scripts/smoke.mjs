@@ -57,6 +57,7 @@ for (const [path, status, content] of cases) {
   assert.equal(response.status, status, `${path}: HTTP status`);
   assert.ok(html.includes(content), `${path}: expected content ${content}`);
   assert.ok(!html.includes('We couldn’t load this page'), `${path}: no error boundary`);
+  assert.ok(!html.includes('href="/?office='), `${path}: home links omit the market default`);
   if (path === '/') {
     assert.ok(html.includes('<title>Freight Forwarders &amp; Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Homepage search title');
     assert.ok(/<h1>Freight forwarders and logistics companies <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
