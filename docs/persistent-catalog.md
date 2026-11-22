@@ -1,6 +1,6 @@
 # Persistent company catalog and administrator access
 
-This release replaces the browser-only editor with authenticated server administration. It adds the application code, database baseline, and a seed for the 25 sourced launch listings. The user provisioned the independent Logisticsworld Supabase project `iaescoqdabfzhzslcepr` in Ireland. Both catalog migrations and the 25-company seed have been applied. Runtime activation and the first administrator account are being completed.
+This release replaces the browser-only editor with authenticated server administration. It adds the application code, database baseline, and a seed for the 25 sourced launch listings. The user provisioned the independent Logisticsworld Supabase project `iaescoqdabfzhzslcepr` in Ireland. Both catalog migrations and the 25-company seed have been applied. The public site is deployed with its database connection. Live directory search, company profiles, the blog referral link and the protected administrator sign-in page have been verified. The first administrator Auth account and membership still need provisioning.
 
 ## Behavior
 
@@ -44,3 +44,17 @@ npm run deploy:check
 ```
 
 `test:database` applies the real migration and seed in a disposable PostgreSQL WASM instance. It checks public/private access, editor and administrator privileges, concurrency, publication validation, service-specific search, archival and revocation. `smoke:database` checks the built server through an emulated Supabase HTTP boundary backed by the same schema; it does not claim to validate the hosted Supabase service. Do not use a production database for these checks.
+
+## Verified deployment — 22 November 2026
+
+- Public URL: https://logisticsworld.eu/
+- Supabase project: `iaescoqdabfzhzslcepr`, organization Logisticsworld, Ireland.
+- Applied migration versions: `20261122213700` and `20261122214042`. Source filenames match the server's recorded history; their SQL is unchanged from the tested baseline and grant correction.
+- Published company count: 25. Live anonymous search and private-access denial checks passed.
+- Application source: `d6a0080ddec970780079d2c8408a5404f278c46d` (PR #3), tree `b3e8b3a0d5f6c7f8b4eded8cb3c01de9807fdbfd`.
+- Cloudflare deployment: `69b04fcb-6549-4378-88e8-f4c1ecb3af7c`; Worker version `59708d7b-358f-445d-bfbd-f8fa0b2d2e53`, serving 100% of traffic.
+- Both database runtime settings and the existing referral analytics binding are present. No elevated database key is used.
+- Local validation passed: 32 unit tests, 37 PostgreSQL assertions, 33 rendered routes, compiled-server auth/publication checks and the Workers deployment/package checks. Hosted CI did not start; no check or branch protection was disabled.
+- Security advisors report no warnings or errors. Two informational notices identify private tables with RLS and no direct-access policies; this intentional default-deny boundary was verified with actual anonymous and unassigned authenticated roles.
+
+Administrator activation is intentionally incomplete until the owner creates their Auth account with their own password and its exact Auth user ID is assigned an administrator membership. No invitation emails have been sent. The public catalog is live, and Google indexing remains disabled while submission handling and the broader launch work remain pending.

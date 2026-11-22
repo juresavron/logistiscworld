@@ -8,7 +8,7 @@ Live demo: https://logisticsworld.worldfans.workers.dev/
 
 Custom domain: https://logisticsworld.eu/ (including `www`).
 
-The directory is deployed to Cloudflare Workers with 25 real company listings. Source notes distinguish owner-supplied details from official website checks (12 October 2026). The persistent catalog and authenticated administration are implemented, and the independent Supabase project has been initialized. Without its runtime settings, this deployment serves the sourced static preview and administration stays locked. See `docs/persistent-catalog.md`.
+The directory is deployed to Cloudflare Workers with 25 real company listings. Source notes distinguish owner-supplied details from official website checks (12 October 2026). The independent Supabase project is initialized and connected to the live public catalog. The administrator sign-in page is protected; the first administrator Auth account and membership remain to be created. Without database runtime settings, the application serves the sourced static preview and administration stays locked. See `docs/persistent-catalog.md`.
 
 - Slovenia-only homepage with service discovery.
 - Searchable directory with URL-based filters, sorting, and pagination.
