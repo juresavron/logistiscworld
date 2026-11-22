@@ -3,6 +3,7 @@ import { serviceIds } from "./company";
 
 const sources = {
   profile: ["mediasped"], directory: ["listing"], homepage: ["featured"],
+  location: ["koper", "ljubljana", "customs-koper"],
   blog: ["index", ...blogPosts.map(post => post.slug)], service: ["index", ...serviceIds],
   route: ["sea-koper", "inland-slovenia", "europe-road"], verification: ["qa"],
 } as const;

@@ -13,9 +13,11 @@ import blogStylesheet from "../blog.css?url";
 import featuredStylesheet from "../featured-partner.css?url";
 import { getCompany } from "../server/catalog";
 import { FeaturedPartnerContext } from "../components/featured-partner";
+import { getSeoSettings } from "../server/seo";
+import { jsonLd, robotsDirective, siteOrigin } from "../domain/seo";
 export const Route = createRootRoute({
-  loader: () => getCompany({ data: "mediasped" }),
-  head: () => ({
+  loader: async () => { const [partner, settings] = await Promise.all([getCompany({ data: "mediasped" }), getSeoSettings()]); return { partner, ...settings }; },
+  head: ({ loaderData, matches }) => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -25,7 +27,7 @@ export const Route = createRootRoute({
         content:
           "Find local freight forwarders and logistics providers in Slovenia. Browse services, coverage, and company details.",
       },
-      { name: "robots", content: "noindex, nofollow" },
+      { name: "robots", content: robotsDirective(loaderData?.indexingEnabled ?? false, matches.at(-1)?.pathname ?? "/", matches.at(-1)?.search ?? {}, matches.every(match => match.status === "success")) },
       { name: "theme-color", content: "#252c2f" },
     ],
     links: [{ rel: "stylesheet", href: stylesheet }, { rel: "stylesheet", href: countryStylesheet }, { rel: "stylesheet", href: adminStylesheet }, { rel: "stylesheet", href: blogStylesheet }, { rel: "stylesheet", href: featuredStylesheet }],
@@ -55,11 +57,12 @@ export const Route = createRootRoute({
   ),
 });
 function Root() {
-  const partner = Route.useLoaderData();
+  const { partner } = Route.useLoaderData();
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd({ "@context": "https://schema.org", "@graph": [{ "@type": "Organization", "@id": `${siteOrigin}/#organization`, name: "LogisticsWorld", url: siteOrigin }, { "@type": "WebSite", "@id": `${siteOrigin}/#website`, name: "LogisticsWorld", url: siteOrigin, inLanguage: "en", publisher: { "@id": `${siteOrigin}/#organization` } }] }) }}/>
       </head>
       <body>
         <a className="skip-link" href="#main-content">

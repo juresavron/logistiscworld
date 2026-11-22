@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import server from '../dist/server/server.js';
 
 const cases = [
-  ['/', 200, 'Best logistics companies'],
+  ['/', 200, 'Freight forwarders and logistics companies'],
   ['/?q=zzzznonexistent', 200, 'No companies match'],
   ['/?q=Koper', 200, 'Mediašped'],
   ['/?services=customs', 200, 'Customs clearance'],
@@ -17,10 +17,15 @@ const cases = [
   ['/compare?company=sample-01,sample-02', 200, 'Freight forwarders'],
   ['/services', 200, 'Road transport'],
   ['/services/customs', 200, 'Customs clearance'],
+  ['/services/sea', 200, 'Sea freight through Koper'],
+  ['/services/customs/koper', 200, 'Customs clearance in Koper'],
+  ['/locations/koper', 200, 'Freight forwarders in Koper'],
+  ['/locations/ljubljana', 200, 'Freight forwarders in Ljubljana'],
   ['/blog', 200, 'Notes for the journey'],
   ['/blog/shipping-through-koper', 200, 'Start with the final destination'],
   ['/blog/fcl-or-lcl-container-shipping', 200, 'Two ways to use a container'],
   ['/blog/freight-quote-checklist', 200, 'Use one checklist for every provider'],
+  ['/blog/container-shipping-china-to-koper', 200, 'What should a China-to-Koper quotation include?'],
   ['/blog/missing-guide', 404, 'This guide isn’t here'],
   ['/locations', 200, 'Slovenia'],
   ['/locations/slovenia', 200, 'Slovenia'],
@@ -53,8 +58,9 @@ for (const [path, status, content] of cases) {
   assert.ok(html.includes(content), `${path}: expected content ${content}`);
   assert.ok(!html.includes('We couldn’t load this page'), `${path}: no error boundary`);
   if (path === '/') {
-    assert.ok(html.includes('<title>Best Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Homepage search title');
-    assert.ok(/<h1>Best logistics companies <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
+    assert.ok(html.includes('<title>Freight Forwarders &amp; Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Homepage search title');
+    assert.ok(/<h1>Freight forwarders and logistics companies <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
+    assert.ok(!html.includes('href="/?q='),'Navigation does not serialize empty search defaults');
     assert.ok(html.indexOf('href="/companies/mediasped"') < html.indexOf('href="/companies/abc-logistika"'), 'Mediašped is the first default result');
     assert.ok(html.includes('How to choose the best logistics company in Slovenia'), 'Buyer guidance is server rendered');
     assert.ok(html.includes('https://logisticsworld.eu/'), 'Canonical uses the custom domain');
@@ -80,9 +86,9 @@ for (const [path, status, content] of cases) {
     assert.ok(html.includes(`placement=blog&amp;content=${path.split('/').pop()}`), 'Article quote link identifies the originating article');
     assert.ok(html.includes(`rel="canonical" href="https://logisticsworld.eu${path}"`), 'Article has its own canonical URL');
     assert.ok(html.includes('property="og:type" content="article"'), 'Article social metadata');
-    const json = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s);
-    assert.ok(json, 'Article structured data is server rendered');
-    const article = JSON.parse(json[1]);
+    const schemas = [...html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)].map(match=>JSON.parse(match[1]));
+    const article = schemas.find(schema=>schema['@type']==='BlogPosting');
+    assert.ok(article, 'Article structured data is server rendered');
     assert.equal(article['@type'], 'BlogPosting');
     assert.equal(article.mainEntityOfPage, `https://logisticsworld.eu${path}`);
     assert.ok(html.includes('Sources &amp; further reading'), 'Article includes source references');
@@ -102,7 +108,7 @@ for (const [path, status, content] of cases) {
     assert.ok(html.includes('company-logo--profile'), 'Profile uses the larger logo frame');
     assert.ok(!html.includes('Sample company'), 'Real profile is not labelled fictional');
   }
-  if (path === '/locations/slovenia' || path === '/locations') {
+  if (path === '/locations/slovenia') {
     assert.equal(url.pathname, '/companies', 'Old country navigation redirects to the Slovenian directory');
   }
   if (path.startsWith('/admin')) {
@@ -117,7 +123,7 @@ for (const [path, status, content] of cases) {
     assert.ok(!html.includes('>Countries</a>'), `${path}: no country browsing in public navigation`);
   }
   if (status === 200) {
-    assert.ok(html.includes('content="noindex, nofollow"'), `${path}: working preview remains excluded from indexing`);
+    assert.ok(html.includes('content="noindex, follow"'), `${path}: working preview remains excluded from indexing`);
     assert.equal((html.match(/<title>/g) || []).length, 1, `${path}: one resolved title`);
   }
   console.log(`PASS ${status} ${path}`);

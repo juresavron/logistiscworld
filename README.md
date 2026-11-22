@@ -15,7 +15,8 @@ The directory is deployed to Cloudflare Workers with 25 real company listings. S
 - Company profiles with addresses, branch contacts, source notes and direct website/email/phone links.
 - Mediašped appears first in default matching results; explicit alphabetical sorting is preserved.
 - Service landing pages, including rail freight. Comparison has been removed.
-- Blog at `/blog`, with topic filters, three shipping guides, article pages, source links, related reading and a homepage preview. Articles use the custom domain for canonical and social metadata.
+- Blog at `/blog`, with topic filters, four shipping guides, article pages, source links, related reading and a homepage preview. Articles use the custom domain for canonical and social metadata.
+- Search landing pages for Koper, Ljubljana and customs clearance in Koper, local sea-freight guidance, clean directory URLs and a publication-backed XML sitemap. Public indexing is limited to the production domain; previews and private/filter routes stay noindex. See `docs/seo-strategy.md`.
 - Labelled Mediašped featured placements, an enriched company profile and source-tagged quote handoffs to Mediašped's own form. Aggregate referral metrics and the remaining CRM attribution gap are described in `docs/mediasped-referrals.md`.
 - Authenticated shared catalog and company editor, with private drafts, administrator publication, revision checks and archival. Activation uses the independent Logisticsworld project.
 - Private company submissions with reference receipts, duplicate-safe retries, database quotas and an authenticated review inbox at `/admin/submissions`. Review status never publishes a company; no messages are sent.
@@ -59,7 +60,7 @@ The original `docs/wireframes.html` is a superseded planning artifact. The appli
 
 ## Next milestone
 
-The independent Supabase project and 25-company catalog are initialized. Private company intake and its review inbox are implemented; see [company submissions](docs/company-submissions.md). Complete the first administrator account and verify the hosted editing and review flows. The code and activation steps are in [persistent catalog setup](docs/persistent-catalog.md). Then connect Mediašped enquiries to SavSale and complete the indexing launch. The site stays `noindex` until those publication controls are ready.
+The independent Supabase project and 25-company catalog are initialized. Private company intake and its review inbox are implemented; see [company submissions](docs/company-submissions.md). Complete the first administrator account and verify hosted editing/review. The public SEO release enables indexable canonical production pages and a live sitemap; see [SEO launch controls](docs/seo-strategy.md). Google Search Console verification/submission and Mediašped-to-SavSale conversion attribution remain separate work.
 
 English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Commercial pricing remains open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.
 
@@ -67,4 +68,4 @@ English, a single domain, administrator-managed listings, no visitor login, and 
 
 Published articles live in `src/data/blog.ts`, newest first. Add a `BlogPost` with a unique URL slug, summary, topic, publication date, takeaway, sections with unique anchor IDs, and primary-source links. Article pages, the blog listing, related reading and homepage previews use this catalog. New content is published with an application deployment; the company editor does not manage articles.
 
-The domain is `logisticsworld.eu`. Search indexing remains disabled while the wider directory is in preview.
+The domain is `logisticsworld.eu`. Indexing is enabled only for approved public production routes. Admin, submissions, filtered search and preview hosts remain excluded.

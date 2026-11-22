@@ -1,0 +1,2 @@
+import { createFileRoute } from "@tanstack/react-router";
+export const Route = createFileRoute("/sitemap.xml")({ server: { handlers: { GET: async ({ request }) => (await import("../server/seo-handlers.server")).sitemapResponse(request), HEAD: async ({ request }) => { const response = await (await import("../server/seo-handlers.server")).sitemapResponse(request); return new Response(null, { status: response.status, headers: response.headers }); } } } });

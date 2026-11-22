@@ -29,7 +29,7 @@ The current directory is small. Filtering, counting, ordering and pagination run
 6. Rebuild and deploy the exact reviewed source. When deploying through the alternative module API, preserve runtime bindings and secrets; do not upload an older configuration that drops these settings.
 7. Verify sign-in, a draft save, publication, a stale concurrent save and archival on the real database. Confirm anonymous reads cannot access drafts or revisions, check all public routes after archival, and run Supabase security advisors. This live verification is required before calling database activation complete.
 
-No new Auth emails or customer enquiries are sent by this release. The database has been initialized with sourced company records. Google indexing remains disabled. Private company submissions and an authenticated review inbox are now implemented in the subsequent [company submissions release](company-submissions.md). Mediašped/SavSale conversion attribution and indexing remain subsequent work.
+No new Auth emails or customer enquiries are sent by the catalog release. The database has been initialized with sourced company records. Private submissions are implemented in the subsequent [company submissions release](company-submissions.md). The later [SEO release](seo-strategy.md) enables indexing on public production pages and serves the sitemap; private routes remain noindex. Mediašped/SavSale conversion attribution remains separate work.
 
 ## Validation
 
@@ -57,4 +57,4 @@ npm run deploy:check
 - Local validation passed: 32 unit tests, 37 PostgreSQL assertions, 33 rendered routes, compiled-server auth/publication checks and the Workers deployment/package checks. Hosted CI did not start; no check or branch protection was disabled.
 - Security advisors report no warnings or errors. Two informational notices identify private tables with RLS and no direct-access policies; this intentional default-deny boundary was verified with actual anonymous and unassigned authenticated roles.
 
-Administrator activation is intentionally incomplete until the owner creates their Auth account with their own password and its exact Auth user ID is assigned an administrator membership. No invitation emails have been sent. The public catalog is live, and Google indexing remains disabled while submission handling and the broader launch work remain pending.
+Administrator activation is incomplete until the owner creates their Auth account with their own password and its exact Auth user ID is assigned an administrator membership. No invitation emails have been sent. The public catalog and private submission handling are live. Current public indexing controls are documented in the subsequent SEO release; this historical catalog deployment did not enable indexing itself.

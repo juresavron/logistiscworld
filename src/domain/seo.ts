@@ -17,6 +17,20 @@ export function pageHead(title: string, description: string, path: string) {
   };
 }
 
-export const homeTitle = "Best Logistics Companies in Slovenia";
+export const homeTitle = "Freight Forwarders & Logistics Companies in Slovenia";
 export const homeDescription =
-  "Find the best logistics companies in Slovenia for your shipment. Compare freight forwarding, transport, customs and warehousing. Explore our directory preview.";
+  "Find freight forwarders and logistics companies in Slovenia. Browse Koper and Ljubljana offices, sea freight, customs and transport services, with direct contacts.";
+
+export function indexablePath(path: string) {
+  return ["/", "/companies", "/services", "/locations", "/methodology", "/blog", "/locations/koper", "/locations/ljubljana", "/services/customs/koper"].includes(path)
+    || /^\/(companies|blog)\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(path)
+    || /^\/services\/(road|sea|air|customs|warehouse|forwarding|rail)$/.test(path);
+}
+export function robotsDirective(enabled: boolean, path: string, search: Record<string, unknown>, successful = true) {
+  const filtered = Boolean(search.q || search.city || search.coverage || search.type
+    || (Array.isArray(search.services) && search.services.length) || (Array.isArray(search.capabilities) && search.capabilities.length)
+    || (search.page && Number(search.page) !== 1) || (search.sort && search.sort !== "relevance"));
+  return enabled && successful && indexablePath(path) && !filtered ? "index, follow" : "noindex, follow";
+}
+export function jsonLd(value: unknown) { return JSON.stringify(value).replace(/</g, "\\u003c"); }
+export function xmlEscape(value: string) { return value.replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character]!); }

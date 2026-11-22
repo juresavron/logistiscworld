@@ -54,7 +54,7 @@ const metadata = {
   compatibility_flags:config.compatibility_flags,
   observability:config.observability,
   keep_bindings:['plain_text', 'secret_text'],
-  bindings:(config.analytics_engine_datasets ?? []).map(dataset => ({type:'analytics_engine',name:dataset.binding,dataset:dataset.dataset ?? dataset.binding})),
+  bindings:[...(config.analytics_engine_datasets ?? []).map(dataset => ({type:'analytics_engine',name:dataset.binding,dataset:dataset.dataset ?? dataset.binding})), ...Object.entries(config.vars ?? {}).map(([name,text]) => ({type:'plain_text',name,text:String(text)}))],
 };
 const payload = JSON.stringify({metadata,modules});
 fs.writeFileSync('dist/worker-modules.json', payload);

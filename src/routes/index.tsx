@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import { PublicLayout } from "../components/layout";
 import { Home } from "../components/home";
 import { homeTitle, homeDescription, pageHead } from "../domain/seo";
@@ -6,6 +6,7 @@ import { normalizeSloveniaSearch } from "../domain/search";
 import { getDirectory } from "../server/catalog";
 export const Route = createFileRoute("/")({
   validateSearch: normalizeSloveniaSearch,
+  search: { middlewares: [stripSearchParams(normalizeSloveniaSearch({}))] },
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) => getDirectory({ data: deps }),
   head: () => pageHead(homeTitle, homeDescription, "/"),

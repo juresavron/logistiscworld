@@ -29,6 +29,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
       <nav id="main-navigation" className={menu ? "main-nav open" : "main-nav"} aria-label="Main navigation" onKeyDown={e => { if (e.key === "Escape") { setMenu(false); menuButton.current?.focus(); } }}>
         <Link to="/companies" search={{...emptySearch, office:"SI"}} data-active={path === "/" || path.startsWith("/companies")} onClick={()=>setMenu(false)}>Find a company</Link>
         <Link to="/services" data-active={path.startsWith("/services")} onClick={()=>setMenu(false)}>Services</Link>
+        <Link to="/locations" data-active={path.startsWith("/locations")} onClick={()=>setMenu(false)}>Locations</Link>
         <Link to="/blog" data-active={path.startsWith("/blog")} onClick={()=>setMenu(false)}>Blog</Link>
       </nav>
       <div className="nav-actions"><Link className="listing-link" to="/submit-company">List a company <ArrowUpRight size={16}/></Link><button ref={menuButton} className="icon-button mobile-menu" aria-expanded={menu} aria-controls="main-navigation" aria-label={menu?"Close menu":"Open menu"} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div>
