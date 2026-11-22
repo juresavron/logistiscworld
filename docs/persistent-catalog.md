@@ -29,7 +29,7 @@ The current directory is small. Filtering, counting, ordering and pagination run
 6. Rebuild and deploy the exact reviewed source. When deploying through the alternative module API, preserve runtime bindings and secrets; do not upload an older configuration that drops these settings.
 7. Verify sign-in, a draft save, publication, a stale concurrent save and archival on the real database. Confirm anonymous reads cannot access drafts or revisions, check all public routes after archival, and run Supabase security advisors. This live verification is required before calling database activation complete.
 
-No new Auth emails or customer enquiries are sent by this release. The database has been initialized with sourced company records. Google indexing remains disabled. The sample company-submission form is still browser-only. Persistent submissions, Mediašped/SavSale conversion attribution and indexing are subsequent work.
+No new Auth emails or customer enquiries are sent by this release. The database has been initialized with sourced company records. Google indexing remains disabled. Private company submissions and an authenticated review inbox are now implemented in the subsequent [company submissions release](company-submissions.md). Mediašped/SavSale conversion attribution and indexing remain subsequent work.
 
 ## Validation
 

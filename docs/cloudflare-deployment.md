@@ -41,7 +41,7 @@ npm run deploy:check
 
 ## Launch state
 
-The site remains a `noindex` preview. It has 25 sourced company listings and a custom domain. The new authenticated company editor and database baseline await an independent Supabase project and runtime configuration; browser-only company editing has been removed. The sample submission form remains browser-only. Read [activation and verification](persistent-catalog.md) before enabling persistence.
+The site remains a `noindex` preview. It has 25 sourced company listings and a custom domain. Its independent Supabase project is connected. The first administrator account still needs creation and membership assignment. Company submissions use private database intake and an authenticated review inbox; see [submission behavior and checks](company-submissions.md). Read [activation and verification](persistent-catalog.md) before declaring administrator activation complete.
 
 ## Verified first deployment
 

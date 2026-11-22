@@ -1,12 +1,15 @@
-import { safeContactHref } from "../domain/company";
 import { emptySearch } from "../domain/search";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { useRef, useState } from "react";
+import { Check } from "lucide-react";
 import { PublicLayout } from "../components/layout";
-export const Route = createFileRoute("/submit-company")({ component: Page });
+import { submissionSchema } from "../domain/submissions";
+import { getSubmissionAvailability, submitCompany } from "../server/submissions";
+export const Route = createFileRoute("/submit-company")({ loader: () => getSubmissionAvailability(), staleTime: 0, component: Page });
 function Page() {
-  const [saved, setSaved] = useState(false),
+  const { available } = Route.useLoaderData();
+  const requestId = useRef("");
+  const [reference, setReference] = useState(""), [busy, setBusy] = useState(false),
     [error, setError] = useState("");
   return (
     <PublicLayout>
@@ -34,7 +37,7 @@ function Page() {
               <span>02</span>
               <div>
                 <h3>Review the details</h3>
-                <p>Live submissions will be reviewed before publication.</p>
+                <p>Our editors review each request before publication.</p>
               </div>
             </li>
             <li>
@@ -49,54 +52,49 @@ function Page() {
           </ol>
         </div>
         <div className="form-panel">
-          {saved ? (
+          {reference ? (
             <div role="status">
               <span className="success-icon">
                 <Check />
               </span>
-              <h2>Sample request saved.</h2>
+              <h2>Request received.</h2>
               <p>
-                Saved in this browser only. Nothing was sent to an administrator
-                or published.
+                Your company request is saved for editorial review. Your email stays private, and a listing becomes public only after approval.
               </p>
+              <p className="submission-reference">Reference: {reference}</p>
               <button
                 className="button outline"
-                onClick={() => setSaved(false)}
+                onClick={() => { setReference(""); requestId.current = ""; }}
               >
-                Try another request
+                Submit another company
               </button>
             </div>
-          ) : (
+          ) : !available ? <div role="status"><h2>Company submissions will open soon.</h2><p>Please check back later. The directory is available to browse.</p></div> : (
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
+                if (busy) return;
                 const data = Object.fromEntries(new FormData(e.currentTarget));
+                const id = requestId.current || crypto.randomUUID();
+                requestId.current = id; setBusy(true); setError("");
                 try {
-                  if (!safeContactHref("website", String(data.website)))
-                    throw Error("Use an https:// website address.");
-                  localStorage.setItem(
-                    "logisticsworld:sample-submission:v1",
-                    JSON.stringify({
-                      ...data,
-                      createdAt: new Date().toISOString(),
-                    }),
-                  );
-                  setSaved(true);
-                  setError("");
+                  const input = submissionSchema.safeParse({ ...data, requestId: id, consent: data.consent === "on" });
+                  if (!input.success) throw Error(input.error.issues[0].message);
+                  const result = await submitCompany({ data: input.data });
+                  setReference(result.reference);
                 } catch (err) {
                   setError(
                     err instanceof Error
                       ? err.message
-                      : "This browser could not save the request.",
+                      : "Could not confirm the request. Please retry.",
                   );
-                }
+                } finally { setBusy(false); }
               }}
             >
-              <span className="eyebrow">TRY THE SUBMISSION FLOW</span>
+              <span className="eyebrow">SUBMIT YOUR COMPANY</span>
               <h2>Tell us about your company.</h2>
               <div className="notice-panel small-notice">
-                Demo only. Use sample information; this request stays in your
-                browser.
+                Requests are reviewed before a company is added. Submitting does not publish a listing.
               </div>
               <label className="field">
                 <span>Company name</span>
@@ -108,6 +106,9 @@ function Page() {
                   placeholder="Your company name"
                 />
               </label>
+              <div className="submission-trap" aria-hidden="true">
+                <label>Leave this field empty<input name="contactFax" autoComplete="off" tabIndex={-1} maxLength={0} /></label>
+              </div>
               <label className="field">
                 <span>Company website</span>
                 <input
@@ -128,16 +129,20 @@ function Page() {
                   placeholder="you@example.com"
                 />
               </label>
+              <label className="submission-consent">
+                <input name="consent" type="checkbox" required />
+                <span>I am authorized to submit these company details. LogisticsWorld may store them and use my email to review this request. My email will not be published.</span>
+              </label>
               {error && (
                 <p role="alert" className="field-error">
                   {error}
                 </p>
               )}
-              <button className="button orange" type="submit">
-                Save sample request <ArrowRight size={17} />
+              <button className="button orange" type="submit" disabled={busy}>
+                {busy ? "Submitting…" : "Submit for review"}
               </button>
               <p className="form-note">
-                No email is sent and no listing is created.
+                Keep the reference shown after submission. No confirmation email is sent.
               </p>
             </form>
           )}
