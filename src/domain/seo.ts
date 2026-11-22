@@ -17,9 +17,9 @@ export function pageHead(title: string, description: string, path: string) {
   };
 }
 
-export const homeTitle = "Freight Forwarders & Logistics Companies in Slovenia";
+export const homeTitle = "Freight Forwarders in Slovenia";
 export const homeDescription =
-  "Find freight forwarders and logistics companies in Slovenia. Browse Koper and Ljubljana offices, sea freight, customs and transport services, with direct contacts.";
+  "Compare freight forwarders and logistics companies in Slovenia. Find Koper and Ljubljana offices, sea freight, customs services and direct company contacts.";
 
 export function indexablePath(path: string) {
   return ["/", "/companies", "/services", "/locations", "/methodology", "/blog", "/locations/koper", "/locations/ljubljana", "/services/customs/koper"].includes(path)

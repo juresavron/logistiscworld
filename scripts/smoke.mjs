@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import server from '../dist/server/server.js';
 
 const cases = [
-  ['/', 200, 'Freight forwarders and logistics companies'],
+  ['/', 200, 'Freight forwarders'],
   ['/?q=zzzznonexistent', 200, 'No companies match'],
   ['/?q=Koper', 200, 'Mediašped'],
   ['/?services=customs', 200, 'Customs clearance'],
@@ -59,11 +59,11 @@ for (const [path, status, content] of cases) {
   assert.ok(!html.includes('We couldn’t load this page'), `${path}: no error boundary`);
   assert.ok(!html.includes('href="/?office='), `${path}: home links omit the market default`);
   if (path === '/') {
-    assert.ok(html.includes('<title>Freight Forwarders &amp; Logistics Companies in Slovenia | LogisticsWorld</title>'), 'Homepage search title');
-    assert.ok(/<h1>Freight forwarders and logistics companies <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
+    assert.ok(html.includes('<title>Freight Forwarders in Slovenia | LogisticsWorld</title>'), 'Homepage search title');
+    assert.ok(/<h1>Freight forwarders <em>in Slovenia\.<\/em><\/h1>/.test(html), 'Primary keyword in rendered H1');
     assert.ok(!html.includes('href="/?q='),'Navigation does not serialize empty search defaults');
     assert.ok(html.indexOf('href="/companies/mediasped"') < html.indexOf('href="/companies/abc-logistika"'), 'Mediašped is the first default result');
-    assert.ok(html.includes('How to choose the best logistics company in Slovenia'), 'Buyer guidance is server rendered');
+    assert.ok(html.includes('How to choose a freight forwarder in Slovenia'), 'Buyer guidance is server rendered');
     assert.ok(html.includes('https://logisticsworld.eu/'), 'Canonical uses the custom domain');
     assert.ok(html.includes('A little clarity before you ship.'), 'Homepage includes latest guides');
     assert.ok(html.includes('placement=homepage&amp;content=featured'), 'Homepage quotation link identifies the placement');

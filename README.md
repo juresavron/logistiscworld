@@ -55,6 +55,7 @@ The current design uses charcoal, white and yellow accents, wide responsive layo
 - [Product and page layouts](docs/product-and-layouts.md)
 - [Data model and application architecture](docs/architecture.md)
 - [Build milestones and acceptance criteria](docs/build-plan.md)
+- [Primary and supporting SEO keywords](docs/keyword-map.md)
 
 The original `docs/wireframes.html` is a superseded planning artifact. The application in `src/` is the current implementation.
 

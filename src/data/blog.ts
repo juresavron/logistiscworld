@@ -17,8 +17,8 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     slug: "container-shipping-china-to-koper",
-    title: "Container shipping from China to Koper: planning and quotes",
-    description: "Plan a China-to-Koper container shipment: compare FCL and LCL, prepare cargo details and check the full cost through to inland delivery.",
+    title: "Container shipping from China to Koper",
+    description: "Plan container shipping from China to Koper, Slovenia. Compare FCL and LCL sea freight, quotation inclusions and delivery beyond the port.",
     category: "Ocean freight", artwork: "containers", publishedAt: "2026-11-22",
     takeaway: "Request one complete proposal from the Chinese collection point through Koper to the final delivery address. Ask for the routing, inclusions and exclusions in writing.",
     sections: [
@@ -26,7 +26,7 @@ export const blogPosts: BlogPost[] = [
         "China to Koper describes the ocean leg, but it does not define the whole shipment. Give the forwarder the supplier’s collection address, the proposed loading port, cargo-ready date and the final delivery address in Slovenia or another destination country. State the agreed trade terms and which parts of the journey you want quoted.",
         "Luka Koper publishes information about its container terminal and connections with the Far East. Use its official sailing information as a reference, then ask your provider to confirm the actual service, any transshipment and the available sailing for your dates. A general route description is not a booking confirmation.",
       ] },
-      { id: "fcl-or-lcl", title: "Compare FCL and LCL for the actual cargo", paragraphs: [
+      { id: "fcl-or-lcl", title: "FCL and LCL shipping from China to Slovenia", paragraphs: [
         "FCL uses a container for one shipper’s goods; LCL shares container space with other shipments. Ask for both options when the volume, handling requirements or delivery timing make the choice unclear.",
         "Send package counts, dimensions, gross weight and packaging details. Identify stackability, temperature control or other special requirements before choosing equipment. Ask the provider to check cargo suitability and loading arrangements rather than selecting a container from volume alone.",
       ] },
