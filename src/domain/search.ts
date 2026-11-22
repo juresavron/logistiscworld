@@ -26,7 +26,7 @@ export type DirectorySearch = {
 export const emptySearch: DirectorySearch = {
   q: "",
   services: [],
-  office: "",
+  office: "SI",
   city: "",
   coverage: "",
   type: "",

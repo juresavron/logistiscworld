@@ -97,6 +97,7 @@ try {
   let seoPage=await page('/');
   assert.ok(seoPage.html.includes('content="index, follow"'),'Production homepage permits indexing');
   assert.ok(!seoPage.html.includes('href="/?q='),'Empty default query parameters are stripped');
+  assert.ok(!seoPage.html.includes('href="/?office='),'The logo and home links omit the market default');
   for(const path of ['/companies?q=Koper','/companies?city=Koper','/companies?page=2','/admin','/admin/submissions','/submit-company']) {
     const loaded=await page(path);assert.ok(loaded.html.includes('content="noindex, follow"'),path+' stays out of indexing');
   }
