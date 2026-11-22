@@ -3,15 +3,15 @@ import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { PublicLayout } from "../components/layout";
 import { Directory } from "../components/directory";
 import { services } from "../domain/company";
-import { searchSloveniaCompanies } from "../data/slovenia";
+import { getDirectory } from "../server/catalog";
 import { FeaturedPartner } from "../components/featured-partner";
 export const Route = createFileRoute("/services_/$service")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const service = services.find((s) => s.id === params.service);
     if (!service) throw notFound();
     return {
       service,
-      result: searchSloveniaCompanies({ services: [service.id] }),
+      result: await getDirectory({ data: { services: [service.id] } }),
     };
   },
   head: ({ loaderData }) => loaderData ? pageHead(

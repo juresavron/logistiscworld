@@ -72,6 +72,9 @@ export function normalizeSearch(raw: unknown): DirectorySearch {
       : 1,
   };
 }
+export const normalizeSloveniaSearch = (raw: unknown): DirectorySearch => ({
+  ...normalizeSearch(raw), office: "SI",
+});
 export const normalizeText = (value: string) =>
   value
     .normalize("NFD")

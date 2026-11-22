@@ -8,7 +8,7 @@ Live demo: https://logisticsworld.worldfans.workers.dev/
 
 Custom domain: https://logisticsworld.eu/ (including `www`).
 
-The directory is deployed to Cloudflare Workers with 25 real company listings. Source notes distinguish owner-supplied details from official website checks (12 October 2026). No database or administrator authentication has been connected.
+The directory is deployed to Cloudflare Workers with 25 real company listings. Source notes distinguish owner-supplied details from official website checks (12 October 2026). The persistent catalog and authenticated administration are implemented, and the independent Supabase project has been initialized. Without its runtime settings, this deployment serves the sourced static preview and administration stays locked. See `docs/persistent-catalog.md`.
 
 - Slovenia-only homepage with service discovery.
 - Searchable directory with URL-based filters, sorting, and pagination.
@@ -17,10 +17,10 @@ The directory is deployed to Cloudflare Workers with 25 real company listings. S
 - Service landing pages, including rail freight. Comparison has been removed.
 - Blog at `/blog`, with topic filters, three shipping guides, article pages, source links, related reading and a homepage preview. Articles use the custom domain for canonical and social metadata.
 - Labelled Mediašped featured placements, an enriched company profile and source-tagged quote handoffs to Mediašped's own form. Aggregate referral metrics and the remaining CRM attribution gap are described in `docs/mediasped-referrals.md`.
-- Browser-only admin catalog and company editor with draft validation, revision checks, and independent approved snapshots.
+- Authenticated shared catalog and company editor, with private drafts, administrator publication, revision checks and archival. Activation uses the independent Logisticsworld project.
 - Sample company submission form saved locally in the browser; no messages are sent.
 
-The public catalog is maintained in `src/data/slovenian-companies.ts`; fictional fixtures remain only for tests. Approval in the demo editor does not change the public directory. Browser storage is neither shared nor permanent, and the admin route is deliberately unauthenticated for this sample milestone. No ratings, traffic, or verification claims are invented.
+The sourced static catalog and database seed originate in `src/data/slovenian-companies.ts`; fictional fixtures remain only for tests. Once configured, the database is authoritative for all public listings. Drafts stay private until an administrator publishes them. No ratings, traffic, or verification claims are invented.
 
 ## Run locally
 
@@ -38,7 +38,7 @@ npm run check
 npm run smoke
 ```
 
-`check` runs TypeScript, behavior tests, and the client/server production build. `smoke` builds a separate Node test bundle, then checks rendered routes directly through its server handler without opening a listening server. Browser layout and interaction QA remains outstanding.
+`check` runs TypeScript, behavior tests, and the client/server production build. `smoke` builds a separate Node test bundle, then checks rendered routes directly through its server handler without opening a listening server. Hosted authenticated browser QA remains pending database activation.
 
 ## Cloudflare deployment
 
@@ -59,12 +59,12 @@ The original `docs/wireframes.html` is a superseded planning artifact. The appli
 
 ## Next milestone
 
-Connect an independent Supabase project with migrations, administrator authentication and access rules, then replace the static catalog lookup with database queries. Complete browser QA and verify the Cloudflare deployment on its live URL. The demo stays `noindex` until real content and publication controls are ready.
+The independent Supabase project and 25-company catalog are initialized. Complete the first administrator account and verify the hosted editing flow. The code and activation steps are in [persistent catalog setup](docs/persistent-catalog.md). Then persist company submissions, connect Mediašped enquiries to SavSale and complete the indexing launch. The site stays `noindex` until those publication controls are ready.
 
 English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Commercial pricing remains open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.
 
 ## Blog content
 
-Published articles live in `src/data/blog.ts`, newest first. Add a `BlogPost` with a unique URL slug, summary, topic, publication date, takeaway, sections with unique anchor IDs, and primary-source links. Article pages, the blog listing, related reading and homepage previews use this catalog. New content is published with an application deployment; the browser-only company editor does not manage articles.
+Published articles live in `src/data/blog.ts`, newest first. Add a `BlogPost` with a unique URL slug, summary, topic, publication date, takeaway, sections with unique anchor IDs, and primary-source links. Article pages, the blog listing, related reading and homepage previews use this catalog. New content is published with an application deployment; the company editor does not manage articles.
 
 The domain is `logisticsworld.eu`. Search indexing remains disabled while the wider directory is in preview.

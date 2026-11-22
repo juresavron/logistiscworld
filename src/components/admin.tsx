@@ -1,5 +1,5 @@
 import { emptySearch } from "../domain/search";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import {
   ArrowUpRight,
   Building2,
@@ -8,14 +8,40 @@ import {
   Plus,
   Search,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DirectoryBrand } from "./layout";
-import { companies } from "../data/slovenia";
+import { signIn, signOut } from "../server/admin";
+import type { AdminSession, CatalogEntry } from "../domain/catalog";
 import { countryName } from "../domain/company";
-import { decodeDrafts, DRAFT_KEY, type DraftRecord } from "../domain/drafts";
+
 import { Monogram } from "./ui";
 
-export function AdminLayout({ children }: { children: React.ReactNode }) {
+export function AdminLogin({ configured }: { configured: boolean }) {
+  const router = useRouter();
+  const [error, setError] = useState(""), [busy, setBusy] = useState(false);
+  return <main className="admin-signin" id="main-content">
+    <DirectoryBrand />
+    <h1>Company management</h1>
+    {configured ? <form onSubmit={async event => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      setBusy(true); setError("");
+      try { await signIn({ data: { email: String(form.get("email")), password: String(form.get("password")) } }); await router.invalidate(); }
+      catch (error) { setError(error instanceof Error ? error.message : "Sign-in failed. Please retry."); }
+      finally { setBusy(false); }
+    }}>
+      <p>Sign in with your authorized editor account.</p>
+      <label className="field"><span>Email</span><input name="email" type="email" autoComplete="username" required maxLength={254}/></label>
+      <label className="field"><span>Password</span><input name="password" type="password" autoComplete="current-password" required maxLength={256}/></label>
+      {error && <p role="alert">{error}</p>}
+      <button className="button dark" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</button>
+    </form> : <p>Company management is awaiting database setup. Existing company listings remain available in the directory.</p>}
+    <Link to="/" search={emptySearch}>Return to the directory</Link>
+  </main>;
+}
+export function AdminLayout({ children, user }: { children: React.ReactNode; user: NonNullable<AdminSession["user"]> }) {
+  const router = useRouter();
+  const [error, setError] = useState("");
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
@@ -36,11 +62,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           </Link>
         </nav>
         <div className="admin-sidebar-bottom">
-          <span className="sample-label">DEMO WORKSPACE</span>
+          <span className="sample-label">EDITOR WORKSPACE</span>
           <p>
-            Browser-only drafts.
-            <br />
-            No production database.
+            Drafts are shared with your editing team.
           </p>
           <Link to="/" search={emptySearch}>
             View directory <ArrowUpRight size={15} />
@@ -53,12 +77,10 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <Building2 size={16} />
             Company management
           </span>
-          <Link to="/" search={emptySearch}>
-            Open directory <ArrowUpRight size={14} />
-          </Link>
+          <button className="text-link" onClick={async () => { try { await signOut(); await router.invalidate(); } catch { setError("Could not sign out. Please retry."); } }}>Sign out</button>
         </div>
         <div className="admin-demo-note">
-          Demo workspace — drafts stay in this browser. Saving does not update the public website.
+          {user.email} · {user.role === "administrator" ? "Administrator" : "Editor"}. Draft changes become public only after publication. {error && <span role="alert">{error}</span>}
         </div>
         <main id="main-content" className="admin-content">
           {children}
@@ -67,36 +89,12 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-export function AdminCatalog() {
-  const [drafts, setDrafts] = useState<Record<string, DraftRecord>>({}),
-    [q, setQ] = useState(""),
-    [filter, setFilter] = useState("all");
-  useEffect(() => {
-    const load = () => {
-      try {
-        setDrafts(Object.fromEntries(Object.entries(decodeDrafts(localStorage.getItem(DRAFT_KEY))).filter(([, record]) => record.draft.offices.some(office => office.country === "SI"))));
-      } catch {}
-    };
-    load();
-    window.addEventListener("storage", load);
-    return () => window.removeEventListener("storage", load);
-  }, []);
-  const all = [
-    ...companies.map((c) => ({
-      company: drafts[c.id]?.draft ?? c,
-      record: drafts[c.id],
-    })),
-    ...Object.values(drafts)
-      .filter((r) => !companies.some((c) => c.id === r.draft.id))
-      .map((r) => ({ company: r.draft, record: r })),
-  ];
-  const rows = all.filter(
-    ({ company, record }) =>
-      company.name.toLowerCase().includes(q.toLowerCase()) &&
-      (filter === "all" ||
-        (filter === "drafts" && record) ||
-        (filter === "ready" && record?.published)),
-  );
+export function AdminCatalog({ entries }: { entries: CatalogEntry[] }) {
+  const [q, setQ] = useState(""), [filter, setFilter] = useState("all");
+  const rows = entries.filter(record => record.draft.name.toLowerCase().includes(q.toLowerCase()) &&
+    (filter === "all" || (filter === "drafts" && !record.archived && (!record.published || JSON.stringify(record.draft) !== JSON.stringify(record.published))) ||
+    (filter === "ready" && record.published && !record.archived) || (filter === "archived" && record.archived)))
+    .map(record => ({ company: record.draft, record }));
   return (
     <>
       <div className="admin-page-heading">
@@ -116,20 +114,20 @@ export function AdminCatalog() {
       <div className="admin-stats">
         <div>
           <span>Company catalog</span>
-          <strong>{companies.length}</strong>
+          <strong>{entries.length}</strong>
           <small>Listed Slovenian companies</small>
         </div>
         <div>
           <span>Saved drafts</span>
-          <strong>{Object.keys(drafts).length}</strong>
-          <small>Stored in this browser</small>
+          <strong>{entries.filter(entry => !entry.archived && (!entry.published || JSON.stringify(entry.draft) !== JSON.stringify(entry.published))).length}</strong>
+          <small>Awaiting publication</small>
         </div>
         <div>
-          <span>Approved snapshots</span>
+          <span>Published listings</span>
           <strong>
-            {Object.values(drafts).filter((d) => d.published).length}
+            {entries.filter(entry => entry.published && !entry.archived).length}
           </strong>
-          <small>Demo publishing flow</small>
+          <small>Visible in the public directory</small>
         </div>
       </div>
       <div className="catalog-panel">
@@ -150,7 +148,7 @@ export function AdminCatalog() {
           >
             <option value="all">All companies</option>
             <option value="drafts">Saved drafts</option>
-            <option value="ready">Approved snapshots</option>
+            <option value="ready">Published listings</option><option value="archived">Archived</option>
           </select>
         </div>
         <div className="table-scroll">
@@ -187,11 +185,7 @@ export function AdminCatalog() {
                     <span
                       className={`status-pill ${record?.published ? "approved" : ""}`}
                     >
-                      {record?.published
-                        ? "Approved snapshot"
-                        : record
-                          ? "Draft saved"
-                          : "Published listing"}
+                      {record.archived ? "Archived" : record.published ? "Published listing" : "Draft saved"}
                     </span>
                   </td>
                   <td>
@@ -223,7 +217,7 @@ export function AdminCatalog() {
           </div>
         )}
         <div className="catalog-footer">
-          <span>{rows.length} companies · Local editing only</span><span>Visitor analytics not connected</span>
+          <span>{rows.length} companies · Shared catalog</span><span></span>
         </div>
       </div>
     </>

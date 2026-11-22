@@ -11,7 +11,10 @@ import countryStylesheet from "../country-site.css?url";
 import adminStylesheet from "../admin-site.css?url";
 import blogStylesheet from "../blog.css?url";
 import featuredStylesheet from "../featured-partner.css?url";
+import { getCompany } from "../server/catalog";
+import { FeaturedPartnerContext } from "../components/featured-partner";
 export const Route = createRootRoute({
+  loader: () => getCompany({ data: "mediasped" }),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -52,6 +55,7 @@ export const Route = createRootRoute({
   ),
 });
 function Root() {
+  const partner = Route.useLoaderData();
   return (
     <html lang="en">
       <head>
@@ -61,7 +65,7 @@ function Root() {
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
-        <Outlet />
+        <FeaturedPartnerContext.Provider value={partner}><Outlet /></FeaturedPartnerContext.Provider>
         <Scripts />
       </body>
     </html>

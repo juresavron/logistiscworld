@@ -1,5 +1,5 @@
-import { Link, useBlocker } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { Link, useBlocker, useNavigate } from "@tanstack/react-router";
+import { useRef, useState } from "react";
 import { ArrowLeft, Check, Circle, Plus, Save, Trash2 } from "lucide-react";
 import {
   blankCompany,
@@ -7,52 +7,27 @@ import {
   companyDraftSchema,
   companyTypes,
   countries,
-  publicationIssues,
   services,
   type Company,
   type CountryCode,
   type ServiceId,
 } from "../domain/company";
-import { decodeDrafts, DRAFT_KEY, nextDraft } from "../domain/drafts";
-import { companies } from "../data/slovenia";
+import { saveCompany, archiveCompany } from "../server/admin";
+import { validatePublication, type CatalogEntry } from "../domain/catalog";
 import { Monogram } from "./ui";
 
 const tabs = ["Identity", "Services", "Offices", "Contacts", "Evidence"];
-export function CompanyEditor({ id }: { id: string }) {
-  const initial =
-    companies.find((c) => c.id === id) ??
-    blankCompany(id === "new" ? "local-new" : id);
+export function CompanyEditor({ id, entry, canPublish }: { id: string; entry: CatalogEntry | null; canPublish: boolean }) {
+  const navigate = useNavigate();
+  const initial = entry?.draft ?? blankCompany("new");
   const [value, setValue] = useState<Company>(structuredClone(initial)),
     [baseline, setBaseline] = useState(JSON.stringify(initial)),
-    [version, setVersion] = useState(0),
-    [tab, setTab] = useState(0),
-    [status, setStatus] = useState(""),
-    [errors, setErrors] = useState<string[]>([]),
-    [loaded, setLoaded] = useState(false),
-    [blocked, setBlocked] = useState(false);
-  const dirty = JSON.stringify(value) !== baseline,
-    dirtyRef = useRef(dirty);
+    [version, setVersion] = useState(entry?.version ?? 0),
+    [tab, setTab] = useState(0), [status, setStatus] = useState(""),
+    [errors, setErrors] = useState<string[]>([]), [busy, setBusy] = useState(false);
+  const newId = useRef<string | null>(null);
+  const dirty = JSON.stringify(value) !== baseline, dirtyRef = useRef(dirty);
   dirtyRef.current = dirty;
-  useEffect(() => {
-    try {
-      const records = decodeDrafts(localStorage.getItem(DRAFT_KEY));
-      if (records[id]) {
-        setValue(records[id].draft);
-        setBaseline(JSON.stringify(records[id].draft));
-        setVersion(records[id].version);
-      } else if (id !== "new" && !companies.some((c) => c.id === id)) {
-        setBlocked(true);
-        setErrors([
-          "This browser has no saved draft with that ID. Return to the catalog.",
-        ]);
-      }
-    } catch {
-      setErrors([
-        "Browser storage is unavailable. Drafts cannot be saved here.",
-      ]);
-    }
-    setLoaded(true);
-  }, [id]);
   useBlocker({
     shouldBlockFn: () =>
       dirtyRef.current &&
@@ -92,6 +67,7 @@ export function CompanyEditor({ id }: { id: string }) {
       ) : (
         <input
           value={value[key]}
+          disabled={key === "slug" && !!entry?.published}
           onChange={(e) => patch({ [key]: e.target.value })}
           placeholder={placeholder}
           type={
@@ -117,66 +93,33 @@ export function CompanyEditor({ id }: { id: string }) {
       ),
     });
   };
-  const save = (publish: boolean) => {
+  const save = async (publish: boolean) => {
+    setErrors([]); setStatus("");
     const parsed = companyDraftSchema.safeParse(value);
-    if (!parsed.success) {
-      setErrors(
-        parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`),
-      );
-      return;
+    if (!parsed.success) { setErrors(parsed.error.issues.map(i => `${i.path.join(".")}: ${i.message}`)); return; }
+    if (publish) {
+      try { validatePublication(value); } catch (error) { setErrors([error instanceof Error ? error.message : "Check the company details."]); return; }
     }
-    if (publish && publicationIssues(value).length) {
-      setErrors(publicationIssues(value));
-      return;
-    }
+    setBusy(true);
     try {
-      const records = decodeDrafts(localStorage.getItem(DRAFT_KEY));
-      const nextValue = {
-        ...parsed.data,
-        id:
-          value.id === "local-new" ? `local-${crypto.randomUUID()}` : value.id,
-      };
-      const next = nextDraft(
-        records[nextValue.id],
-        nextValue,
-        version,
-        publish,
-        new Date().toISOString(),
-      );
-      if (
-        Object.values(records).some(
-          (r) =>
-            r.draft.id !== nextValue.id &&
-            r.draft.slug &&
-            r.draft.slug === nextValue.slug,
-        ) ||
-        companies.some(
-          (c) => c.id !== nextValue.id && c.slug === nextValue.slug,
-        )
-      ) {
-        throw Error(
-          "Another company already uses that profile URL. Choose a different slug.",
-        );
-      }
-      localStorage.setItem(
-        DRAFT_KEY,
-        JSON.stringify({ ...records, [nextValue.id]: next }),
-      );
-      setValue(nextValue);
-      setBaseline(JSON.stringify(nextValue));
-      setVersion(next.version);
+      if (value.id === "new") newId.current ??= `company-${crypto.randomUUID()}`;
+      const draft = { ...parsed.data, id: newId.current ?? value.id };
+      const result = await saveCompany({ data: { draft, expectedVersion: version, publish } });
+      setValue(result.draft); setBaseline(JSON.stringify(result.draft)); setVersion(result.version); dirtyRef.current = false;
+      setStatus(publish ? "Company published. The directory now uses this revision." : "Draft saved. The current published listing stays visible.");
+      if (id === "new") await navigate({ to: "/admin/companies/$id", params: { id: result.draft.id }, replace: true });
+    } catch (error) { setErrors([error instanceof Error ? error.message : "Could not save this change."]); }
+    finally { setBusy(false); }
+  };
+  const archive = async () => {
+    if (!window.confirm("Archive this company and remove it from the public directory?")) return;
+    setBusy(true); setErrors([]);
+    try {
+      await archiveCompany({ data: { id: value.id, expectedVersion: version } });
       dirtyRef.current = false;
-      setErrors([]);
-      setStatus(
-        publish
-          ? "Approved snapshot saved in this browser. The public directory is unchanged."
-          : "Draft saved in this browser.",
-      );
-    } catch (error) {
-      setErrors([
-        error instanceof Error ? error.message : "Could not save this draft.",
-      ]);
-    }
+      await navigate({ to: "/admin" });
+    } catch (error) { setErrors([error instanceof Error ? error.message : "Could not archive this company."]); }
+    finally { setBusy(false); }
   };
   const readiness = [
     ["Company identity", !!value.name && !!value.legalName && !!value.slug],
@@ -201,25 +144,22 @@ export function CompanyEditor({ id }: { id: string }) {
               : version
                 ? `Saved draft · revision ${version}`
                 : "New workspace draft"}{" "}
-            · Browser-only demo
+            · Shared company catalog
           </p>
         </div>
         <div className="editor-actions">
           <button
             className="button outline"
-            onClick={() => save(false)}
-            disabled={!loaded || blocked}
+            onClick={() => void save(false)}
+            disabled={busy}
           >
             <Save size={16} />
             Save draft
           </button>
-          <button
-            className="button dark"
-            onClick={() => save(true)}
-            disabled={!loaded || blocked}
-          >
-            Approve locally <Check size={16} />
-          </button>
+          {canPublish && <button className="button dark" onClick={() => void save(true)} disabled={busy}>
+            {busy ? "Saving…" : entry?.archived ? "Publish again" : "Publish company"} <Check size={16}/>
+          </button>}
+          {canPublish && version > 0 && !entry?.archived && <button className="button outline" onClick={() => void archive()} disabled={busy}>Archive</button>}
         </div>
       </div>
       {status && (
@@ -517,8 +457,7 @@ export function CompanyEditor({ id }: { id: string }) {
               <>
                 <h2>A source behind the details.</h2>
                 <p className="muted">
-                  Record the sources for this listing. Local approval does
-                  not verify a real company.
+                  Record the sources used to check this company’s details.
                 </p>
                 {input(
                   "sourceUrl",
@@ -526,9 +465,9 @@ export function CompanyEditor({ id }: { id: string }) {
                   "https://example.com",
                 )}
                 {input("checkedAt", "Date checked")}
+                <label className="check-label"><input type="checkbox" checked={!value.isSample} onChange={e => patch({ isSample: !e.target.checked })}/>This listing describes a real company.</label>
                 <div className="notice-panel">
-                  Approval creates a separate snapshot in your browser. Later
-                  draft edits leave that snapshot unchanged.
+                  Publishing updates the public listing. Later draft edits stay private until published again.
                 </div>
               </>
             )}

@@ -14,7 +14,7 @@ In Cloudflare's Workers & Pages dashboard, create a Worker using the existing Gi
 - Deploy command: `npx wrangler deploy`
 - Node.js version: 22.16.0 or newer supported version
 
-No application secrets or database bindings are required for the fictional-data preview. Wrangler deployment authentication is supplied by Cloudflare's Git integration. Once connected, pushes to the production branch trigger a build/deploy.
+No database settings are required for the sourced static preview. Authenticated editing remains unavailable until its separate database is configured; see [persistent catalog activation](persistent-catalog.md). Wrangler deployment authentication is supplied by Cloudflare's Git integration. Once connected, pushes to the production branch trigger a build/deploy.
 
 After deployment, open the exact `workers.dev` URL Cloudflare returns and check the homepage, company directory, a profile, comparison, and demo admin editor. The account's Workers subdomain is assigned by Cloudflare and is not assumed in the source.
 
@@ -41,7 +41,7 @@ npm run deploy:check
 
 ## Launch state
 
-This first deployment is a visibly labelled sample-data preview with `noindex` metadata. The admin workspace and submission form save only to browser storage. They do not offer authenticated server-side administration or process submissions. Supabase integration, real company listings, browser QA, and a custom domain are separate launch milestones.
+The site remains a `noindex` preview. It has 25 sourced company listings and a custom domain. The new authenticated company editor and database baseline await an independent Supabase project and runtime configuration; browser-only company editing has been removed. The sample submission form remains browser-only. Read [activation and verification](persistent-catalog.md) before enabling persistence.
 
 ## Verified first deployment
 

@@ -144,3 +144,7 @@
   .admin-shell .coverage-choices { grid-template-columns: 1fr 1fr; margin-left: 0; }
   .admin-shell .office-editor { padding: 18px; }
 }
+.admin-signin { max-width: 440px; margin: 12vh auto; padding: 24px; }
+.admin-signin h1 { margin: 32px 0 16px; }
+.admin-signin form { display: grid; gap: 16px; margin-bottom: 24px; }
+.admin-signin > a:last-child { display: inline-block; margin-top: 24px; }
