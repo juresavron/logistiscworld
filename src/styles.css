@@ -3178,3 +3178,18 @@ hr {
   .company-logo--card { width: 88px; height: 64px; padding: 9px; }
   .company-logo--profile { width: 112px; height: 76px; padding: 12px; }
 }
+/* Company submission and private review inbox. */
+.submission-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.submission-consent { display: flex; align-items: flex-start; gap: .75rem; font-size: .875rem; line-height: 1.6; margin: 1.5rem 0; }
+.submission-consent input { flex: 0 0 auto; margin-top: .35rem; width: 1.1rem; height: 1.1rem; }
+.submission-reference { overflow-wrap: anywhere; font-size: .875rem; }
+.submission-inbox { display: grid; gap: 1.5rem; }
+.submission-review { background: white; border: 1px solid #dce1e3; border-radius: .75rem; padding: 1.5rem; min-width: 0; }
+.submission-review h2 { font-size: 1.25rem; margin: 0 0 1rem; }
+.submission-review dl { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: .65rem 1rem; margin: 0 0 1.5rem; font-size: .875rem; }
+.submission-review dt { color: #53606a; }
+.submission-review dd { margin: 0; overflow-wrap: anywhere; }
+.submission-review form { display: grid; gap: 1rem; }
+.submission-review .button { justify-self: start; }
+.button:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 520px) { .submission-review { padding: 1rem; } .submission-review dl { grid-template-columns: 1fr; gap: .25rem; } .submission-review dd { margin-bottom: .75rem; } }

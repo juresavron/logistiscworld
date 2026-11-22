@@ -18,6 +18,7 @@ import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SubmitCompanyRouteImport } from './routes/submit-company'
+import { Route as AdminSubmissionsRouteImport } from './routes/admin_.submissions'
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as CompaniesSlugRouteImport } from './routes/companies_.$slug'
 import { Route as GoMediaspedRouteImport } from './routes/go.mediasped'
@@ -70,6 +71,11 @@ const SubmitCompanyRoute = SubmitCompanyRouteImport.update({
   path: '/submit-company',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSubmissionsRoute = AdminSubmissionsRouteImport.update({
+  id: '/admin_/submissions',
+  path: '/admin/submissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog_/$slug',
   path: '/blog/$slug',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/methodology': typeof MethodologyRoute
   '/services': typeof ServicesRoute
   '/submit-company': typeof SubmitCompanyRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/go/mediasped': typeof GoMediaspedRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/methodology': typeof MethodologyRoute
   '/services': typeof ServicesRoute
   '/submit-company': typeof SubmitCompanyRoute
+  '/admin/submissions': typeof AdminSubmissionsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/companies/$slug': typeof CompaniesSlugRoute
   '/go/mediasped': typeof GoMediaspedRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/methodology': typeof MethodologyRoute
   '/services': typeof ServicesRoute
   '/submit-company': typeof SubmitCompanyRoute
+  '/admin_/submissions': typeof AdminSubmissionsRoute
   '/blog_/$slug': typeof BlogSlugRoute
   '/companies_/$slug': typeof CompaniesSlugRoute
   '/go/mediasped': typeof GoMediaspedRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/services'
     | '/submit-company'
+    | '/admin/submissions'
     | '/blog/$slug'
     | '/companies/$slug'
     | '/go/mediasped'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/services'
     | '/submit-company'
+    | '/admin/submissions'
     | '/blog/$slug'
     | '/companies/$slug'
     | '/go/mediasped'
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/services'
     | '/submit-company'
+    | '/admin_/submissions'
     | '/blog_/$slug'
     | '/companies_/$slug'
     | '/go/mediasped'
@@ -217,6 +229,7 @@ export interface RootRouteChildren {
   MethodologyRoute: typeof MethodologyRoute
   ServicesRoute: typeof ServicesRoute
   SubmitCompanyRoute: typeof SubmitCompanyRoute
+  AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   BlogSlugRoute: typeof BlogSlugRoute
   CompaniesSlugRoute: typeof CompaniesSlugRoute
   GoMediaspedRoute: typeof GoMediaspedRoute
@@ -290,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SubmitCompanyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/submissions': {
+      id: '/admin_/submissions'
+      path: '/admin/submissions'
+      fullPath: '/admin/submissions'
+      preLoaderRoute: typeof AdminSubmissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog_/$slug': {
       id: '/blog_/$slug'
       path: '/blog/$slug'
@@ -345,6 +365,7 @@ const rootRouteChildren: RootRouteChildren = {
   MethodologyRoute: MethodologyRoute,
   ServicesRoute: ServicesRoute,
   SubmitCompanyRoute: SubmitCompanyRoute,
+  AdminSubmissionsRoute: AdminSubmissionsRoute,
   BlogSlugRoute: BlogSlugRoute,
   CompaniesSlugRoute: CompaniesSlugRoute,
   GoMediaspedRoute: GoMediaspedRoute,

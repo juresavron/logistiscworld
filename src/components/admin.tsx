@@ -7,6 +7,7 @@ import {
   LayoutGrid,
   Plus,
   Search,
+  Inbox,
 } from "lucide-react";
 import { useState } from "react";
 import { DirectoryBrand } from "./layout";
@@ -52,6 +53,7 @@ export function AdminLayout({ children, user }: { children: React.ReactNode; use
             <LayoutGrid size={18} />
             Company catalog
           </Link>
+          <Link to="/admin/submissions" search={{ status: "pending", page: 1 }}><Inbox size={18} />Company submissions</Link>
           <Link to="/admin/companies/$id" params={{ id: "new" }}>
             <Plus size={18} />
             Add company

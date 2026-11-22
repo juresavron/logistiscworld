@@ -83,5 +83,36 @@ try {
   await db.query('update public.admin_memberships set active=false where user_id=$1',[editor]);
   await asRole('authenticated',editor,async () => { await rejects(()=>db.query('select public.admin_catalog()'),'42501','Revoked membership applies to an existing session'); });
   check((await db.query('select count(*)::integer n from public.company_revisions where company_id=$1',[original.id])).rows[0].n,5,'Append-only revision history');
+  const submissionId='44444444-4444-4444-8444-444444444444';
+  const submit=(id=submissionId,email='contact@example.test')=>rpc('select public.submit_company($1,$2,$3,$4,true) result',[id,'Example Logistics','https://example.test/',email]);
+  await asRole('anon',null,async()=> {
+    check(await submit(),{reference:submissionId},'Anonymous submission returns a reference only');
+    check(await submit(),{reference:submissionId},'Retry returns the original reference');
+    await rejects(()=>submit(submissionId,'changed@example.test'),'22023','A used reference cannot overwrite contact data');
+    await rejects(()=>db.query('select * from public.company_submissions'),'42501','Submitter email stays private');
+    await rejects(()=>db.query('select public.submission_inbox($1,1)',['all']),'42501','Anonymous inbox access is denied');
+    await rejects(()=>db.query('select public.review_submission($1,1,$2,$3)',[submissionId,'reviewed','forged']),'42501','Anonymous review is denied');
+    await rejects(()=>db.query('select public.submit_company($1,$2,$3,$4,false)',[crypto.randomUUID(),'Example Logistics','https://example.test/','other@example.test']),'22023','Consent required at the database boundary');
+    await rejects(()=>db.query('select public.submit_company($1,$2,$3,$4,true)',[crypto.randomUUID(),'Example Logistics','javascript:alert(1)','other@example.test']),'22023','Database validates direct RPC website input');
+    await submit(crypto.randomUUID()); await submit(crypto.randomUUID());
+    await rejects(()=>submit(crypto.randomUUID()),'54000','Per-email quota is enforced in the database');
+    check(await submit(),{reference:submissionId},'Retries still work after the quota is reached');
+  });
+  await asRole('authenticated',outsider,async()=> {
+    await rejects(()=>db.query('select public.submission_inbox($1,1)',['all']),'42501','An Auth account without membership cannot read submissions');
+    await rejects(()=>db.query('select public.review_submission($1,1,$2,$3)',[submissionId,'reviewed','forged']),'42501','An outsider cannot review requests');
+  });
+  await asRole('authenticated',admin,async()=> {
+    check((await rpc('select public.submission_inbox($1,1) result',['pending'])).total,3,'Reviewer receives the private queue');
+    await db.query('select public.review_submission($1,1,$2,$3)',[submissionId,'reviewed','Checked official website; catalog publication is separate.']);
+    await rejects(()=>db.query('select public.review_submission($1,1,$2,$3)',[submissionId,'rejected','stale']),'40001','Concurrent reviews cannot overwrite each other');
+    check((await rpc('select public.submission_inbox($1,1) result',['pending'])).total,2,'Review status filters are database-backed');
+    check((await rpc('select public.submission_inbox($1,10000) result',['reviewed'])).page,1,'Review pagination clamps to available pages');
+    await rejects(()=>db.query('select * from catalog_private.submission_reviews'),'42501','Review audit cannot be changed through base access');
+  });
+  check((await db.query('select count(*)::integer n from catalog_private.submission_reviews')).rows[0].n,1,'Review action has an immutable audit entry');
+  check((await db.query('select count(*)::integer n from public.company_publications')).rows[0].n,25,'Intake and review do not publish companies');
+  await db.query("insert into public.company_submissions(id,company,website,email) select gen_random_uuid(),'Quota fixture','https://example.test/', 'fixture-'||g||'@example.test' from generate_series(1,97) g");
+  await asRole('anon',null,async()=> { await rejects(()=>submit(crypto.randomUUID(),'fresh@example.test'),'54000','Global quota cannot be bypassed with new email addresses'); });
   console.log(`${assertions} PostgreSQL publication, search and access-control assertions passed.`);
 } finally { await db.close(); }

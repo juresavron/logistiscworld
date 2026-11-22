@@ -18,7 +18,7 @@ The directory is deployed to Cloudflare Workers with 25 real company listings. S
 - Blog at `/blog`, with topic filters, three shipping guides, article pages, source links, related reading and a homepage preview. Articles use the custom domain for canonical and social metadata.
 - Labelled Mediašped featured placements, an enriched company profile and source-tagged quote handoffs to Mediašped's own form. Aggregate referral metrics and the remaining CRM attribution gap are described in `docs/mediasped-referrals.md`.
 - Authenticated shared catalog and company editor, with private drafts, administrator publication, revision checks and archival. Activation uses the independent Logisticsworld project.
-- Sample company submission form saved locally in the browser; no messages are sent.
+- Private company submissions with reference receipts, duplicate-safe retries, database quotas and an authenticated review inbox at `/admin/submissions`. Review status never publishes a company; no messages are sent.
 
 The sourced static catalog and database seed originate in `src/data/slovenian-companies.ts`; fictional fixtures remain only for tests. Once configured, the database is authoritative for all public listings. Drafts stay private until an administrator publishes them. No ratings, traffic, or verification claims are invented.
 
@@ -59,7 +59,7 @@ The original `docs/wireframes.html` is a superseded planning artifact. The appli
 
 ## Next milestone
 
-The independent Supabase project and 25-company catalog are initialized. Complete the first administrator account and verify the hosted editing flow. The code and activation steps are in [persistent catalog setup](docs/persistent-catalog.md). Then persist company submissions, connect Mediašped enquiries to SavSale and complete the indexing launch. The site stays `noindex` until those publication controls are ready.
+The independent Supabase project and 25-company catalog are initialized. Private company intake and its review inbox are implemented; see [company submissions](docs/company-submissions.md). Complete the first administrator account and verify the hosted editing and review flows. The code and activation steps are in [persistent catalog setup](docs/persistent-catalog.md). Then connect Mediašped enquiries to SavSale and complete the indexing launch. The site stays `noindex` until those publication controls are ready.
 
 English, a single domain, administrator-managed listings, no visitor login, and no public reviews are working defaults. Commercial pricing remains open. Quote booking and intermediary messaging are outside the agreed direct-contact scope.
 

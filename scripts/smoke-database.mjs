@@ -30,7 +30,13 @@ const call = async (name,data,method='POST',requestOrigin=origin) => {
   return response?.result ?? response;
 };
 const page=async path => {
-  const response=await server.fetch(new Request(origin+path,{headers:cookie?{cookie}:{}}));
+  let url=new URL(path,origin),response;
+  for(let hops=0;hops<5;hops++) {
+    response=await server.fetch(new Request(url,{headers:cookie?{cookie}:{}}));
+    const location=response.headers.get('location');
+    if(![301,302,303,307,308].includes(response.status)||!location)break;
+    await response.text();url=new URL(location,url);assert.equal(url.origin,origin);
+  }
   return {response,html:await response.text()};
 };
 try {
@@ -69,6 +75,9 @@ try {
               admin_catalog:['select public.admin_catalog() result',[]],
               save_company:['select public.save_company($1,$2,$3) result',[args.p_draft,args.p_expected_version,args.p_publish]],
               archive_company:['select public.archive_company($1,$2) result',[args.p_id,args.p_expected_version]],
+              submit_company:['select public.submit_company($1,$2,$3,$4,$5) result',[args.p_id,args.p_company,args.p_website,args.p_email,args.p_consent]],
+              submission_inbox:['select public.submission_inbox($1,$2) result',[args.p_status,args.p_page]],
+              review_submission:['select public.review_submission($1,$2,$3,$4) result',[args.p_id,args.p_expected_version,args.p_status,args.p_note]],
             };
             assert.ok(calls[name],`Expected database RPC ${name}`);
             result=(await db.query(...calls[name])).rows[0].result;
@@ -80,12 +89,30 @@ try {
     });
   };
   let queue=Promise.resolve();
+  let submissionPage=await page('/submit-company');
+  assert.ok(submissionPage.html.includes('Submit for review'));
+  assert.equal(submissionPage.response.headers.get('cache-control'),'private, no-store');
+  await assert.rejects(()=>call('getSubmissionInbox',{status:'all',page:1},'GET'));
+  const submission={requestId:'44444444-4444-4444-8444-444444444444',company:'Private test logistics',website:'https://example.test/',email:'private-contact@example.test',consent:true,contactFax:''};
+  const receipt=await call('submitCompany',submission);
+  assert.equal(receipt.reference,submission.requestId);
+  assert.deepEqual(await call('submitCompany',submission),receipt,'Lost-response retry returns the same reference');
+  assert.equal((await db.query('select count(*)::integer n from public.company_submissions')).rows[0].n,1);
+  await assert.rejects(()=>call('submitCompany',{...submission,requestId:crypto.randomUUID()},'POST','https://other.test'));
+  await assert.rejects(()=>call('submitCompany',{...submission,contactFax:'bot'}));
+  submissionPage=await page('/companies');
+  assert.ok(!submissionPage.html.includes(submission.email));
   let loaded=await page('/admin');
   assert.equal(loaded.response.status,200); assert.ok(loaded.html.includes('Sign in')); assert.ok(!loaded.html.includes('Save draft'));
   await assert.rejects(()=>call('getAdminCatalog',undefined,'GET'));
   await call('signIn',{email:'admin@example.test',password:'test-password'});
   assert.ok(/HttpOnly/i.test(setCookie)); assert.ok(/Secure/i.test(setCookie)); assert.ok(/SameSite=Strict/i.test(setCookie));
   loaded=await page('/admin'); assert.ok(loaded.html.includes('Company catalog</h1>')); assert.equal(loaded.response.headers.get('cache-control'),'private, no-store');
+  loaded=await page('/admin/submissions'); assert.ok(loaded.html.includes(submission.email)); assert.equal(loaded.response.headers.get('cache-control'),'private, no-store');
+  await call('reviewSubmission',{id:submission.requestId,expectedVersion:1,status:'reviewed',note:'Evidence checked privately.'});
+  await assert.rejects(()=>call('reviewSubmission',{id:submission.requestId,expectedVersion:1,status:'rejected',note:'Stale review'}));
+  assert.equal((await call('getSubmissionInbox',{status:'pending',page:1},'GET')).total,0);
+  assert.equal((await db.query('select count(*)::integer n from public.company_publications')).rows[0].n,25,'Review cannot publish a company');
   const privateDraft={...company,summary:'A private test draft with enough text to pass factual summary validation.'};
   await call('saveCompany',{draft:privateDraft,expectedVersion:1,publish:false});
   loaded=await page('/companies/mediasped'); assert.ok(!loaded.html.includes(privateDraft.summary),'Draft is not server rendered publicly');
@@ -101,6 +128,7 @@ try {
   await db.query('update public.admin_memberships set active=false where user_id=$1',[admin]);
   loaded=await page('/admin'); assert.ok(!loaded.html.includes('Company catalog</h1>'),'Revoked membership cannot read the private catalog');
   await assert.rejects(()=>call('getAdminCatalog',undefined,'GET'));
+  await assert.rejects(()=>call('getSubmissionInbox',{status:'all',page:1},'GET'));
   await call('signOut'); assert.ok(/Max-Age=0/i.test(setCookie));
   console.log(`PASS: built-server login, private drafts, publication, conflicts, CSRF, archival across public routes, revocation and logout (${networkCalls} emulated service requests).`);
 } finally {
