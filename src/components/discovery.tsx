@@ -6,7 +6,7 @@ export function DiscoveryLinks() {
   return <section className="wrap seo-discovery" aria-labelledby="discover-local"><h2 id="discover-local">Explore logistics in Slovenia</h2><p>Start with a local office, a service or a practical shipping guide.</p><nav aria-label="Local logistics guides">
     {locations.map(location => <Link key={location.slug} to="/locations/$country" params={{ country: location.slug }}>Freight forwarders in {location.name}</Link>)}
     <Link to="/services/customs/koper">Customs clearance in Koper</Link>
-    <Link to="/services/$service" params={{ service: "sea" }}>Sea freight in Slovenia</Link>
+    <Link to="/services/$service" params={{ service: "sea" }}>Sea freight and container shipping in Slovenia</Link>
     <Link to="/blog/$slug" params={{ slug: "container-shipping-china-to-koper" }}>Container shipping from China to Koper</Link>
   </nav></section>;
 }

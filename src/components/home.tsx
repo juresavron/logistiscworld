@@ -13,8 +13,8 @@ export function Home({ result, onChange }: {
       referralSource={{placement:"homepage",content:"featured"}}
       result={result}
       onChange={onChange}
-      title={<>Freight forwarders and logistics companies <em>in Slovenia.</em></>}
-      subtitle="Local freight forwarders and logistics providers. Find the right company and contact them directly."
+      title={<>Freight forwarders <em>in Slovenia.</em></>}
+      subtitle="Compare logistics companies in Slovenia by service and local office. Find a provider for your shipment and contact the company directly."
     />
     <BuyerGuide/>
     <DiscoveryLinks/>

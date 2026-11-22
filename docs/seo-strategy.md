@@ -2,11 +2,13 @@
 
 LogisticsWorld is a Slovenia-focused directory intended to connect relevant freight searches with useful company information and labelled Mediašped quotation handoffs. The owner asked to learn from the SEO of ForwardingCompanies and FreightForwarderServices, not to copy their design or content. No search volume, competitor traffic, backlink profile or ranking outcome has been established.
 
+The agreed primary and supporting keyword assignments are maintained in [the keyword map](keyword-map.md). The homepage targets **freight forwarders in Slovenia**; logistics companies is a supporting query family.
+
 ## Search intent and page ownership
 
 | Canonical page | Search intent |
 | --- | --- |
-| `/` | Freight forwarders and logistics companies in Slovenia |
+| `/` | Freight forwarders in Slovenia; logistics companies as a supporting family |
 | `/companies` | Search the catalog; arbitrary filters remain noindex |
 | `/locations` | Discover published local-office directories |
 | `/locations/koper` | Freight forwarders with a physical Koper office |

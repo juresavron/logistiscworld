@@ -8,7 +8,7 @@ const questions = [
 ];
 export function BuyerGuide() {
   return <section className="buyer-notes wrap" aria-labelledby="choose-partner">
-    <h2 id="choose-partner">How to choose the best logistics company in Slovenia</h2>
+    <h2 id="choose-partner">How to choose a freight forwarder in Slovenia</h2>
     <div className="guide-questions">{questions.map(q=><details key={q.title}><summary><h3>{q.title}</h3><span className="guide-toggle" aria-hidden="true"/></summary><p>{q.text}</p></details>)}</div>
     <Link className="buyer-methodology" to="/methodology">How we present company information <ArrowUpRight size={15}/></Link>
   </section>;
