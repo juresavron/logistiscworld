@@ -20,11 +20,15 @@ const rejects = async (fn, code, message) => {
 try {
   await db.exec(`create role anon; create role authenticated; create schema auth; create table auth.users(id uuid primary key);
     create function auth.uid() returns uuid language sql as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
-    grant usage on schema public,auth to anon,authenticated; grant execute on function auth.uid() to anon,authenticated;`);
+    grant usage on schema public,auth to anon,authenticated; grant execute on function auth.uid() to anon,authenticated;
+    alter default privileges in schema public grant execute on functions to anon,authenticated;`);
   for (const file of fs.readdirSync('supabase/migrations').sort()) await db.exec(fs.readFileSync('supabase/migrations/'+file,'utf8'));
   await db.exec(fs.readFileSync('supabase/seed.sql','utf8'));
   await db.query('insert into auth.users(id) values($1),($2),($3)',[admin,editor,outsider]);
   await db.query("insert into public.admin_memberships values($1,'administrator',true),($2,'editor',true)",[admin,editor]);
+  for (const signature of ['public.admin_catalog()', 'public.save_company(jsonb,integer,boolean)', 'public.archive_company(text,integer)']) {
+    check((await db.query("select has_function_privilege('anon',$1,'execute') permitted",[signature])).rows[0].permitted,false,'Anonymous callers cannot execute '+signature);
+  }
   await asRole('anon',null,async () => {
     const result = await rpc('select public.search_companies($1) result',[{}]);
     check(result.total,25,'All 25 launch listings are published');

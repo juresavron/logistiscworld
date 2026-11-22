@@ -53,6 +53,7 @@ const metadata = {
   compatibility_date:config.compatibility_date,
   compatibility_flags:config.compatibility_flags,
   observability:config.observability,
+  keep_bindings:['plain_text', 'secret_text'],
   bindings:(config.analytics_engine_datasets ?? []).map(dataset => ({type:'analytics_engine',name:dataset.binding,dataset:dataset.dataset ?? dataset.binding})),
 };
 const payload = JSON.stringify({metadata,modules});

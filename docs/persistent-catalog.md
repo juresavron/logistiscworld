@@ -1,6 +1,6 @@
 # Persistent company catalog and administrator access
 
-This release replaces the browser-only editor with authenticated server administration. It adds the application code, database baseline, and a seed for the 25 sourced launch listings. A separate LogisticsWorld Supabase project has not been provisioned. Production activation and live database verification are pending that project and its administrator account.
+This release replaces the browser-only editor with authenticated server administration. It adds the application code, database baseline, and a seed for the 25 sourced launch listings. The user provisioned the independent Logisticsworld Supabase project `iaescoqdabfzhzslcepr` in Ireland. Both catalog migrations and the 25-company seed have been applied. Runtime activation and the first administrator account are being completed.
 
 ## Behavior
 
@@ -15,21 +15,21 @@ This release replaces the browser-only editor with authenticated server administ
 
 The application uses the project's publishable key and each editor's access token, never a service-role key. Password login uses Supabase Auth. The access token stays in an HttpOnly, same-site cookie, secure on HTTPS, with a maximum one-hour lifetime. Refresh tokens are not retained. Editors sign in again when the session expires. Every authenticated operation validates the user with Auth and checks their active database membership. A role in user-editable metadata does not grant access.
 
-Private responses use `Cache-Control: private, no-store`; mutation requests require a matching Origin. SQL authorization is checked again for direct RPC access, including immediate membership revocation. Every table has RLS; anonymous visitors can select published records only. Privileged SQL functions are confined to the non-exposed `catalog_private` schema with a fixed empty search path and explicit grants. Public wrappers run with invoker rights.
+Private responses use `Cache-Control: private, no-store`; mutation requests require a matching Origin. SQL authorization is checked again for direct RPC access, including immediate membership revocation. Every table has RLS; anonymous visitors can select published records only. Privileged SQL functions are confined to the non-exposed `catalog_private` schema with a fixed empty search path and explicit grants. Public wrappers run with invoker rights. Supabase’s explicit default `anon` function grants are revoked from administrative wrappers; only published-catalog search is callable anonymously. The PostgreSQL test setup reproduces these hosted defaults.
 
 The current directory is small. Filtering, counting, ordering and pagination run in PostgreSQL. The public query returns at most 12 company records. Add and measure further indexes when the catalog grows; do not introduce public response caching until publication and archival invalidation has been implemented and tested.
 
 ## Activation
 
 1. Select the Supabase organization and review any quoted incremental project cost before creating a project. Use a separate project named LogisticsWorld; do not point this baseline at Mediašped, SavSale, OnlyWorld or OcenaGor.
-2. Apply `supabase/migrations/20261122192818_persistent_catalog_admin.sql`. Keep `catalog_private` outside the Data API's exposed schemas. Only `public` needs exposure for this application.
+2. Apply all migrations in order, including the explicit Supabase RPC-grant hardening migration. Keep `catalog_private` outside the Data API's exposed schemas. Only `public` needs exposure for this application.
 3. Apply `supabase/seed.sql` once to the empty project. It refuses to run over an existing catalog and creates no administrator users. `npm run catalog:seed` reproduces the seed from the sourced TypeScript catalog.
 4. Create the authorized administrator in Supabase Auth using the chosen sign-in email and a secure password. Provision its exact returned user ID in `public.admin_memberships` with role `administrator`. Editors can be provisioned separately with role `editor`. Keep public sign-up disabled and configure Auth's login rate limits.
 5. Set `CATALOG_SUPABASE_URL` and `CATALOG_SUPABASE_PUBLISHABLE_KEY` in the Worker runtime. Both are server configuration. Use the project's actual publishable key. Privileged keys are explicitly rejected. Local development can copy `.dev.vars.example` to the ignored `.dev.vars`.
 6. Rebuild and deploy the exact reviewed source. When deploying through the alternative module API, preserve runtime bindings and secrets; do not upload an older configuration that drops these settings.
 7. Verify sign-in, a draft save, publication, a stale concurrent save and archival on the real database. Confirm anonymous reads cannot access drafts or revisions, check all public routes after archival, and run Supabase security advisors. This live verification is required before calling database activation complete.
 
-No new Auth emails or customer enquiries are sent by this release. No project was created, no production database was changed and Google indexing remains disabled. The sample company-submission form is still browser-only. Persistent submissions, Mediašped/SavSale conversion attribution and indexing are subsequent work.
+No new Auth emails or customer enquiries are sent by this release. The database has been initialized with sourced company records. Google indexing remains disabled. The sample company-submission form is still browser-only. Persistent submissions, Mediašped/SavSale conversion attribution and indexing are subsequent work.
 
 ## Validation
 
