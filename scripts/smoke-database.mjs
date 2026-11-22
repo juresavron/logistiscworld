@@ -8,8 +8,8 @@ import { catalogData } from './catalog-data.mjs';
 const db = new PGlite();
 const originalFetch = globalThis.fetch;
 const admin = '11111111-1111-4111-8111-111111111111';
-const origin = 'https://logisticsworld.test';
-let cookie = '', setCookie = '', networkCalls = 0, claims = admin;
+const origin = 'https://logisticsworld.eu';
+let cookie = '', setCookie = '', networkCalls = 0, claims = admin, failSitemap = false;
 const catalog = await catalogData();
 const company = catalog.find(company=>company.id==='si-mediasped');
 const functions = {};
@@ -49,10 +49,12 @@ try {
   await db.query('insert into auth.users(id) values($1)',[admin]);
   await db.query("insert into public.admin_memberships values($1,'administrator',true)",[admin]);
   process.env.CATALOG_SUPABASE_URL='https://catalog.supabase.co'; process.env.CATALOG_SUPABASE_PUBLISHABLE_KEY='sb_publishable_test';
+  process.env.PUBLIC_INDEXING_ENABLED='true';
   globalThis.fetch=async (input,init={}) => {
     const url=new URL(typeof input==='string'?input:input.url);
     assert.equal(url.origin,'https://catalog.supabase.co','All service requests stay on the test database origin');
     networkCalls++;
+    if(failSitemap && url.pathname==='/rest/v1/company_publications' && !url.searchParams.has('slug')) return Response.json({code:'unavailable'},{status:503});
     const token=new Headers(init.headers).get('authorization');
     if(url.pathname==='/auth/v1/token') { assert.equal(init.method,'POST'); assert.ok(JSON.parse(init.body).password); return Response.json({access_token:'test-admin-token',expires_in:3600}); }
     if(url.pathname==='/auth/v1/user') return token==='Bearer test-admin-token' ? Response.json({id:claims,email:'admin@example.test'}) : Response.json({}, {status:401});
@@ -67,7 +69,10 @@ try {
         try {
           let result;
           if(url.pathname==='/rest/v1/admin_memberships') result=(await db.query('select role from public.admin_memberships where active and user_id=$1',[claims])).rows;
-          else if(url.pathname==='/rest/v1/company_publications') result=(await db.query('select payload from public.company_publications where slug=$1 limit 1',[url.searchParams.get('slug').slice(3)])).rows;
+          else if(url.pathname==='/rest/v1/company_publications') {
+            if(url.searchParams.get('slug')) result=(await db.query('select payload from public.company_publications where slug=$1 limit 1',[url.searchParams.get('slug').slice(3)])).rows;
+            else result=(await db.query("select slug,published_at,payload->'services' as services,payload->'offices' as offices from public.company_publications order by slug limit 1000 offset $1",[Number(url.searchParams.get('offset')||0)])).rows;
+          }
           else {
             const name=url.pathname.split('/').pop(); assert.equal(init.method,'POST','Database RPC preserves its method after bundling'); const args=JSON.parse(init.body);
             const calls={
@@ -89,6 +94,24 @@ try {
     });
   };
   let queue=Promise.resolve();
+  let seoPage=await page('/');
+  assert.ok(seoPage.html.includes('content="index, follow"'),'Production homepage permits indexing');
+  assert.ok(!seoPage.html.includes('href="/?q='),'Empty default query parameters are stripped');
+  for(const path of ['/companies?q=Koper','/companies?city=Koper','/companies?page=2','/admin','/admin/submissions','/submit-company']) {
+    const loaded=await page(path);assert.ok(loaded.html.includes('content="noindex, follow"'),path+' stays out of indexing');
+  }
+  const sitemap=await page('/sitemap.xml');
+  assert.equal(sitemap.response.status,200);assert.ok(sitemap.response.headers.get('content-type').startsWith('application/xml'));
+  const sitemapUrls=[...sitemap.html.matchAll(/<loc>(.*?)<\/loc>/g)].map(match=>match[1]);
+  assert.equal(sitemapUrls.length,45,'Sitemap contains only the curated public pages and published profiles');
+  assert.ok(!sitemap.html.includes('/admin'));assert.ok(!sitemap.html.includes('/submit-company'));assert.ok(sitemapUrls.every(url=>!url.includes('?')));
+  assert.equal(new Set(sitemapUrls).size,sitemapUrls.length,'Canonical sitemap URLs are unique');
+  for(const url of sitemapUrls) { const loaded=await page(new URL(url).pathname);assert.equal(loaded.response.status,200,url);assert.ok(loaded.html.includes('content="index, follow"'),url+' is indexable'); }
+  const preview=await server.fetch(new Request('https://preview.example/sitemap.xml'));assert.equal(preview.status,404);
+  const previewHome=await server.fetch(new Request('https://preview.example/'));assert.ok((await previewHome.text()).includes('content="noindex, follow"'));
+  const robots=await page('/robots.txt');assert.ok(robots.html.includes('Sitemap: https://logisticsworld.eu/sitemap.xml'));
+  const sitemapHead=await server.fetch(new Request(origin+'/sitemap.xml',{method:'HEAD'}));assert.equal(sitemapHead.status,200);assert.equal((await sitemapHead.text()).length,0);
+  failSitemap=true;const unavailableMap=await page('/sitemap.xml');assert.equal(unavailableMap.response.status,503);assert.equal(unavailableMap.response.headers.get('cache-control'),'no-store');assert.ok(!unavailableMap.html.includes('<loc>'));failSitemap=false;
   let submissionPage=await page('/submit-company');
   assert.ok(submissionPage.html.includes('Submit for review'));
   assert.equal(submissionPage.response.headers.get('cache-control'),'private, no-store');
@@ -121,6 +144,7 @@ try {
   await assert.rejects(()=>call('saveCompany',{draft:privateDraft,expectedVersion:1,publish:false}));
   await assert.rejects(()=>call('saveCompany',{draft:privateDraft,expectedVersion:3,publish:false},'POST','https://other.test'));
   await call('archiveCompany',{id:company.id,expectedVersion:3});
+  const archivedSitemap=await page('/sitemap.xml');assert.ok(!archivedSitemap.html.includes('<loc>https://logisticsworld.eu/companies/mediasped</loc>'),'Archival removes profiles from the live sitemap');
   loaded=await page('/companies/mediasped'); assert.equal(loaded.response.status,404);
   loaded=await page('/blog/shipping-through-koper'); assert.ok(!loaded.html.includes('Featured logistics partner: Mediašped'),'Archived partner is absent from blog promotions');
   loaded=await page('/'); assert.ok(!loaded.html.includes('href="/companies/mediasped"'),'Archived company is absent from homepage');
@@ -132,5 +156,5 @@ try {
   await call('signOut'); assert.ok(/Max-Age=0/i.test(setCookie));
   console.log(`PASS: built-server login, private drafts, publication, conflicts, CSRF, archival across public routes, revocation and logout (${networkCalls} emulated service requests).`);
 } finally {
-  globalThis.fetch=originalFetch; delete process.env.CATALOG_SUPABASE_URL; delete process.env.CATALOG_SUPABASE_PUBLISHABLE_KEY; await db.close();
+  globalThis.fetch=originalFetch; delete process.env.CATALOG_SUPABASE_URL; delete process.env.CATALOG_SUPABASE_PUBLISHABLE_KEY; delete process.env.PUBLIC_INDEXING_ENABLED; await db.close();
 }

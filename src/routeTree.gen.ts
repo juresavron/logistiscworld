@@ -16,7 +16,9 @@ import { Route as CompaniesRouteImport } from './routes/companies'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SubmitCompanyRouteImport } from './routes/submit-company'
 import { Route as AdminSubmissionsRouteImport } from './routes/admin_.submissions'
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
@@ -25,6 +27,7 @@ import { Route as GoMediaspedRouteImport } from './routes/go.mediasped'
 import { Route as LocationsCountryRouteImport } from './routes/locations_.$country'
 import { Route as ServicesServiceRouteImport } from './routes/services_.$service'
 import { Route as AdminCompaniesIdRouteImport } from './routes/admin_.companies.$id'
+import { Route as ServicesCustomsKoperRouteImport } from './routes/services_.customs.koper'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -61,9 +64,19 @@ const MethodologyRoute = MethodologyRouteImport.update({
   path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SubmitCompanyRoute = SubmitCompanyRouteImport.update({
@@ -106,6 +119,11 @@ const AdminCompaniesIdRoute = AdminCompaniesIdRouteImport.update({
   path: '/admin/companies/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesCustomsKoperRoute = ServicesCustomsKoperRouteImport.update({
+  id: '/services_/customs/koper',
+  path: '/services/customs/koper',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -115,7 +133,9 @@ export interface FileRoutesByFullPath {
   '/compare': typeof CompareRoute
   '/locations': typeof LocationsRoute
   '/methodology': typeof MethodologyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/submit-company': typeof SubmitCompanyRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -124,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/locations/$country': typeof LocationsCountryRoute
   '/services/$service': typeof ServicesServiceRoute
   '/admin/companies/$id': typeof AdminCompaniesIdRoute
+  '/services/customs/koper': typeof ServicesCustomsKoperRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -133,7 +154,9 @@ export interface FileRoutesByTo {
   '/compare': typeof CompareRoute
   '/locations': typeof LocationsRoute
   '/methodology': typeof MethodologyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/submit-company': typeof SubmitCompanyRoute
   '/admin/submissions': typeof AdminSubmissionsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -142,6 +165,7 @@ export interface FileRoutesByTo {
   '/locations/$country': typeof LocationsCountryRoute
   '/services/$service': typeof ServicesServiceRoute
   '/admin/companies/$id': typeof AdminCompaniesIdRoute
+  '/services/customs/koper': typeof ServicesCustomsKoperRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,7 +176,9 @@ export interface FileRoutesById {
   '/compare': typeof CompareRoute
   '/locations': typeof LocationsRoute
   '/methodology': typeof MethodologyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/submit-company': typeof SubmitCompanyRoute
   '/admin_/submissions': typeof AdminSubmissionsRoute
   '/blog_/$slug': typeof BlogSlugRoute
@@ -161,6 +187,7 @@ export interface FileRoutesById {
   '/locations_/$country': typeof LocationsCountryRoute
   '/services_/$service': typeof ServicesServiceRoute
   '/admin_/companies/$id': typeof AdminCompaniesIdRoute
+  '/services_/customs/koper': typeof ServicesCustomsKoperRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,7 +199,9 @@ export interface FileRouteTypes {
     | '/compare'
     | '/locations'
     | '/methodology'
+    | '/robots.txt'
     | '/services'
+    | '/sitemap.xml'
     | '/submit-company'
     | '/admin/submissions'
     | '/blog/$slug'
@@ -181,6 +210,7 @@ export interface FileRouteTypes {
     | '/locations/$country'
     | '/services/$service'
     | '/admin/companies/$id'
+    | '/services/customs/koper'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -190,7 +220,9 @@ export interface FileRouteTypes {
     | '/compare'
     | '/locations'
     | '/methodology'
+    | '/robots.txt'
     | '/services'
+    | '/sitemap.xml'
     | '/submit-company'
     | '/admin/submissions'
     | '/blog/$slug'
@@ -199,6 +231,7 @@ export interface FileRouteTypes {
     | '/locations/$country'
     | '/services/$service'
     | '/admin/companies/$id'
+    | '/services/customs/koper'
   id:
     | '__root__'
     | '/'
@@ -208,7 +241,9 @@ export interface FileRouteTypes {
     | '/compare'
     | '/locations'
     | '/methodology'
+    | '/robots.txt'
     | '/services'
+    | '/sitemap.xml'
     | '/submit-company'
     | '/admin_/submissions'
     | '/blog_/$slug'
@@ -217,6 +252,7 @@ export interface FileRouteTypes {
     | '/locations_/$country'
     | '/services_/$service'
     | '/admin_/companies/$id'
+    | '/services_/customs/koper'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -227,7 +263,9 @@ export interface RootRouteChildren {
   CompareRoute: typeof CompareRoute
   LocationsRoute: typeof LocationsRoute
   MethodologyRoute: typeof MethodologyRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   ServicesRoute: typeof ServicesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubmitCompanyRoute: typeof SubmitCompanyRoute
   AdminSubmissionsRoute: typeof AdminSubmissionsRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -236,6 +274,7 @@ export interface RootRouteChildren {
   LocationsCountryRoute: typeof LocationsCountryRoute
   ServicesServiceRoute: typeof ServicesServiceRoute
   AdminCompaniesIdRoute: typeof AdminCompaniesIdRoute
+  ServicesCustomsKoperRoute: typeof ServicesCustomsKoperRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -289,11 +328,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/submit-company': {
@@ -352,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCompaniesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services_/customs/koper': {
+      id: '/services_/customs/koper'
+      path: '/services/customs/koper'
+      fullPath: '/services/customs/koper'
+      preLoaderRoute: typeof ServicesCustomsKoperRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -363,7 +423,9 @@ const rootRouteChildren: RootRouteChildren = {
   CompareRoute: CompareRoute,
   LocationsRoute: LocationsRoute,
   MethodologyRoute: MethodologyRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   ServicesRoute: ServicesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubmitCompanyRoute: SubmitCompanyRoute,
   AdminSubmissionsRoute: AdminSubmissionsRoute,
   BlogSlugRoute: BlogSlugRoute,
@@ -372,6 +434,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocationsCountryRoute: LocationsCountryRoute,
   ServicesServiceRoute: ServicesServiceRoute,
   AdminCompaniesIdRoute: AdminCompaniesIdRoute,
+  ServicesCustomsKoperRoute: ServicesCustomsKoperRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -38,6 +38,9 @@ try {
     check((await rpc('select public.search_companies($1) result',[{q:'mediasped'}])).total,1,'Accent-insensitive search');
     check((await rpc('select public.search_companies($1) result',[{q:'zzzznonexistent',page:10000}])).page,1,'Empty results clamp pagination');
     check((await rpc('select public.search_companies($1) result',[{services:['rail']}])).total,catalog.filter(c=>c.services.includes('rail')).length,'Service filtering');
+    check((await rpc('select public.search_companies($1) result',[{city:'Koper'}])).total,17,'Office city is matched independently of descriptive text');
+    check((await rpc('select public.search_companies($1) result',[{city:'Ljubljana'}])).total,4,'Ljubljana includes district offices and counts each company once');
+    check((await rpc('select public.search_companies($1) result',[{city:'Koper',services:['customs']}])).total,7,'Local customs results match both office and service');
     check((await rpc('select public.search_companies($1) result',[{coverage:'HR',services:['road']}])).total,catalog.filter(c=>c.services.includes('road')&&c.coverage.some(v=>v.service==='road'&&v.countries.includes('HR'))).length,'Service-specific coverage');
     await rejects(()=>db.query('select * from public.company_drafts'),'42501','Drafts stay private');
     await rejects(()=>db.query('select * from public.company_revisions'),'42501','Revision history stays private');

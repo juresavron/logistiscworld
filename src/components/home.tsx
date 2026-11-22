@@ -2,6 +2,7 @@ import { type DirectorySearch, type searchCompanies } from "../domain/search";
 import { Directory } from "./directory";
 import { BuyerGuide } from "./buyer-guide";
 import { LatestGuides } from "./blog";
+import { DiscoveryLinks } from "./discovery";
 
 export function Home({ result, onChange }: {
   result: ReturnType<typeof searchCompanies>;
@@ -12,10 +13,11 @@ export function Home({ result, onChange }: {
       referralSource={{placement:"homepage",content:"featured"}}
       result={result}
       onChange={onChange}
-      title={<>Best logistics companies <em>in Slovenia.</em></>}
+      title={<>Freight forwarders and logistics companies <em>in Slovenia.</em></>}
       subtitle="Local freight forwarders and logistics providers. Find the right company and contact them directly."
     />
     <BuyerGuide/>
+    <DiscoveryLinks/>
     <LatestGuides/>
   </>;
 }

@@ -1,16 +1,17 @@
 import { pageHead } from "../domain/seo";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import { PublicLayout } from "../components/layout";
 import { Directory } from "../components/directory";
 import { normalizeSloveniaSearch } from "../domain/search";
 import { getDirectory } from "../server/catalog";
 export const Route = createFileRoute("/companies")({
   validateSearch: normalizeSloveniaSearch,
+  search: { middlewares: [stripSearchParams(normalizeSloveniaSearch({}))] },
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) => getDirectory({ data: deps }),
   head: () => pageHead(
-    "Freight Forwarders & Logistics Companies in Slovenia",
-    "Find Slovenian freight forwarders and logistics providers. Browse services, local offices, and international coverage in our directory preview.",
+    "Slovenia Logistics Company Directory",
+    "Search Slovenian logistics companies by service, office city and international coverage. View published company profiles and contact providers directly.",
     "/companies",
   ),
   component: Page,

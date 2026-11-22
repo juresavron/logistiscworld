@@ -62,7 +62,7 @@ export const Route = createFileRoute("/methodology")({
           </section>
         </div>
         <div className="notice-panel">
-          <strong>About this working preview</strong>
+          <strong>About the published directory</strong>
           <p>
             Listings combine information supplied to the directory with official website checks.
             Source notes explain any gaps or changes. Inclusion is not an endorsement.

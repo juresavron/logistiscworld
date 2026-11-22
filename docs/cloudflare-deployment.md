@@ -41,7 +41,7 @@ npm run deploy:check
 
 ## Launch state
 
-The site remains a `noindex` preview. It has 25 sourced company listings and a custom domain. Its independent Supabase project is connected. The first administrator account still needs creation and membership assignment. Company submissions use private database intake and an authenticated review inbox; see [submission behavior and checks](company-submissions.md). Read [activation and verification](persistent-catalog.md) before declaring administrator activation complete.
+The site has 25 sourced company listings and a connected independent Supabase project. The SEO release permits indexing only on canonical public production pages and serves a publication-backed sitemap; previews and private/search-filter routes remain noindex. `PUBLIC_INDEXING_ENABLED` is part of the Worker config and both deployment transports. See [SEO launch controls](seo-strategy.md). The first administrator account and hosted editor verification remain pending; see [activation and verification](persistent-catalog.md).
 
 ## Verified first deployment
 

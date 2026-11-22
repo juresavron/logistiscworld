@@ -16,6 +16,35 @@ export interface BlogPost {
 // input or browser-only admin state can publish an article.
 export const blogPosts: BlogPost[] = [
   {
+    slug: "container-shipping-china-to-koper",
+    title: "Container shipping from China to Koper: planning and quotes",
+    description: "Plan a China-to-Koper container shipment: compare FCL and LCL, prepare cargo details and check the full cost through to inland delivery.",
+    category: "Ocean freight", artwork: "containers", publishedAt: "2026-11-22",
+    takeaway: "Request one complete proposal from the Chinese collection point through Koper to the final delivery address. Ask for the routing, inclusions and exclusions in writing.",
+    sections: [
+      { id: "define-the-route", title: "Start with the Chinese origin and the final destination", paragraphs: [
+        "China to Koper describes the ocean leg, but it does not define the whole shipment. Give the forwarder the supplier’s collection address, the proposed loading port, cargo-ready date and the final delivery address in Slovenia or another destination country. State the agreed trade terms and which parts of the journey you want quoted.",
+        "Luka Koper publishes information about its container terminal and connections with the Far East. Use its official sailing information as a reference, then ask your provider to confirm the actual service, any transshipment and the available sailing for your dates. A general route description is not a booking confirmation.",
+      ] },
+      { id: "fcl-or-lcl", title: "Compare FCL and LCL for the actual cargo", paragraphs: [
+        "FCL uses a container for one shipper’s goods; LCL shares container space with other shipments. Ask for both options when the volume, handling requirements or delivery timing make the choice unclear.",
+        "Send package counts, dimensions, gross weight and packaging details. Identify stackability, temperature control or other special requirements before choosing equipment. Ask the provider to check cargo suitability and loading arrangements rather than selecting a container from volume alone.",
+      ] },
+      { id: "quote-components", title: "What should a China-to-Koper quotation include?", paragraphs: [
+        "Request a breakdown that separates origin collection and handling, ocean freight, destination handling and inland delivery. Ask which surcharges apply, how long the quotation is valid and what is excluded. If you also need customs services, cargo insurance or storage, request these explicitly.",
+        "Ask about the applicable free time, collection arrangements and empty-container return. A low ocean-freight figure can cover a smaller scope than another proposal; compare the same job, equipment, currency and dates before deciding.",
+      ], items: ["Origin collection point and loading port", "FCL equipment or LCL package dimensions and weight", "Cargo-ready date and required delivery timing", "Destination charges, onward delivery and exclusions"] },
+      { id: "koper-to-door", title: "Arrange the movement after Koper", paragraphs: [
+        "Tell the provider where the goods must finish and whether the delivery site has unloading equipment, restricted access or a booking requirement. Ask who coordinates port release, the customs service and the next transport leg, and who will update you if the plan changes.",
+        "Use the sea-freight and Koper directories below to identify providers, then send the same shipment brief to each company you contact. Confirm rates, schedules and operational instructions directly for your shipment.",
+      ] },
+    ],
+    sources: [
+      { label: "Luka Koper: Container Terminal and terminal connections", url: "https://www.luka-kp.si/en/terminal/container-terminal/" },
+      { label: "Maersk: What is FCL?", url: "https://www.maersk.com/support/faqs/2023/10/18/what-is-fcl" },
+    ],
+  },
+  {
     slug: "shipping-through-koper",
     title: "Shipping through Koper: plan the whole journey",
     description: "A practical starting point for coordinating the port, your logistics partner and the final delivery.",

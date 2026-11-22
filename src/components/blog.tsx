@@ -6,6 +6,7 @@ import { blogPosts, formatBlogDate, readingMinutes, type BlogCategory, type Blog
 import { emptySearch } from "../domain/search";
 import { siteOrigin } from "../domain/seo";
 import { FeaturedPartner } from "./featured-partner";
+import { DiscoveryLinks } from "./discovery";
 
 function BlogArtwork({ post, eager = false }: { post: BlogPost; eager?: boolean }) {
   const Icon = post.artwork === "containers" ? Container : ClipboardList;
@@ -62,7 +63,7 @@ export function BlogArticle({ post }: { post: BlogPost }) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}/>
     <article className="blog-article"><header className="wrap blog-article-header"><Link className="blog-back" to="/blog"><ArrowLeft size={16}/> All guides</Link><PostMeta post={post}/><h1>{post.title}</h1><p className="blog-standfirst">{post.description}</p><span className="blog-byline">By LogisticsWorld</span><BlogArtwork post={post} eager/></header>
       <div className="wrap blog-reading-layout"><aside className="blog-contents" aria-label="In this guide"><span className="eyebrow">IN THIS GUIDE</span><nav>{post.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>0{index + 1}</span>{section.title}</a>)}</nav><div className="blog-contents-note"><Ship size={22}/><p>Practical knowledge.<br/>Direct connections.</p></div></aside><div className="blog-prose"><div className="blog-takeaway"><span className="eyebrow">THE TAKEAWAY</span><p>{post.takeaway}</p></div>{post.sections.map(section => <section id={section.id} key={section.id}><h2>{section.title}</h2>{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}{section.items && <ul>{section.items.map(item => <li key={item}>{item}</li>)}</ul>}</section>)}<section className="blog-sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Sources & further reading</h2><ul>{post.sources.map(source => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} <ArrowUpRight size={14}/><span className="sr-only"> (opens in a new tab)</span></a></li>)}</ul></section></div></div>
-    </article>
+    </article><DiscoveryLinks/>
     <div className="wrap featured-partner-wrap"><FeaturedPartner source={{placement:"blog",content:post.slug}}/></div><section className="wrap blog-related" aria-labelledby="related-guides-title"><div className="blog-section-heading"><div><span className="eyebrow">KEEP EXPLORING</span><h2 id="related-guides-title">More for the journey.</h2></div><Link className="blog-read-link" to="/blog">All guides <ArrowUpRight size={18}/></Link></div><div className="blog-grid">{related.map(article => <BlogCard key={article.slug} post={article}/>)}</div></section><DirectoryCallout/>
   </>;
 }

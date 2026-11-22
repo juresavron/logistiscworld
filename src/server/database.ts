@@ -1,6 +1,10 @@
 // Used only by server-function handlers. Keep their imports static so the bundler
 // sees both read and write calls and preserves the optional POST body.
 export type DatabaseConfig = { url: string; key: string };
+export async function runtimeValue(name: string): Promise<unknown> {
+  try { const bindings = (await import("cloudflare:workers")).env as unknown as Record<string, unknown>; return bindings[name] ?? process.env[name]; }
+  catch { return process.env[name]; }
+}
 export async function databaseConfig(): Promise<DatabaseConfig | null> {
   let bindings: Record<string, unknown> = {};
   try { bindings = (await import("cloudflare:workers")).env as unknown as Record<string, unknown>; }

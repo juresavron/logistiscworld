@@ -18,9 +18,9 @@ export function Directory({ result, onChange, title, subtitle = "Find the servic
   const [q, setQ] = useState(s.q);
   const [filtersOpen, setFiltersOpen] = useState(false);
   useEffect(() => setQ(s.q), [s.q]);
-  const advancedCount = Number(!!s.coverage) + Number(!!s.type) + s.capabilities.length;
+  const advancedCount = Number(!!s.coverage) + Number(!!s.city) + Number(!!s.type) + s.capabilities.length;
   const active = s.services.length + advancedCount + Number(!!s.q);
-  const reset = () => onChange({ q: "", services: [], coverage: "", type: "", capabilities: [], page: 1 });
+  const reset = () => onChange({ q: "", city: "", services: [], coverage: "", type: "", capabilities: [], page: 1 });
   const toggleService = (id: ServiceId) => onChange({ services: s.services.includes(id) ? s.services.filter(v => v !== id) : [...s.services, id], page: 1 });
   return <>
     <section className="directory-intro">
@@ -49,6 +49,7 @@ export function Directory({ result, onChange, title, subtitle = "Find the servic
       </div>
       <div id="extra-filters" className="extra-filters" hidden={!filtersOpen}>
         <div className="extra-filter-fields">
+          <label className="field"><span>Office city</span><input value={s.city} maxLength={80} placeholder="For example Koper" onChange={e => onChange({city:e.target.value,page:1})}/><small>Matches the published office address.</small></label>
           <label className="field"><span>Company type</span><select value={s.type} onChange={e => onChange({type:e.target.value,page:1})}><option value="">Any type</option>{companyTypes.map(t => <option key={t}>{t}</option>)}</select></label>
           <label className="field"><span>Serves country</span><select value={s.coverage} onChange={e => onChange({coverage:e.target.value as CountryCode | "",page:1})}><option value="">Any destination</option>{countries.map(c => <option value={c.code} key={c.code}>{c.name}</option>)}</select><small>Where the Slovenian provider offers services.</small></label>
         </div>
@@ -62,13 +63,14 @@ export function Directory({ result, onChange, title, subtitle = "Find the servic
         </div>
         {active > 0 && <div className="active-filters">
           {s.q && <button onClick={() => onChange({q:"",page:1})} aria-label={`Remove search ${s.q}`}>“{s.q}”<X size={13}/></button>}
+          {s.city && <button onClick={() => onChange({city:"",page:1})} aria-label="Remove office city filter">Office: {s.city}<X size={13}/></button>}
           {s.services.map(v => <button key={v} onClick={() => toggleService(v)} aria-label={`Remove ${serviceName(v)} filter`}>{serviceName(v)}<X size={13}/></button>)}
           {s.coverage && <button onClick={() => onChange({coverage:"",page:1})}>Serves: {countryName(s.coverage)}<X size={13}/></button>}
           {s.type && <button onClick={() => onChange({type:"",page:1})}>{s.type}<X size={13}/></button>}
           {s.capabilities.map(v => <button key={v} onClick={() => onChange({capabilities:s.capabilities.filter(c => c !== v),page:1})}>{v}<X size={13}/></button>)}
           <button className="clear-all" onClick={reset}>Clear filters</button>
         </div>}
-        {result.companies.length ? <div className="directory-results">{result.companies.map(c => <CompanyCard company={c} key={c.id} officeCountry={s.office || undefined} referralSource={referralSource}/>)}</div> : <EmptyState title="No companies match this search."><p>Try another service or city, or clear your filters.</p><button className="button dark" onClick={reset}>Clear filters</button></EmptyState>}
+        {result.companies.length ? <div className="directory-results">{result.companies.map(c => <CompanyCard company={c} key={c.id} officeCountry={s.office || undefined} officeCity={s.city || undefined} referralSource={referralSource}/>)}</div> : <EmptyState title="No companies match this search."><p>Try another service or city, or clear your filters.</p><button className="button dark" onClick={reset}>Clear filters</button></EmptyState>}
         {result.pages > 1 && <nav className="pagination" aria-label="Results pages"><button className="button outline small" disabled={result.page === 1} onClick={() => onChange({page:result.page-1})}><ArrowLeft size={15}/>Previous</button><span>Page {result.page} of {result.pages}</span><button className="button outline small" disabled={result.page === result.pages} onClick={() => onChange({page:result.page+1})}>Next<ArrowRight size={15}/></button></nav>}
       </div>
     </section>

@@ -3193,3 +3193,11 @@ hr {
 .submission-review .button { justify-self: start; }
 .button:disabled { opacity: .6; cursor: wait; }
 @media (max-width: 520px) { .submission-review { padding: 1rem; } .submission-review dl { grid-template-columns: 1fr; gap: .25rem; } .submission-review dd { margin-bottom: .75rem; } }
+.seo-discovery, .seo-local-guide { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+.seo-discovery h2, .seo-local-guide h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin-bottom: 1rem; }
+.seo-discovery nav { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin-top: 1.5rem; }
+.seo-discovery nav a { border-bottom: 1px solid currentColor; padding-bottom: .25rem; font-size: 1rem; }
+.seo-local-guide { max-width: 850px; line-height: 1.8; }
+.seo-local-guide p { margin: 1rem 0; }
+.seo-local-guide ul { padding-left: 1.5rem; }
+.seo-breadcrumbs { padding-top: 1.5rem; padding-bottom: .5rem; font-size: .875rem; color: #47545b; }

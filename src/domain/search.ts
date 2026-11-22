@@ -16,6 +16,7 @@ export type DirectorySearch = {
   q: string;
   services: ServiceId[];
   office: CountryCode | "";
+  city: string;
   coverage: CountryCode | "";
   type: string;
   capabilities: string[];
@@ -26,6 +27,7 @@ export const emptySearch: DirectorySearch = {
   q: "",
   services: [],
   office: "",
+  city: "",
   coverage: "",
   type: "",
   capabilities: [],
@@ -43,6 +45,7 @@ export function normalizeSearch(raw: unknown): DirectorySearch {
   const r = z.record(z.unknown()).catch({}).parse(raw);
   return {
     q: typeof r.q === "string" ? r.q.trim().slice(0, 100) : "",
+    city: typeof r.city === "string" ? r.city.trim().replace(/[\u0000-\u001f\u007f]/g, "").slice(0, 80) : "",
     services: [
       ...new Set(
         list(r.services).filter((s): s is ServiceId =>
@@ -80,6 +83,11 @@ export const normalizeText = (value: string) =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
+export function officeMatchesCity(office: { city: string; country: string }, city: string) {
+  const actual = normalizeText(office.city.trim()).replace(/[–—]/g, "-");
+  const wanted = normalizeText(city.trim()).replace(/[–—]/g, "-");
+  return office.country === "SI" && (actual === wanted || (wanted === "ljubljana" && actual.startsWith("ljubljana-")));
+}
 export function searchCompanies(
   records: Company[],
   raw: unknown,
@@ -104,6 +112,7 @@ export function searchCompanies(
       terms.every((t) => haystack.includes(t)) &&
       (!s.services.length || c.services.some((v) => s.services.includes(v))) &&
       (!s.office || c.offices.some((o) => o.country === s.office)) &&
+      (!s.city || c.offices.some(o => officeMatchesCity(o, s.city))) &&
       (!s.coverage ||
         c.coverage.some(
           (v) =>

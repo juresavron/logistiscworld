@@ -6,7 +6,7 @@ import { ServiceIcon } from "../components/ui";
 import { services } from "../domain/company";
 import { FeaturedPartner } from "../components/featured-partner";
 export const Route = createFileRoute("/services")({
-  head: () => pageHead('Freight Forwarding & Logistics Services in Slovenia', 'Explore freight forwarding, road transport, sea and air freight, customs clearance, and warehousing services from Slovenian providers in our directory preview.', '/services'),
+  head: () => pageHead('Freight Forwarding & Logistics Services in Slovenia', 'Explore freight forwarding, road transport, sea and air freight, customs clearance, and warehousing services from Slovenian providers.', '/services'),
   component: () => (
     <PublicLayout>
       <div className="wrap section">

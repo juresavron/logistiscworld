@@ -4,9 +4,10 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { countryName, serviceName, type Company, type CountryCode } from "../domain/company";
 import { FeaturedBadge, MediaSpedQuoteLink } from "./featured-partner";
 import type { ReferralSource } from "../domain/referrals";
+import { officeMatchesCity } from "../domain/search";
 
-export function CompanyCard({ company: c, compact = false, officeCountry, referralSource = {placement:"directory",content:"listing"} }: { company: Company; compact?: boolean; officeCountry?: CountryCode; referralSource?: ReferralSource }) {
-  const primary = c.offices.find(o => o.country === officeCountry) ?? c.offices.find(o => o.primary) ?? c.offices[0];
+export function CompanyCard({ company: c, compact = false, officeCountry, officeCity, referralSource = {placement:"directory",content:"listing"} }: { company: Company; compact?: boolean; officeCountry?: CountryCode; officeCity?: string; referralSource?: ReferralSource }) {
+  const primary = (officeCity ? c.offices.find(o => officeMatchesCity(o, officeCity)) : undefined) ?? c.offices.find(o => o.country === officeCountry) ?? c.offices.find(o => o.primary) ?? c.offices[0];
   const coverage = [...new Set(c.coverage.flatMap(x => x.countries))];
   return <article className={`company-card freight-record ${compact ? "compact" : ""} ${c.featured ? "freight-record--featured" : ""}`}>
     <div className="record-main">
