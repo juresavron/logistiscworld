@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
-import { normalizeSloveniaSearch } from "../data/slovenia";
+import { normalizeSloveniaSearch } from "../domain/search";
 
 export const Route = createFileRoute("/locations_/$country")({
   beforeLoad: ({ params }) => {

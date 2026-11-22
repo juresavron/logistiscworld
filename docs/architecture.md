@@ -1,6 +1,8 @@
 # Data model and application architecture
 
-Status: proposed design; no SQL migrations or infrastructure applied.
+Status: target architecture. The first persistence baseline and authenticated editor are now implemented; infrastructure activation is pending. See [persistent catalog setup](persistent-catalog.md).
+
+The first baseline stores validated complete company snapshots, private drafts and immutable revision history. It uses a separate public publication table and database filtering. The richer normalized entities below remain the intended expansion model; they have not all been introduced by this milestone.
 
 ## Architectural decisions
 

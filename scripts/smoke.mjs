@@ -24,8 +24,8 @@ const cases = [
   ['/blog/missing-guide', 404, 'This guide isn’t here'],
   ['/locations', 200, 'Slovenia'],
   ['/locations/slovenia', 200, 'Slovenia'],
-  ['/admin', 200, 'Company catalog'],
-  ['/admin/companies/si-mediasped', 200, 'Mediašped'],
+  ['/admin', 200, 'awaiting database setup'],
+  ['/admin/companies/si-mediasped', 200, 'awaiting database setup'],
   ['/submit-company', 200, 'Tell us about your company'],
   ['/companies/spedicija-stori', 200, 'stori@siol.net'],
   ['/companies/gebrueder-weiss', 200, 'Leskoškova cesta 2'],
@@ -103,6 +103,11 @@ for (const [path, status, content] of cases) {
   }
   if (path === '/locations/slovenia' || path === '/locations') {
     assert.equal(url.pathname, '/companies', 'Old country navigation redirects to the Slovenian directory');
+  }
+  if (path.startsWith('/admin')) {
+    assert.equal(response.headers.get('cache-control'), 'private, no-store');
+    assert.ok(!html.includes('Save draft'), 'Anonymous visitors cannot edit listings');
+    assert.ok(!html.includes('Company catalog</h1>'), 'Anonymous visitors cannot read the private catalog');
   }
   if (!path.startsWith('/admin')) {
     for (const foreign of ['Adriatic Connect', 'Karst Customs', 'Alpine Cargo', 'Portline Logistics', 'Sava Distribution', 'Danube Freight', 'Rijeka Link', 'Vienna Freight Studio', 'Friuli Transport', 'Pannon Storage']) {

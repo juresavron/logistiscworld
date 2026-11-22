@@ -2,7 +2,7 @@ import { pageHead } from "../domain/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicLayout } from "../components/layout";
 import { Directory } from "../components/directory";
-import { normalizeSloveniaSearch } from "../data/slovenia";
+import { normalizeSloveniaSearch } from "../domain/search";
 import { getDirectory } from "../server/catalog";
 export const Route = createFileRoute("/companies")({
   validateSearch: normalizeSloveniaSearch,

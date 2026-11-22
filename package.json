@@ -12,11 +12,14 @@
     "build": "node scripts/clean-build.mjs && vite build",
     "typecheck": "npm run cf-typegen && tsc --noEmit",
     "test": "vitest run",
-    "check": "npm run typecheck && npm test && npm run build",
+    "check": "npm run typecheck && npm test && npm run test:database && npm run build",
     "smoke": "npm run build:node && node scripts/smoke.mjs",
     "deploy": "npm run build && wrangler deploy",
     "deploy:check": "npm run build && wrangler deploy --dry-run",
-    "build:node": "node scripts/clean-build.mjs && vite build --mode node-smoke"
+    "build:node": "node scripts/clean-build.mjs && vite build --mode node-smoke",
+    "test:database": "node scripts/test-database.mjs",
+    "catalog:seed": "node scripts/generate-catalog-seed.mjs",
+    "smoke:database": "npm run build:node && node scripts/smoke-database.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "1.170.42",
@@ -37,6 +40,8 @@
     "typescript": "5.8.3",
     "vite": "7.3.1",
     "vitest": "4.1.5",
-    "wrangler": "4.149.0"
+    "wrangler": "4.149.0",
+    "@electric-sql/pglite": "0.5.8",
+    "esbuild": "0.27.7"
   }
 }

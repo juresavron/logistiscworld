@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, ChevronDown, MapPin } from "lucide-react";
 import { countryName, serviceName, safeContactHref, type Company } from "../domain/company";
 import { Monogram, ServiceIcon } from "./ui";
-import { companies } from "../data/slovenia";
 import { CompanyCard } from "./company-card";
 import { FeaturedBadge, MediaSpedQuoteLink, MediaSpedShipmentNeeds } from "./featured-partner";
 
@@ -25,9 +24,8 @@ export function ContactPanel({ company }: { company: Company }) {
   </aside>;
 }
 
-export function Profile({ company: c }: { company: Company }) {
+export function Profile({ company: c, similar }: { company: Company; similar: Company[] }) {
   const office = c.offices.find((o) => o.primary) ?? c.offices[0];
-  const similar = companies.filter(x => x.id !== c.id && x.services.some(s => c.services.includes(s))).slice(0, 3);
   return <div className="company-profile">
     <section className="profile-top">
       <div className="wrap">

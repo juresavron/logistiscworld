@@ -1,0 +1,4 @@
+# Configure both values only after applying migrations and the seed to a separate
+# LogisticsWorld Supabase project. Leave both absent for the static preview.
+CATALOG_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+CATALOG_SUPABASE_PUBLISHABLE_KEY=sb_publishable_YOUR_KEY
