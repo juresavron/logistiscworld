@@ -1,8 +1,8 @@
 export const locations = [
   {
     slug: "koper", name: "Koper",
-    title: "Freight Forwarders in Koper, Slovenia",
-    description: "Find freight forwarders in Koper, Slovenia. Compare local providers, prepare an international shipping enquiry and check port, customs and inland delivery costs.",
+    title: "Port of Koper Freight Forwarders, Slovenia",
+    description: "Find a freight forwarder for the Port of Koper, Slovenia. Compare local offices and ask about container shipping, customs clearance and inland delivery.",
     heading: "Freight forwarding in Koper: plan the complete journey",
     paragraphs: [
       "When choosing a freight forwarder in Koper, start with the parts of the journey you need coordinated. The companies below have a published office in Koper; a local address does not by itself confirm terminal access, equipment availability or the service for your shipment.",

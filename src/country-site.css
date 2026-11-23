@@ -101,6 +101,8 @@
 /* Buyer information stays available without delaying the company search. */
 .buyer-notes { border-top: 1px solid #d5dfe4; padding-block: 34px 48px; }
 .country-site .buyer-notes h2 { font-size: 25px; line-height: 1.25; letter-spacing: -.7px; margin-bottom: 23px; }
+.buyer-introduction { max-width: 800px; font-size: 15px; line-height: 1.8; color: #526b79; }
+.buyer-introduction a { text-decoration: underline; text-underline-offset: 3px; }
 .guide-questions details { border-bottom: 1px solid #dce4e8; padding: 0; }
 .guide-questions summary { display: flex; align-items: center; gap: 18px; min-height: 60px; padding-block: 17px; list-style: none; cursor: pointer; }
 .guide-questions summary::-webkit-details-marker { display: none; }
@@ -278,6 +280,7 @@
   .filter-done { margin-top: 26px; }
   .buyer-notes { display: grid; grid-template-columns: minmax(280px,.8fr) minmax(0,1.2fr); column-gap: 70px; align-items: start; }
   .country-site .buyer-notes h2 { max-width: 480px; margin: 15px 0 0; font-size: 28px; }
+  .buyer-notes .buyer-introduction { grid-column: 1; max-width: 480px; margin: 18px 0 0; }
   .buyer-notes .guide-questions { grid-column: 2; grid-row: 1 / span 2; }
   .buyer-methodology { grid-column: 1; justify-self: start; }
 }

@@ -19,7 +19,7 @@ export function pageHead(title: string, description: string, path: string) {
 
 export const homeTitle = "Freight Forwarders in Slovenia";
 export const homeDescription =
-  "Compare freight forwarders and logistics companies in Slovenia. Find Koper and Ljubljana offices, sea freight, customs services and direct company contacts.";
+  "Find a freight forwarder in Slovenia for international shipping. Compare logistics companies, Port of Koper services, customs and inland delivery.";
 
 export function indexablePath(path: string) {
   return ["/", "/companies", "/services", "/locations", "/methodology", "/blog", "/locations/koper", "/locations/ljubljana", "/services/customs/koper"].includes(path)

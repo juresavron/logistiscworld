@@ -10,8 +10,8 @@ export interface ShipmentGuideContent {
 }
 
 export const koperShipmentGuide: ShipmentGuideContent = {
-  title: "Plan your shipment through Koper",
-  introduction: "Buying from abroad or arranging delivery to an inland customer? Give each freight forwarder the same origin, cargo and final destination. Compare the complete movement through Koper, including the handovers between the shipping line, terminal, customs representative and inland carrier.",
+  title: "Find a freight forwarder for the Port of Koper",
+  introduction: "Planning an import or export through the Port of Koper, Slovenia? Compare freight forwarding companies with a published Koper office, then ask each provider to confirm the services for your shipment. Give them the same origin, cargo and final destination so the proposal covers the port handovers and onward delivery you need.",
   stepsTitle: "Agree who handles each handover",
   steps: [
     { title: "Before booking", text: "Confirm the origin port, cargo-ready date, container or LCL service and the Incoterm with its named place. Ask which origin and destination charges are included and who is your operational contact." },
@@ -35,6 +35,7 @@ export const koperShipmentGuide: ShipmentGuideContent = {
     { item: "Insurance and exceptions", question: "Is cargo insurance included or separately available? Ask how waiting, inspections or a failed delivery would be charged." },
   ],
   questions: [
+    { question: "How do I choose a freight forwarder for the Port of Koper?", answer: "Start with your cargo, origin, final delivery address and dates. Ask who coordinates shipping-line release, any customs service, port collection and inland transport. Compare written inclusions, exclusions and the contact responsible for the shipment; a local office alone does not establish the service scope." },
     { question: "Can a Koper freight forwarder arrange delivery outside Slovenia?", answer: "Ask about your exact destination and cargo. Luka Koper publishes rail connections with Central and Eastern Europe, but a port connection does not confirm an individual forwarder’s coverage, capacity or door-delivery price. Include the consignee’s postcode and ask who manages each inland leg." },
     { question: "Does an office in Koper mean every port service is included?", answer: "A local office is a useful starting point. It does not establish terminal access, equipment availability or acceptance of your cargo. Confirm the actual service scope with the provider, including any subcontracted work." },
     { question: "How do I compare two freight quotations?", answer: "Use the same cargo, dates, Incoterm and delivery address. Compare the written inclusions and exclusions as well as the total. Check quote validity, free time and the contact responsible for changes before accepting." },

@@ -18,6 +18,7 @@ const cases = [
   ['/services', 200, 'Road transport'],
   ['/services/customs', 200, 'Customs clearance'],
   ['/services/sea', 200, 'Sea freight through Koper'],
+  ['/services/forwarding', 200, 'International freight forwarding services in Slovenia'],
   ['/services/customs/koper', 200, 'Customs clearance in Koper'],
   ['/locations/koper', 200, 'Freight forwarders in Koper'],
   ['/locations/ljubljana', 200, 'Freight forwarders in Ljubljana'],

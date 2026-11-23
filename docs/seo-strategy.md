@@ -8,13 +8,14 @@ The agreed primary and supporting keyword assignments are maintained in [the key
 
 | Canonical page | Search intent |
 | --- | --- |
-| `/` | Freight forwarders in Slovenia; logistics companies as a supporting family |
+| `/` | Freight forwarders in Slovenia; logistics forwarder and logistics companies as supporting query families |
 | `/companies` | Search the catalog; arbitrary filters remain noindex |
 | `/locations` | Discover published local-office directories |
-| `/locations/koper` | Freight forwarders with a physical Koper office |
+| `/locations/koper` | Finding a freight forwarder for the Port of Koper; listings have a published Koper office and must confirm port service scope |
 | `/locations/ljubljana` | Freight forwarders with Ljubljana or explicitly named district offices |
 | `/services/customs/koper` | Customs service providers with a Koper office |
 | `/services/sea` | Sea freight in Slovenia and planning through Koper |
+| `/services/forwarding` | International freight forwarding services, coordinated transport and shipment responsibilities |
 | Other service pages | Individual freight and logistics services |
 | `/companies/{slug}` | Company identity, public offices, services and direct contacts |
 | `/blog/container-shipping-china-to-koper` | China-to-Koper planning and complete quotation requests |
