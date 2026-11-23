@@ -28,3 +28,7 @@ A private transactional outbox delivers future LogisticsWorld-attributed submiss
 Current Mediašped members can read these source records in [SavSale → Inbox → Website enquiries](https://savsale.com/review?company=mediasped&view=website). They are submitted-form evidence, with self-reported campaign tags and unverified sender identity. Existing contact/deal/task recording and sending controls remain separate. There is no historical backfill, automatic deal creation or won-revenue attribution. Existing email-notification configuration was not activated.
 
 Report aggregate handoffs, submitted enquiries, qualified opportunities and won deals separately. No customer reviews, popularity badges or quality rankings have been introduced.
+
+## Frontend release status
+
+Mediašped's capture and the SavSale receiver/dispatcher are live and verified. SavSale build `6b0383cf45e44c15697dd7cc` is ready but its new Website enquiries view is not yet published: the current production deployment is locked. Publish [the ready release](https://app.netlify.com/sites/5fb23195-2db3-4862-8793-fb2327d47b7d/deploys/6b0383cf45e44c15697dd7cc) before treating the new inbox screen as live. Three reserved QA deliveries, including an anonymous public-form API request, passed; all matching fixtures were removed.
