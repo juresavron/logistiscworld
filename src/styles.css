@@ -3201,3 +3201,43 @@ hr {
 .seo-local-guide p { margin: 1rem 0; }
 .seo-local-guide ul { padding-left: 1.5rem; }
 .seo-breadcrumbs { padding-top: 1.5rem; padding-bottom: .5rem; font-size: .875rem; color: #47545b; }
+
+.shipment-guide-nav { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin-top: 1.25rem; font-size: 1rem; }
+.shipment-guide-nav a { padding: .4rem 0; text-decoration: underline; text-underline-offset: .2em; }
+.shipment-guide { padding-top: 3rem; padding-bottom: 3rem; line-height: 1.75; }
+.shipment-guide-header { max-width: 800px; margin-bottom: 2rem; }
+.shipment-guide h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.2; margin: .75rem 0 1rem; }
+.shipment-guide h3 { font-size: 1.375rem; line-height: 1.35; margin: 0 0 1rem; }
+.shipment-guide h4 { font-size: 1.125rem; line-height: 1.4; margin: 0 0 .75rem; }
+.shipment-guide p { margin: .75rem 0; }
+.shipment-guide > section { margin-top: 2.5rem; }
+.shipment-guide [id], #directory-results { scroll-margin-top: 6rem; }
+.shipment-guide a { text-decoration: underline; text-underline-offset: .2em; }
+.shipment-guide-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+.shipment-guide-steps > div { padding-top: 1.25rem; border-top: 2px solid var(--forest); }
+.shipment-guide-checklist { max-width: 850px; background: var(--soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; }
+.shipment-guide-checklist ul, .shipment-guide-sources ul { padding-left: 1.5rem; }
+.shipment-guide-checklist li { padding: .25rem 0; }
+.shipment-costs { margin-top: 1rem; }
+.shipment-costs table { width: 100%; border-collapse: collapse; font-size: 1rem; text-align: left; }
+.shipment-costs caption { text-align: left; font-weight: 600; padding-bottom: .75rem; }
+.shipment-costs th, .shipment-costs td { vertical-align: top; padding: 1rem; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.shipment-costs thead { background: var(--forest); color: var(--white); }
+.shipment-costs tbody th { width: 29%; font-weight: 600; }
+.shipment-guide-questions { max-width: 850px; }
+.shipment-guide-questions details { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+.shipment-guide-questions summary { cursor: pointer; font-weight: 600; padding: .25rem 0; }
+.shipment-guide-questions p { padding-right: 1rem; }
+.shipment-guide-sources { margin-top: 2.5rem; color: var(--muted); }
+.shipment-guide-sources p { font-size: .875rem; }
+.shipment-guide-action { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.shipment-guide-action .button { text-decoration: none; max-width: 100%; white-space: normal; text-align: center; }
+.shipment-guide-action .button svg { flex-shrink: 0; }
+.shipment-guide-action p { font-size: .875rem; color: var(--muted); }
+.shipment-guide-nav a:focus-visible, .shipment-guide a:focus-visible, .shipment-guide summary:focus-visible { outline: 3px solid var(--forest); outline-offset: 4px; }
+@media (max-width: 700px) {
+  .shipment-guide-steps { grid-template-columns: 1fr; gap: .75rem; }
+  .shipment-guide-checklist { padding: 1.25rem; }
+  .shipment-costs th, .shipment-costs td { padding: .75rem .5rem; }
+  .shipment-costs tbody th { width: 34%; }
+}

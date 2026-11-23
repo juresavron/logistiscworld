@@ -7,6 +7,8 @@ import { locationBySlug } from "../data/locations";
 import { getDirectory } from "../server/catalog";
 import { pageHead } from "../domain/seo";
 import { FeaturedPartner } from "../components/featured-partner";
+import { ShipmentGuide, ShipmentGuideNavigation } from "../components/shipment-guide";
+import { koperShipmentGuide } from "../data/local-guides";
 
 export const Route = createFileRoute("/locations_/$country")({
   beforeLoad: ({ params }) => {
@@ -25,8 +27,8 @@ export const Route = createFileRoute("/locations_/$country")({
 function Page() {
   const { location, result } = Route.useLoaderData(), navigate = Route.useNavigate();
   return <PublicLayout><BreadcrumbTrail items={[{ name: "Cities", path: "/locations" }, { name: location.name, path: `/locations/${location.slug}` }]}/>
-    <Directory result={result} title={`Freight forwarders in ${location.name}, Slovenia.`} subtitle={location.description} referralSource={{ placement: "location", content: location.slug }} onChange={patch => void navigate({ to: "/companies", search: { ...result.search, ...patch } })}/>
-    <LocalGuide title={location.heading} paragraphs={location.paragraphs} checklist={location.checklist} source={location.source}/>
+    <Directory result={result} title={`Freight forwarders in ${location.name}, Slovenia.`} subtitle={location.description} referralSource={{ placement: "location", content: location.slug }} introContent={location.slug === "koper" ? <ShipmentGuideNavigation/> : undefined} onChange={patch => void navigate({ to: "/companies", search: { ...result.search, ...patch } })}/>
+    {location.slug === "koper" ? <ShipmentGuide guide={koperShipmentGuide} source={{ placement: "location", content: "koper" }}/> : <LocalGuide title={location.heading} paragraphs={location.paragraphs} checklist={location.checklist} source={location.source}/>}
     <div className="wrap featured-partner-wrap"><FeaturedPartner source={{ placement: "location", content: location.slug }}/></div><DiscoveryLinks/>
   </PublicLayout>;
 }
