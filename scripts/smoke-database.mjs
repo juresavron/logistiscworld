@@ -108,6 +108,10 @@ try {
   assert.ok(!sitemap.html.includes('/admin'));assert.ok(!sitemap.html.includes('/submit-company'));assert.ok(sitemapUrls.every(url=>!url.includes('?')));
   assert.equal(new Set(sitemapUrls).size,sitemapUrls.length,'Canonical sitemap URLs are unique');
   for(const url of sitemapUrls) { const loaded=await page(new URL(url).pathname);assert.equal(loaded.response.status,200,url);assert.ok(loaded.html.includes('content="index, follow"'),url+' is indexable'); }
+  for(const path of ['/locations/koper','/services/customs/koper']) {
+    const loaded=await page(path);
+    assert.ok(loaded.html.includes('aria-label="Mediašped quotation enquiry"'),path+' shows the published partner beside the enquiry checklist');
+  }
   const preview=await server.fetch(new Request('https://preview.example/sitemap.xml'));assert.equal(preview.status,404);
   const previewHome=await server.fetch(new Request('https://preview.example/'));assert.ok((await previewHome.text()).includes('content="noindex, follow"'));
   const robots=await page('/robots.txt');assert.ok(robots.html.includes('Sitemap: https://logisticsworld.eu/sitemap.xml'));
@@ -148,6 +152,10 @@ try {
   const archivedSitemap=await page('/sitemap.xml');assert.ok(!archivedSitemap.html.includes('<loc>https://logisticsworld.eu/companies/mediasped</loc>'),'Archival removes profiles from the live sitemap');
   loaded=await page('/companies/mediasped'); assert.equal(loaded.response.status,404);
   loaded=await page('/blog/shipping-through-koper'); assert.ok(!loaded.html.includes('Featured logistics partner: Mediašped'),'Archived partner is absent from blog promotions');
+  for(const path of ['/locations/koper','/services/customs/koper']) {
+    const loaded=await page(path);
+    assert.ok(!loaded.html.includes('aria-label="Mediašped quotation enquiry"'),path+' hides the checklist promotion when the partner is archived');
+  }
   loaded=await page('/'); assert.ok(!loaded.html.includes('href="/companies/mediasped"'),'Archived company is absent from homepage');
   loaded=await page('/companies/abc-logistika'); assert.ok(!loaded.html.includes('href="/companies/mediasped"'),'Archived company is absent from related listings');
   await db.query('update public.admin_memberships set active=false where user_id=$1',[admin]);

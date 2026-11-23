@@ -7,12 +7,13 @@ import { EmptyState } from "./ui";
 import type { ReferralSource } from "../domain/referrals";
 
 type Result = ReturnType<typeof searchCompanies>;
-export function Directory({ result, onChange, title, subtitle = "Find the services you need. Contact the company directly.", referralSource }: {
+export function Directory({ result, onChange, title, subtitle = "Find the services you need. Contact the company directly.", referralSource, introContent }: {
   result: Result;
   onChange: (patch: Partial<DirectorySearch>) => void;
   title?: ReactNode;
   subtitle?: string;
   referralSource?: ReferralSource;
+  introContent?: ReactNode;
 }) {
   const s = result.search;
   const [q, setQ] = useState(s.q);
@@ -29,6 +30,7 @@ export function Directory({ result, onChange, title, subtitle = "Find the servic
         <span className="eyebrow">SLOVENIA / FREIGHT & LOGISTICS</span>
         <h1>{title ?? <>Freight forwarders <span>in Slovenia.</span></>}</h1>
         <p>{subtitle}</p>
+        {introContent}
         </div>
       <form className="directory-search" role="search" onSubmit={e => { e.preventDefault(); onChange({ q, page: 1 }); }}>
         <Search size={21}/>
@@ -38,7 +40,7 @@ export function Directory({ result, onChange, title, subtitle = "Find the servic
       </form>
       </div>
     </section>
-    <section className="wrap directory-section" aria-label="Find logistics companies">
+    <section id="directory-results" className="wrap directory-section" aria-label="Find logistics companies">
       <div className="directory-tools">
         <span className="filters-label">Filter by service</span>
         <div className="service-shortcuts" role="group" aria-label="Services: match any selected">

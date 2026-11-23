@@ -18,6 +18,7 @@ const cases = [
   ['/services', 200, 'Road transport'],
   ['/services/customs', 200, 'Customs clearance'],
   ['/services/sea', 200, 'Sea freight through Koper'],
+  ['/services/forwarding', 200, 'International freight forwarding services in Slovenia'],
   ['/services/customs/koper', 200, 'Customs clearance in Koper'],
   ['/locations/koper', 200, 'Freight forwarders in Koper'],
   ['/locations/ljubljana', 200, 'Freight forwarders in Ljubljana'],
@@ -82,6 +83,21 @@ for (const [path, status, content] of cases) {
   if (path === '/services/customs') {
     assert.ok(html.includes('placement=service&amp;content=customs'), 'Service-page quote links preserve their service source');
     assert.ok(!html.includes('placement=directory&amp;content=listing'), 'Service result cards retain the service source');
+  }
+  if (path === '/locations/koper' || path === '/services/customs/koper') {
+    const source = path === '/locations/koper' ? 'koper' : 'customs-koper';
+    for (const anchor of ['directory-results', 'shipment-checklist', 'quote-costs', 'shipment-questions']) {
+      assert.ok(html.includes(`href="#${anchor}"`), `${path}: in-page navigation links to ${anchor}`);
+      assert.equal((html.match(new RegExp(` id="${anchor}"`, 'g')) || []).length, 1, `${path}: each anchor has one target`);
+    }
+    assert.ok(html.includes(`<link rel="canonical" href="https://logisticsworld.eu${path}"`), `${path}: canonical URL is retained`);
+    assert.equal((html.match(/<h1[ >]/g) || []).length, 1, `${path}: one primary heading`);
+    assert.ok(html.includes('scope="col"') && html.includes('scope="row"'), `${path}: quote costs retain accessible table headings`);
+    assert.ok(html.includes(`placement=location&amp;content=${source}`), `${path}: quotation actions retain their page attribution`);
+    assert.ok(html.includes('Official references'), `${path}: factual guidance includes its sources`);
+  }
+  if (path === '/locations/ljubljana') {
+    assert.ok(!html.includes('id="shipment-checklist"'), 'Koper shipment guidance is scoped to Koper pages');
   }
   if (path.startsWith('/blog/') && status === 200) {
     assert.ok(html.includes(`placement=blog&amp;content=${path.split('/').pop()}`), 'Article quote link identifies the originating article');

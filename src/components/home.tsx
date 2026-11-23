@@ -14,7 +14,7 @@ export function Home({ result, onChange }: {
       result={result}
       onChange={onChange}
       title={<>Freight forwarders <em>in Slovenia.</em></>}
-      subtitle="Compare logistics companies in Slovenia by service and local office. Find a provider for your shipment and contact the company directly."
+      subtitle="Find a freight forwarder in Slovenia for your international shipment. Compare logistics companies by transport service and local office, including Koper and Ljubljana."
     />
     <BuyerGuide/>
     <DiscoveryLinks/>
