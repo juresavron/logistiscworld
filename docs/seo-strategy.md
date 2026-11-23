@@ -37,7 +37,7 @@ Organization/WebSite, company Organization, article BlogPosting and visible Brea
 
 TypeScript, behavior tests, PostgreSQL access/search tests, rendered routes and the compiled-server database suite cover production indexing, preview isolation, all sitemap URLs, private routes, duplicate-free city matching, database failure and removal after archival. Deployment uses the existing Cloudflare module transport and preserves catalog settings and referral analytics. Hosted CI remains subject to the account-level Actions restriction.
 
-The first administrator Auth account is still an operational setup item. This does not expose drafts or private submissions: administration remains authenticated and database-authorized. Google Search Console ownership verification and sitemap submission must be confirmed separately. A deployed sitemap and indexable pages are not confirmation of Google indexing. No indexing request or search-performance result is claimed without a receipt.
+The first administrator Auth account is still an operational setup item. This does not expose drafts or private submissions: administration remains authenticated and database-authorized. On 23 November 2026 the Search Console domain property was accessible, sitemap submission was accepted, and indexing requests were confirmed for the six keyword pages. The sitemap report initially said “Couldn't fetch”; a separate live inspection fetched the XML successfully. Processing remains unconfirmed. A deployed sitemap or accepted request is not confirmation of Google indexing or rankings. See [launch verification](launch-verification.md).
 
 ## Sources used
 

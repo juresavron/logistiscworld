@@ -27,7 +27,7 @@ Singular/plural, missing-preposition and close wording variants belong to the sa
 
 The first commercial focus is Koper, customs clearance and China container shipping. Relevant pages retain labelled Mediašped quote handoffs and their allowlisted source tags. Content or metadata changes do not alter the approved referral destinations.
 
-Use Search Console query/page data to validate impressions, clicks, click-through rate, position and index coverage once access and data are available. Compare these with the aggregate quotation handoffs for each page. Handoffs remain clicks, not confirmed enquiries; submitted-enquiry attribution requires the separate Mediašped/SavSale integration.
+Use Search Console query/page data to validate impressions, clicks, click-through rate, position and index coverage once data are available. The property is accessible and indexing requests for all six keyword pages were confirmed on 23 November 2026; that is not confirmation of indexing. Compare search metrics with aggregate quotation handoffs and the separate Mediašped/SavSale submitted-enquiry records. Handoffs remain clicks, not confirmed enquiries. Won-deal attribution is not implemented.
 
 No search-volume, keyword-difficulty, competitor-traffic or rank figures are claimed. An SEO change does not confirm that Google has crawled, indexed or ranked the new text.
 
