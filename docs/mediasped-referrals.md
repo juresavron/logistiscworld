@@ -19,8 +19,12 @@ GROUP BY placement, content ORDER BY handoffs DESC
 
 Use `npm run cf-typegen` after changing bindings. Native Wrangler deploys use the config dataset binding. The connector-compatible module packager also includes it.
 
-## Conversion attribution gap
+## Submitted-enquiry attribution
 
-As checked on 21 November 2026, Mediašped's quote and contact forms save to its existing Supabase project. Source code does not currently retain referral UTMs in those saved submissions. The installed `notify_new_lead` database trigger has neither notification URL nor shared secret configured, so its current implementation skips notifications. No website-to-SavSale conversion attribution has been verified.
+On 23 November 2026, [Mediašped PR #22](https://github.com/juresavron/mediasped-landing-lovable-15/pull/22) and [SavSale PR #180](https://github.com/juresavron/savsale-c378cf35/pull/180) added allowlisted referral fields to actual express/contact and detailed quote submissions. Mediašped captures the arrival tags in memory for at most two hours, without new cookies or browser storage; a later return without tags may not be attributed. New placement IDs must also be added to Mediašped's frontend and database allowlists.
 
-The next integration should persist validated referral metadata with both express and detailed quote submissions and connect a durable, idempotent ingestion path into SavSale. Then report actual submitted enquiries and won deals separately from outbound handoffs. No customer reviews, popularity badges or quality rankings have been introduced by this release.
+A private transactional outbox delivers future LogisticsWorld-attributed submissions to a source-bound SavSale endpoint. The exact source row identity and immutable payload hash make repeats safe. Completion requires a matching stored receipt; failed/lost responses retain the enquiry and retry. Two reserved production QA submissions and their replays returned the same CRM IDs, with matching source receipt readback.
+
+Current Mediašped members can read these source records in [SavSale → Inbox → Website enquiries](https://savsale.com/review?company=mediasped&view=website). They are submitted-form evidence, with self-reported campaign tags and unverified sender identity. Existing contact/deal/task recording and sending controls remain separate. There is no historical backfill, automatic deal creation or won-revenue attribution. Existing email-notification configuration was not activated.
+
+Report aggregate handoffs, submitted enquiries, qualified opportunities and won deals separately. No customer reviews, popularity badges or quality rankings have been introduced.
